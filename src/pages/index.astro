@@ -1,21 +1,48 @@
 ---
-import PageLayout from '../layouts/BaseLayout.astro'
-import Section from '../components/Section.astro'
 import Card from '../components/Card.astro'
-import ProjectCard from '../components/ProjectCard.astro'
 import Label from '../components/Label.astro'
+import ProjectCard from '../components/ProjectCard.astro'
+import Section from '../components/Section.astro'
 import SkillLayout from '../components/SkillLayout.astro'
-import PostPreview from '@/components/blog/PostPreview.astro'
+import PageLayout from '../layouts/BaseLayout.astro'
 
 import { Image } from 'astro:assets'
 import astro from '../assets/about-astro.png'
 
 import { getAllPosts, sortMDByDate } from '@/utils'
 
-const languages = ['lorem', 'ipsum']
-const frontend = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
-const backend = ['lorem', 'ipsum', 'lorem', 'ipsum']
-const others = ['lorem', 'ipsum', 'lorem', 'ipsum', 'lorem']
+const languages = ['Python', 'C++', 'Java', 'SQL', 'Bash', 'JavaScript']
+const frameworks = [
+	'PyTorch',
+	'TensorFlow',
+	'FastAPI',
+	'Flask',
+	'React',
+	'Node.js',
+	'Kubernetes',
+	'ROS/Gazebo-PX4'
+]
+const tools = [
+	'Git',
+	'Docker',
+	'Jenkins',
+	'SonarCloud',
+	'Prometheus',
+	'Grafana',
+	'k6',
+	'Google Cloud Platform',
+	'AWS EC2/S3'
+]
+const libraries = [
+	'NumPy',
+	'pandas',
+	'Scikit-learn',
+	'Hugging Face Transformers',
+	'ONNX Runtime',
+	'TensorRT',
+	'SHAP',
+	'Grad-CAM'
+]
 
 const MAX_POSTS = 10
 const allPosts = await getAllPosts()
@@ -33,9 +60,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			/>
 
 			<div class='flex flex-col items-center gap-y-4'>
-				<h1 class='text-3xl font-bold'>Lorem ipsum dolor</h1>
+				<div class='flex flex-col items-center gap-1'>
+					<h1 class='text-3xl font-bold'>Vikhyat Chauhan</h1>
+					<a href='mailto:vikhyatchauhan@vt.edu' class='text-muted-foreground'>
+						vikhyatchauhan@vt.edu
+					</a>
+				</div>
 				<a
-					href='https://github.com/srleom/astro-theme-resume.git'
+					href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/'
 					class='flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
 				>
 					<span class='relative flex items-center justify-center'>
@@ -45,10 +77,10 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 						<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
 					</span>
 
-					<p class='font-medium'>Get free template</p>
+					<p class='font-medium'>Contact Me</p>
 				</a>
 				<div class='flex flex-wrap justify-center gap-x-7 gap-y-3'>
-					<Label title='Lorem Ipsum'>
+					<Label title='Graduate Research Assistant'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
 							><path
 								fill='currentColor'
@@ -56,7 +88,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 							></path></svg
 						>
 					</Label>
-					<Label title='Ipsum'>
+					<Label title='Virginia, USA'>
 						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
 							><path
 								fill='currentColor'
@@ -67,7 +99,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 					<Label
 						title='Connect on Linkedin'
 						as='a'
-						href='https://www.linkedin.com/in/example/'
+						href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/'
 						target='_blank'
 					>
 						<svg
@@ -87,76 +119,124 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
 		<Section title='About'>
 			<p class='text-muted-foreground'>
-				Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis atque quia omnis
-				consectetur, voluptas praesentium veniam blanditiis ratione asperiores accusantium laborum
-				odit commodi quis deserunt incidunt et dolor iure ut! Lorem ipsum dolor sit, amet
-				consectetur adipisicing elit. Alias quia, doloribus ut beatae perspiciatis voluptatibus.
+				I'm a Master of Science in Computer Engineering student at Virginia Tech , where my research
+				focuses on creating brain-inspired reinforcement learning frameworks for autonomous UAVs. My
+				experience spans both industry and entrepreneurship; as a Software Engineer at GE
+				Healthcare, I improved medical imaging diagnostics by integrating transformer-based vision
+				models and redesigning MRI deployment with Kubernetes microservices. Previously, I
+				co-founded TNM Electronics, where I served as CTO, architecting a patented,
+				microservices-based IoT platform on AWS that scaled to over 100 devices. I am passionate
+				about solving complex, end-to-end engineering problems, from developing ML inference
+				services to building GPU-accelerated training pipelines.
 			</p>
 		</Section>
-		{
-			allPostsByDate.length > 0 && (
-				<Section title='Posts'>
-					<ul class='flex flex-col gap-y-2'>
-						{allPostsByDate.map((p) => (
-							<li class='flex flex-col gap-x-2 sm:flex-row'>
-								<PostPreview post={p} />
-							</li>
-						))}
-					</ul>
-				</Section>
-			)
-		}
+		<!-- { -->
+		<!-- allPostsByDate.length > 0 && ( -->
+		<!-- <Section title='Posts'> -->
+		<!-- <ul class='flex flex-col gap-y-2'> -->
+		<!-- {allPostsByDate.map((p) => ( -->
+		<!-- <li class='flex flex-col gap-x-2 sm:flex-row'> -->
+		<!-- <PostPreview post={p} /> -->
+		<!-- </li> -->
+		<!-- ))} -->
+		<!-- </ul> -->
+		<!-- </Section> -->
+		<!-- ) -->
+		<!-- } -->
+
+		<Section title='Skills'>
+			<SkillLayout title='Languages' skills={languages} />
+			<SkillLayout title='Frameworks' skills={frameworks} />
+			<SkillLayout title='Tools' skills={tools} />
+			<SkillLayout title='Libraries' skills={libraries} />
+		</Section>
 
 		<Section title='Experience'>
 			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
+				heading='Graduate Research Assistant'
+				subheading='Brain-inspired Computer Architecture- National Science Foundation Grant'
+				date='Nov 2024 - Present'
+				location='Virginia Tech, VA'
 				imagePath='/src/assets/about-astro.png'
 				altText='Lorem, ipsum dolor sit'
 				imageClass='h-12 w-auto md:-left-16'
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-						molestiae laboriosam pariatur!
-
-						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
+						Designed HYDRA, a brain-inspired reinforcement learning framework for UAVs with
+						constraint-driven arbitration (time/energy/space), integrating hybrid controllers. Built
+						using PyTorch + Gym for training, Gazebo-ROS-PX4 for UAV simulation, and PID baselines
+						for stability assessment.
+					</li>
+					<li>
+						Implemented SAC with reward shaping and continuous control, leveraging GPU-accelerated
+						training pipelines and simulation-to-real transfer workflows to enable robust, RL UAV
+						decision-making under constrained environments.
 					</li>
 				</ul>
 			</Card>
 			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
+				heading='GE Healthcare'
+				subheading='Software Engineer'
+				date='Mar 2022 - Jun 2024'
+				location='Bangalore, IN'
 				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
+				altText='Software Engineer at GE Healthcare'
 				imageClass='h-12 w-auto md:-left-16'
-			/>
+			>
+				<ul class='ml-4 list-disc text-muted-foreground'>
+					<li>
+						Advanced ultrasound segmentation using SonoSAMTrack / SonoSAMLite, integrating
+						transformer-based vision models (ViT, Swin), optimized with TensorRT for real-time
+						clinical inference, improving throughput by 20%.
+					</li>
+					<li>
+						Redesigned MRI deployment by migrating legacy C++ monolithic application to Kubernetes
+						microservices, integrating MRPasting algorithm, and delivering optimized models on GE
+						Edison with Docker and CI/CD (Jenkins, Git, SonarCloud) into PACS/RIS, reducing
+						deployment time by 80% and enabling scalable rollouts.
+					</li>
+				</ul>
+			</Card>
+			<Card
+				heading='TNM Electronics'
+				subheading='Co-Founder & CTO'
+				date='Sep 2021 - Mar 2022'
+				location='Delhi NCR, IN'
+				imagePath='/src/assets/about-astro.png'
+				altText='Co-Founder & CTO at TNM Electronics'
+				imageClass='h-12 w-auto md:-left-16'
+			>
+				<ul class='ml-4 list-disc text-muted-foreground'>
+					<li>
+						Architected a microservices-based IoT platform on AWS EC2, scaling to 100+ devices & 1K+
+						daily events with RabbitMQ, MongoDB, and a custom MQTT broker on in-house patented
+						hardware (achieved 99.9% uptime).
+					</li>
+					<li>
+						Enabled predictive automation by embedding a Kafka pipeline in RabbitMQ to run federated
+						learning models on PyTorch, delivering real-time user behavior analysis and
+						privacy-preserving personalization.
+					</li>
+				</ul>
+			</Card>
 		</Section>
 
 		<Section title='Education'>
 			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
+				heading='Virginia Polytechnic Institute and State University'
+				subheading='Master of Science in Computer Engineering with Thesis; GPA: 4.00'
+				date='Aug 2024 - Present'
+				location='Blacksburg, VA'
 				imagePath='/src/assets/about-astro.png'
 				altText='Lorem, ipsum dolor sit'
 				imageClass='h-12 w-auto md:-left-16'
-			>
-				<ul class='ml-4 list-disc text-muted-foreground'>
-					<li>
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore debitis recusandae, ut
-						molestiae laboriosam pariatur!
-
-						<li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestiae, pariatur!</li>
-					</li>
-				</ul>
-			</Card>
+			/>
 			<Card
-				heading='Lorem Ipsum'
-				subheading='Sit amet consectetur'
-				date='Dec 2022 - Nov 2023'
+				heading='College of Engineering Roorkee, Uttarakhand Technical University'
+				subheading='Bachelor of Engineering in Electrical and Electronics; 77% (First Division)'
+				date='Jul 2016 - Dec 2020'
+				location='Uttarakhand, IN'
 				imagePath='/src/assets/about-astro.png'
 				altText='Lorem, ipsum dolor sit'
 				imageClass='h-12 w-auto md:-left-16'
@@ -164,67 +244,63 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 		</Section>
 
 		<Section title='Projects'>
-			<div class='flex flex-col gap-y-3 sm:flex-row sm:gap-x-3 sm:gap-y-0'>
+			<div class='grid grid-cols-1 gap-3 md:grid-cols-2'>
 				<ProjectCard
-					href='https://www.google.com'
-					heading='Consectetur'
-					subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit.'
-					imagePath='/src/assets/coming-soon.png'
+					heading='GPT-Powered Resume Builder'
+					subheading='An automated pipeline using GPT models, Python, and LaTeX to generate tailored resumes for jobs, reducing manual editing time by 80%, producing professional PDFs in under 30s per role, and tracking 50+ applications with structured logging in CSV/Excel.'
 					altText='Example'
-					class='w-full sm:w-1/2'
+					class='w-full'
 				/>
 				<ProjectCard
-					as='div'
-					heading='Coming soon...'
-					subheading=''
-					imagePath='/src/assets/coming-soon.png'
-					altText='Lorem, ipsum dolor sit'
-					class='w-full sm:w-1/2'
+					heading='SentinelML'
+					subheading='Developed a single-node ML inference service with FastAPI and ONNX Runtime, containerized via Docker Compose, and integrated Prometheus/Grafana monitoring plus a Python-based auto-healer for canary rollouts; achieved p99 less than 250 ms at 100 RPS and automatic rollback under fault injection, validated with k6 load tests.'
+					altText='Example'
+					class='w-full'
+				/>
+				<ProjectCard
+					href='https://iprsearch.ipindia.gov.in/PublicSearch/PublicationSearch/ApplicationStatus'
+					heading='Patent: 202111060973 - Intellectual Property India'
+					subheading='System and method for facilitating communication between slave and master microcontroller for home automation.'
+					altText='Example'
+					class='w-full'
 				/>
 			</div>
 		</Section>
 
 		<Section title='Certifications'>
 			<Card
-				as='a'
-				heading='Lorem ipsum, dolor sit amet consectetur adipisicing.'
-				subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dicta magni consequuntur corrupti.'
-				date='Mar 2024 - Mar 2024'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-11 w-auto md:-left-16'
-				href='https://www.google.com'
+				heading='Neural Networks and Deep Learning'
+				subheading='DeepLearning.AI'
+				location='98.46%'
 			/>
 			<Card
-				as='a'
-				heading='Lorem ipsum, dolor sit amet'
-				subheading='Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam dicta.'
-				date='Mar 2029 - Mar 2032'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
-				imageClass='h-11 w-auto md:-left-16'
-				href='https://www.google.com'
+				heading='Advanced Machine Learning'
+				subheading='Graduate Course, Virginia Tech'
+				location='4.0 GPA'
+			/>
+			<Card
+				heading='Brain Inspired Computer Architecture'
+				subheading='Graduate Course, Virginia Tech'
+				location='4.0 GPA'
+			/>
+			<Card
+				heading='Advanced Natural Language Processing(CS685 S24)'
+				subheading='UMass Amherst'
+				location='4.0 GPA'
 			/>
 		</Section>
-
-		<Section title='Skills'>
-			<SkillLayout title='Languages' skills={languages} />
-			<SkillLayout title='Frontend' skills={frontend} />
-			<SkillLayout title='Backend' skills={backend} />
-			<SkillLayout title='Others' skills={others} />
-		</Section>
 	</div>
-	<a
-		href='https://github.com/srleom/astro-theme-resume.git'
-		class='mt-16 flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md'
-	>
-		<span class='relative flex items-center justify-center'>
-			<span
-				class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75'
-			></span>
-			<span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span>
-		</span>
+	<!-- <a -->
+	<!-- href='https://github.com/srleom/astro-theme-resume.git' -->
+	<!-- class='mt-16 flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md' -->
+	<!-- > -->
+	<!-- <span class='relative flex items-center justify-center'> -->
+	<!-- <span -->
+	<!-- class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75' -->
+	<!-- ></span> -->
+	<!-- <span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span> -->
+	<!-- </span> -->
 
-		<p class='font-medium'>Get free template</p>
-	</a>
+	<!-- <p class='font-medium'>Get free template</p> -->
+	<!-- </a> -->
 </PageLayout>
