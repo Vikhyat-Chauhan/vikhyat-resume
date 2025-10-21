@@ -119,15 +119,10 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
 		<Section title='About'>
 			<p class='text-muted-foreground'>
-				I'm a Master of Science in Computer Engineering student at Virginia Tech , where my research
-				focuses on creating brain-inspired reinforcement learning frameworks for autonomous UAVs. My
-				experience spans both industry and entrepreneurship; as a Software Engineer at GE
-				Healthcare, I improved medical imaging diagnostics by integrating transformer-based vision
-				models and redesigning MRI deployment with Kubernetes microservices. Previously, I
-				co-founded TNM Electronics, where I served as CTO, architecting a patented,
-				microservices-based IoT platform on AWS that scaled to over 100 devices. I am passionate
-				about solving complex, end-to-end engineering problems, from developing ML inference
-				services to building GPU-accelerated training pipelines.
+				I’m Vikhyat—a software engineer and AI/ML researcher who enjoys building systems that learn, decide, and ship. My recent work focuses on learning-enabled autonomy: I delivered an NSF-backed UAV control stack that blends reinforcement learning with a deadline-aware planner selector (a mixture-of-experts). In simulation studies, it reduced deadline misses by ~80%, lowered zone violations by ~23%, and held median reach time within ~2% of the fastest baseline—all with reproducible pipelines, Dockerized builds, and CI.	
+				Before grad school, I worked at GE Healthcare on real-time imaging and platform modernization—migrating services to Kubernetes, accelerating inference (ONNX/TensorRT), and improving deployment reliability. I’m comfortable across Python/C++/Java, PyTorch/TensorFlow, FastAPI/React, ROS 2/Gazebo, and cloud tooling with observability and performance SLAs.
+				Beyond work, I like clean, documented code, thoughtful metrics/ablation studies, and shipping tools that help others move faster. When I’m not at a terminal, you’ll find me meal-prepping vegan recipes or sketching the next experiment.
+				If you’re building at the intersection of autonomy, ML systems, and robust software engineering, let’s talk!
 			</p>
 		</Section>
 		<!-- { -->
@@ -144,82 +139,79 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 		<!-- ) -->
 		<!-- } -->
 
-		<Section title='Skills'>
-			<SkillLayout title='Languages' skills={languages} />
-			<SkillLayout title='Frameworks' skills={frameworks} />
-			<SkillLayout title='Tools' skills={tools} />
-			<SkillLayout title='Libraries' skills={libraries} />
-		</Section>
-
 		<Section title='Experience'>
 			<Card
-				heading='Graduate Research Assistant'
-				subheading='Brain-inspired Computer Architecture- National Science Foundation Grant'
+				heading='Virginia Polytechnic Institute and State University'
+				subheading='AI/ML Software Engineer'
 				date='Nov 2024 - Present'
-				location='Virginia Tech, VA'
-				imagePath='/src/assets/about-astro.png'
-				altText='Lorem, ipsum dolor sit'
+				location='Virginia, USA'
+				imagePath='/src/assets/Vikhyat-Image.png'
+				altText='AI/ML Software Engineer at Virginia Polytechnic Inspired and State University'
 				imageClass='h-12 w-auto md:-left-16'
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Designed HYDRA, a brain-inspired reinforcement learning framework for UAVs with
-						constraint-driven arbitration (time/energy/space), integrating hybrid controllers. Built
-						using PyTorch + Gym for training, Gazebo-ROS-PX4 for UAV simulation, and PID baselines
-						for stability assessment.
+						Delivered an NSF Funded UAV control stack combining learning-based perception with a deadline-aware planner 
+						(mixture-of-experts); reduced deadline misses by 80%, lowered zone violations by 23%, and kept median time 
+						within 2% of the fastest policy—validated via simulation and statistical analysis.
 					</li>
 					<li>
-						Implemented SAC with reward shaping and continuous control, leveraging GPU-accelerated
-						training pipelines and simulation-to-real transfer workflows to enable robust, RL UAV
-						decision-making under constrained environments.
+						Developed a SAC-based controller with continuous control and reward shaping, leveraging GPU training, 
+						domain randomization, and ROS2 middleware; productionized with Docker, CI, and metrics/ablation tooling 
+						to validate robustness in constrained environments.
 					</li>
 				</ul>
 			</Card>
 			<Card
 				heading='GE Healthcare'
-				subheading='Software Engineer'
+				subheading='Full Stack Software Engineer'
 				date='Mar 2022 - Jun 2024'
 				location='Bangalore, IN'
 				imagePath='/src/assets/about-astro.png'
-				altText='Software Engineer at GE Healthcare'
+				altText='Full Stack Software Engineer at GE Healthcare'
 				imageClass='h-12 w-auto md:-left-16'
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Advanced ultrasound segmentation using SonoSAMTrack / SonoSAMLite, integrating
-						transformer-based vision models (ViT, Swin), optimized with TensorRT for real-time
-						clinical inference, improving throughput by 20%.
+						Delivered 20\% faster MRI segmentation on a GE real-time MRI pipeline by integrating 
+						Medical Stitching with ViT/Swin transformers and end-to-end TensorRT optimization for clinical use.
 					</li>
 					<li>
-						Redesigned MRI deployment by migrating legacy C++ monolithic application to Kubernetes
-						microservices, integrating MRPasting algorithm, and delivering optimized models on GE
-						Edison with Docker and CI/CD (Jenkins, Git, SonarCloud) into PACS/RIS, reducing
-						deployment time by 80% and enabling scalable rollouts.
+						Recognized with the GE Impact Award for reduced MRI deployment time by 80\% by migrating a C++ 
+						monolith to Kubernetes microservices, enabling scalable, zero-downtime rollouts to PACS/RIS; 
+						shipped MRPasting and GE Edison–optimized models via Docker + CI/CD (Jenkins, Git, SonarCloud).
 					</li>
 				</ul>
 			</Card>
 			<Card
 				heading='TNM Electronics'
-				subheading='Co-Founder & CTO'
+				subheading='Technical Product Manager'
 				date='Sep 2021 - Mar 2022'
-				location='Delhi NCR, IN'
+				location='Gurugram, IN'
 				imagePath='/src/assets/about-astro.png'
-				altText='Co-Founder & CTO at TNM Electronics'
+				altText='Technical Product Manager at TNM Electronics'
 				imageClass='h-12 w-auto md:-left-16'
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Architected a microservices-based IoT platform on AWS EC2, scaling to 100+ devices & 1K+
-						daily events with RabbitMQ, MongoDB, and a custom MQTT broker on in-house patented
-						hardware (achieved 99.9% uptime).
+						Drove end-to-end delivery as PM/tech lead at a seed-stage startup—coordinated hardware, firmware, 
+						and cloud teams (plus vendors), aligned priorities, and unblocked dependencies to launch the AWS 
+						IoT platform on schedule (100+ devices, 1K+ events/day, 99.9\% uptime)—highlighting a 
+						collaborative, customer-first approach.
 					</li>
 					<li>
-						Enabled predictive automation by embedding a Kafka pipeline in RabbitMQ to run federated
-						learning models on PyTorch, delivering real-time user behavior analysis and
-						privacy-preserving personalization.
+						Built a resilient IoT platform on AWS EC2 with 99.9\% uptime, scaling to 100+ devices / 1K+ 
+						events per day via RabbitMQ, MongoDB, and a custom MQTT broker integrated with patented hardware.
 					</li>
 				</ul>
 			</Card>
+		</Section>
+
+		<Section title='Skills'>
+			<SkillLayout title='Languages' skills={languages} />
+			<SkillLayout title='Frameworks' skills={frameworks} />
+			<SkillLayout title='Tools' skills={tools} />
+			<SkillLayout title='Libraries' skills={libraries} />
 		</Section>
 
 		<Section title='Education'>
@@ -246,14 +238,14 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 		<Section title='Projects'>
 			<div class='grid grid-cols-1 gap-3 md:grid-cols-2'>
 				<ProjectCard
-					heading='GPT-Powered Resume Builder'
-					subheading='An automated pipeline using GPT models, Python, and LaTeX to generate tailored resumes for jobs, reducing manual editing time by 80%, producing professional PDFs in under 30s per role, and tracking 50+ applications with structured logging in CSV/Excel.'
+					heading='RAG Resume Assistant'
+					subheading='Built an open-source LLM resume generator with JD ingestion, followed by GPT-based keyword extraction and alignment, and LaTeX PDF rendering; reduced manual edits by 80%, achieved <30s runtime per role, and enabled tracking of 50+ applications with structured logs.'
 					altText='Example'
 					class='w-full'
 				/>
 				<ProjectCard
 					heading='SentinelML'
-					subheading='Developed a single-node ML inference service with FastAPI and ONNX Runtime, containerized via Docker Compose, and integrated Prometheus/Grafana monitoring plus a Python-based auto-healer for canary rollouts; achieved p99 less than 250 ms at 100 RPS and automatic rollback under fault injection, validated with k6 load tests.'
+					subheading='Enabled reliable, scalable ML serving at production scale—meeting strict SLOs with p99 < 250 ms and safe, rapid releases via canary deploys with a Python auto-healer/automatic rollback. Built comprehensive observability (Prometheus/Grafana dashboards & alerts) and performance validation (k6 load tests).'
 					altText='Example'
 					class='w-full'
 				/>
@@ -289,6 +281,7 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 				location='4.0 GPA'
 			/>
 		</Section>
+
 	</div>
 	<!-- <a -->
 	<!-- href='https://github.com/srleom/astro-theme-resume.git' -->
