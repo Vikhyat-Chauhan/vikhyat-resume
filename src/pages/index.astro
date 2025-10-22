@@ -119,10 +119,11 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 
 		<Section title='About'>
 			<p class='text-muted-foreground'>
-				I’m Vikhyat—a software engineer and AI/ML researcher who enjoys building systems that learn, decide, and ship. My recent work focuses on learning-enabled autonomy: I delivered an NSF-backed UAV control stack that blends reinforcement learning with a deadline-aware planner selector (a mixture-of-experts). In simulation studies, it reduced deadline misses by ~80%, lowered zone violations by ~23%, and held median reach time within ~2% of the fastest baseline—all with reproducible pipelines, Dockerized builds, and CI.	
-				Before grad school, I worked at GE Healthcare on real-time imaging and platform modernization—migrating services to Kubernetes, accelerating inference (ONNX/TensorRT), and improving deployment reliability. I’m comfortable across Python/C++/Java, PyTorch/TensorFlow, FastAPI/React, ROS 2/Gazebo, and cloud tooling with observability and performance SLAs.
-				Beyond work, I like clean, documented code, thoughtful metrics/ablation studies, and shipping tools that help others move faster. When I’m not at a terminal, you’ll find me meal-prepping vegan recipes or sketching the next experiment.
-				If you’re building at the intersection of autonomy, ML systems, and robust software engineering, let’s talk!
+				I’m Vikhyat—a builder at heart who loves turning ideas into reliable products. My recent work: an NSF-backed UAV stack that 
+				cut deadline misses by 80% and reduced safety violations by 23%—without slowing down. Earlier, at GE Healthcare, I helped 
+				modernize real-time imaging platforms. I care about clean, well-documented code, meaningful metrics, and tools that help teams 
+				move faster. When I’m not coding, I’m probably meal-prepping a new vegan recipe or sketching the next idea. If you’re building 
+				at the edge of autonomy and AI, let’s talk.
 			</p>
 		</Section>
 		<!-- { -->
@@ -173,11 +174,11 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Delivered 20\% faster MRI segmentation on a GE real-time MRI pipeline by integrating 
+						Delivered 20% faster MRI segmentation on a GE real-time MRI pipeline by integrating 
 						Medical Stitching with ViT/Swin transformers and end-to-end TensorRT optimization for clinical use.
 					</li>
 					<li>
-						Recognized with the GE Impact Award for reduced MRI deployment time by 80\% by migrating a C++ 
+						Recognized with the GE Impact Award for reduced MRI deployment time by 80% by migrating a C++ 
 						monolith to Kubernetes microservices, enabling scalable, zero-downtime rollouts to PACS/RIS; 
 						shipped MRPasting and GE Edison–optimized models via Docker + CI/CD (Jenkins, Git, SonarCloud).
 					</li>
@@ -196,12 +197,54 @@ const allPostsByDate = sortMDByDate(allPosts).slice(0, MAX_POSTS)
 					<li>
 						Drove end-to-end delivery as PM/tech lead at a seed-stage startup—coordinated hardware, firmware, 
 						and cloud teams (plus vendors), aligned priorities, and unblocked dependencies to launch the AWS 
-						IoT platform on schedule (100+ devices, 1K+ events/day, 99.9\% uptime)—highlighting a 
+						IoT platform on schedule (100+ devices, 1K+ events/day, 99.9% uptime)—highlighting a 
 						collaborative, customer-first approach.
 					</li>
 					<li>
-						Built a resilient IoT platform on AWS EC2 with 99.9\% uptime, scaling to 100+ devices / 1K+ 
+						Built a resilient IoT platform on AWS EC2 with 99.9% uptime, scaling to 100+ devices / 1K+ 
 						events per day via RabbitMQ, MongoDB, and a custom MQTT broker integrated with patented hardware.
+					</li>
+				</ul>
+			</Card>
+			<Card
+				heading='Mahindra Susten'
+				subheading='Research Intern'
+				date='Jun 2018 - Mar 2020'
+				location='Maharashtra, IN'
+				imagePath='/src/assets/about-astro.png'
+				altText='Research Intern at Mahindra Susten'
+				imageClass='h-12 w-auto md:-left-16'
+			>
+				<ul class='ml-4 list-disc text-muted-foreground'>
+					<li>
+						Built a Linux-based autonomous quadcopter controller (MAVLink + advanced control) and integrated 
+						it into Mahindra Susten’s solar ops—automating routine inspection flights and cutting manual 
+						intervention across sites.
+					</li>
+					<li>
+						Shipped an ML-driven thermal fault monitoring + end-to-end drone inspection pipeline that automated 
+						detection and reporting, delivering a 35% reduction in labor costs and faster issue triage.
+					</li>
+				</ul>
+			</Card>
+			<Card
+				heading='Universal Robots'
+				subheading='Research Intern'
+				date='Jun 2018 - Mar 2020'
+				location='Maharashtra, IN'
+				imagePath='/src/assets/about-astro.png'
+				altText='Research Intern at Universal Robots'
+				imageClass='h-12 w-auto md:-left-16'
+			>
+				<ul class='ml-4 list-disc text-muted-foreground'>
+					<li>
+						Deployed Universal Robots cobots across multiple manufacturing lines—designed safe workflows, trained 
+						operators, and optimized cell layouts—boosting throughput and reducing changeover time while meeting 
+						safety standards.
+					</li>
+					<li>
+						Built production-grade automation with URCaps and custom scripts (pick-and-place, machine tending, 
+						QA), creating maintainable routines that cut manual variability and unplanned downtime.
 					</li>
 				</ul>
 			</Card>
