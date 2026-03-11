@@ -46,10 +46,10 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, userMsg, assistantMsg]);
 
     try {
-      const res = await fetch(`${API_URL}/chat`, {
+      const res = await fetch(`${API_URL}/query`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${import.meta.env.PUBLIC_GCLOUD_ID_TOKEN || ""}` },
-        body: JSON.stringify({ message: question }),
+        body: JSON.stringify({ question }),
       });
 
       if (!res.ok) {
@@ -57,47 +57,17 @@ export default function ChatWidget() {
         throw new Error(err.detail || "Request failed");
       }
 
-      const reader = res.body?.getReader();
-      const decoder = new TextDecoder();
-      if (!reader) throw new Error("No response stream");
+      const data = await res.json();
 
-      let buffer = "";
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() || "";
-
-        for (const line of lines) {
-          if (!line.startsWith("data: ")) continue;
-          const data = JSON.parse(line.slice(6));
-
-          if (data.type === "sources") {
-            setMessages((prev) => {
-              const updated = [...prev];
-              updated[updated.length - 1].sources = data.sources;
-              return [...updated];
-            });
-          } else if (data.type === "token") {
-            setMessages((prev) => {
-              const updated = [...prev];
-              updated[updated.length - 1].content += data.token;
-              return [...updated];
-            });
-          } else if (data.type === "done") {
-            setMessages((prev) => {
-              const updated = [...prev];
-              const last = updated[updated.length - 1];
-              last.metrics = data.metrics;
-              last.streaming = false;
-              return [...updated];
-            });
-          }
-        }
-      }
+      setMessages((prev) => {
+        const updated = [...prev];
+        const last = updated[updated.length - 1];
+        last.content = data.answer;
+        last.sources = data.sources;
+        last.metrics = data.metrics;
+        last.streaming = false;
+        return [...updated];
+      });
     } catch (err) {
       setMessages((prev) => {
         const updated = [...prev];
