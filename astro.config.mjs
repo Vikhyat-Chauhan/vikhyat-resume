@@ -1,3 +1,4 @@
+import node from '@astrojs/node'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwind from '@astrojs/tailwind'
@@ -17,5 +18,8 @@ export default defineConfig({
 		react()
 	],
 	prefetch: true,
-	output: 'static'
+	output: 'hybrid',
+	adapter: node({
+		mode: 'standalone'
+	})
 })

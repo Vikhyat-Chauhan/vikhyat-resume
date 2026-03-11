@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-
-const API_URL = import.meta.env.PUBLIC_API_URL || "http://localhost:8080";
+import Markdown from "react-markdown";
 
 interface Source {
   page: number | string;
@@ -46,9 +45,9 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, userMsg, assistantMsg]);
 
     try {
-      const res = await fetch(`${API_URL}/query`, {
+      const res = await fetch("/api/query", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${import.meta.env.PUBLIC_GCLOUD_ID_TOKEN || ""}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ question }),
       });
 
@@ -132,12 +131,18 @@ export default function ChatWidget() {
                   : "bg-card text-card-foreground rounded-[20px_20px_20px_4px]"
               }`}
             >
-              <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
-                {msg.content}
-                {msg.streaming && (
-                  <span className="opacity-60 animate-pulse">|</span>
-                )}
-              </p>
+              {msg.role === "user" ? (
+                <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                  {msg.content}
+                </p>
+              ) : (
+                <div className="text-sm leading-relaxed break-words prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-headings:my-2 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5">
+                  <Markdown>{msg.content}</Markdown>
+                  {msg.streaming && (
+                    <span className="opacity-60 animate-pulse">|</span>
+                  )}
+                </div>
+              )}
 
               {msg.sources && msg.sources.length > 0 && (
                 <div className="mt-3 pt-2.5 border-t border-border">
