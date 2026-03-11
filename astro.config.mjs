@@ -1,4 +1,4 @@
-import node from '@astrojs/node'
+import netlify from '@astrojs/netlify'
 import react from '@astrojs/react'
 import sitemap from '@astrojs/sitemap'
 import tailwind from '@astrojs/tailwind'
@@ -19,7 +19,5 @@ export default defineConfig({
 	],
 	prefetch: true,
 	output: 'hybrid',
-	adapter: node({
-		mode: 'standalone'
-	})
+	adapter: netlify()
 })
