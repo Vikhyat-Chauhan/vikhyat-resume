@@ -9,39 +9,40 @@ import PageLayout from '../layouts/BaseLayout.astro'
 import { Image } from 'astro:assets'
 import astro from '../assets/Vikhyat-Image.png'
 
-const languages = ['Python', 'C++', 'Java', 'SQL', 'Bash', 'JavaScript']
-const frameworks = [
-	'PyTorch',
-	'TensorFlow',
-	'FastAPI',
-	'Flask',
-	'React',
-	'Node.js',
-	'Kubernetes',
-	'ROS/Gazebo-PX4'
+const languages = ['C++', 'Java', 'Python', 'TypeScript', 'SQL']
+const aiLlm = [
+	'RAG',
+	'Agentic AI',
+	'Fine-Tuning (LoRA/QLoRA)',
+	'Prompt Engineering',
+	'Embeddings',
+	'LangChain',
+	'LangGraph'
 ]
-const tools = [
-	'Git',
+const ml = ['PyTorch', 'TensorFlow/TFX', 'TensorRT', 'scikit-learn']
+const cloudInfra = [
+	'AWS (EC2, Lambda, S3, EKS)',
+	'GCP (GKE)',
+	'Kubernetes',
 	'Docker',
-	'Jenkins',
-	'SonarCloud',
+	'Kafka',
+	'MongoDB',
+	'Microservices',
+	'REST API',
+	'OAuth 2.0'
+]
+const systemsTools = [
+	'ROS 2',
+	'Claude Code',
 	'Prometheus',
 	'Grafana',
-	'k6',
-	'Google Cloud Platform',
-	'AWS EC2/S3'
+	'Jenkins',
+	'SonarQube',
+	'Git',
+	'Perforce Helix',
+	'SpringBoot',
+	'Linux'
 ]
-const libraries = [
-	'NumPy',
-	'pandas',
-	'Scikit-learn',
-	'Hugging Face Transformers',
-	'ONNX Runtime',
-	'TensorRT',
-	'SHAP',
-	'Grad-CAM'
-]
-
 ---
 
 <PageLayout meta={{ title: 'Vikhyat Chauhan' }}>
@@ -129,76 +130,93 @@ const libraries = [
 
 		<Section title='About'>
 			<p class='text-muted-foreground'>
-				I’m Vikhyat—a builder at heart who loves turning ideas into reliable products. My recent work: an NSF-backed UAV stack that 
-				cut deadline misses by 80% and reduced safety violations by 23%—without slowing down. Earlier, at GE Healthcare, I helped 
-				modernize real-time imaging platforms. I care about clean, well-documented code, meaningful metrics, and tools that help teams 
-				move faster. When I’m not coding, I’m probably meal-prepping a new vegan recipe or sketching the next idea. If you’re building 
-				at the edge of autonomy and AI, let’s talk.
+				I’m Vikhyat—a builder at heart who loves turning ideas into reliable products. My recent
+				work: an NSF-backed UAV stack that cut deadline misses by 80% and reduced safety violations
+				by 23%—without slowing down. Earlier, at GE Healthcare, I helped modernize real-time imaging
+				platforms. I care about clean, well-documented code, meaningful metrics, and tools that help
+				teams move faster. When I’m not coding, I’m probably meal-prepping a new vegan recipe or
+				sketching the next idea. If you’re building at the edge of autonomy and AI, let’s talk.
 			</p>
 		</Section>
 		<Section title='Experience'>
 			<Card
 				heading='Virginia Polytechnic Institute and State University'
-				subheading='AI/ML Software Engineer'
-				date='Nov 2024 - Present'
-				location='Virginia, USA'
-				imagePath='/src/assets/Vikhyat-Image.png'
-				altText='AI/ML Software Engineer at Virginia Polytechnic Inspired and State University'
-				imageClass='h-12 w-auto md:-left-16'
+				subheading='Graduate AI/ML Researcher — NSF-Funded'
+				date='2024 - Present'
+				location='Blacksburg, VA'
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Delivered an NSF Funded UAV control stack combining learning-based perception with a deadline-aware planner 
-						(mixture-of-experts); reduced deadline misses by 80%, lowered zone violations by 23%, and kept median time 
-						within 2% of the fastest policy—validated via simulation and statistical analysis.
+						Shipped a production RAG system (sentence-transformers/all-MiniLM-L6-v2, ChromaDB,
+						LangChain) over a 300+ page technical corpus — full pipeline from PDF ingestion and
+						recursive semantic chunking through vector retrieval and LLM answer synthesis, serving
+						sub-500ms query latency on a live public interface.
 					</li>
 					<li>
-						Developed a SAC-based controller with continuous control and reward shaping, leveraging GPU training, 
-						domain randomization, and ROS2 middleware; productionized with Docker, CI, and metrics/ablation tooling 
-						to validate robustness in constrained environments.
+						Built LangGraph + Llama 3 multi-agent workflow for grammar-constrained SDF XML
+						generation — produced 100+ simulation environments, eliminated 40 hrs/week of manual
+						authoring.
+					</li>
+					<li>
+						Engineered a deadline-aware MoE planner for UAV navigation (ROS 2/Gazebo) with
+						hardware-aware arbitration across three heterogeneous TPUs — 13% lower mission latency,
+						and 13% lower compute energy vs. baseline.
 					</li>
 				</ul>
 			</Card>
 			<Card
-				heading='GE Healthcare'
-				subheading='Full Stack Software Engineer'
-				date='Mar 2022 - Jun 2024'
-				location='Bangalore, IN'
-				imagePath='/src/assets/about-astro.png'
-				altText='Full Stack Software Engineer at GE Healthcare'
-				imageClass='h-12 w-auto md:-left-16'
+				heading='GE HealthCare'
+				subheading='Software Engineer II'
+				date='2022 - 2024'
+				location='Milwaukee, WI'
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Delivered 20% faster MRI segmentation on a GE real-time MRI pipeline by integrating 
-						Medical Stitching with ViT/Swin transformers and end-to-end TensorRT optimization for clinical use.
+						Spearheaded software development by migration of a legacy C++ monolith MRI Application
+						to Kubernetes-based microservices using Java and Spring Boot, owning the technical
+						architecture — reducing runtime by 80%.
 					</li>
 					<li>
-						Recognized with the GE Impact Award for reduced MRI deployment time by 80% by migrating a C++ 
-						monolith to Kubernetes microservices, enabling scalable, zero-downtime rollouts to PACS/RIS; 
-						shipped MRPasting and GE Edison–optimized models via Docker + CI/CD (Jenkins, Git, SonarCloud).
+						Pioneered end-to-end TensorRT optimization of Transformer models (C++, Python, CUDA) —
+						increasing real-time MRI segmentation throughput 20% and directly improving scanner
+						responsiveness.
+					</li>
+					<li>
+						Developed a multimodal MRI report generation system (cross-attention transformer,
+						MedCLIP, PyTorch, TensorRT) fusing longitudinal scan sequences with patient history —
+						outperformed SOTA by up to 6.5% across three clinical datasets; containerized via
+						Docker/Kubernetes for FDA-regulated deployment.
+					</li>
+					<li>
+						Introduced automated quality gates across release cycles — designing CI/CD pipelines
+						(Docker, Jenkins, SonarQube) that reduced defects 60%, coordinating implementation
+						across architecture, QA, and product.
+					</li>
+					<li>
+						Sustained zero critical patient-safety incidents across all releases by leading
+						cross-functional root-cause analysis.
 					</li>
 				</ul>
 			</Card>
 			<Card
 				heading='TNM Electronics'
-				subheading='Technical Product Manager'
-				date='Sep 2021 - Mar 2022'
-				location='Gurugram, IN'
-				imagePath='/src/assets/about-astro.png'
-				altText='Technical Product Manager at TNM Electronics'
-				imageClass='h-12 w-auto md:-left-16'
+				subheading='Founding Software Engineer'
+				date='2021 - 2022'
+				location='Delhi, India'
 			>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Drove end-to-end delivery as PM/tech lead at a seed-stage startup—coordinated hardware, firmware, 
-						and cloud teams (plus vendors), aligned priorities, and unblocked dependencies to launch the AWS 
-						IoT platform on schedule (100+ devices, 1K+ events/day, 99.9% uptime)—highlighting a 
-						collaborative, customer-first approach.
+						Owned the full platform from day one — architected an AWS-backed microservice backend
+						(EC2, Lambda, RabbitMQ, MongoDB, MQTT broker), scaling from 0 to 1000+ devices —
+						sustaining 99.9% uptime.
 					</li>
 					<li>
-						Built a resilient IoT platform on AWS EC2 with 99.9% uptime, scaling to 100+ devices / 1K+ 
-						events per day via RabbitMQ, MongoDB, and a custom MQTT broker integrated with patented hardware.
+						Reduced field bug reports 72% vs. prior manual integration method by designing a
+						structured hardware-software validation workflow as the company's sole engineer.
+					</li>
+					<li>
+						Conceived and patented a master-slave microcontroller communication system for home
+						automation — cutting final product BOM cost 90%.
 					</li>
 				</ul>
 			</Card>
@@ -207,19 +225,17 @@ const libraries = [
 				subheading='Research Intern'
 				date='Jun 2018 - Mar 2020'
 				location='Maharashtra, IN'
-				imagePath='/src/assets/about-astro.png'
-				altText='Research Intern at Mahindra Susten'
-				imageClass='h-12 w-auto md:-left-16'
-			>
+	>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Built a Linux-based autonomous quadcopter controller (MAVLink + advanced control) and integrated 
-						it into Mahindra Susten’s solar ops—automating routine inspection flights and cutting manual 
-						intervention across sites.
+						Built a Linux-based autonomous quadcopter controller (MAVLink + advanced control) and
+						integrated it into Mahindra Susten’s solar ops—automating routine inspection flights and
+						cutting manual intervention across sites.
 					</li>
 					<li>
-						Shipped an ML-driven thermal fault monitoring + end-to-end drone inspection pipeline that automated 
-						detection and reporting, delivering a 35% reduction in labor costs and faster issue triage.
+						Shipped an ML-driven thermal fault monitoring + end-to-end drone inspection pipeline
+						that automated detection and reporting, delivering a 35% reduction in labor costs and
+						faster issue triage.
 					</li>
 				</ul>
 			</Card>
@@ -228,19 +244,17 @@ const libraries = [
 				subheading='Research Intern'
 				date='Jun 2018 - Mar 2020'
 				location='Maharashtra, IN'
-				imagePath='/src/assets/about-astro.png'
-				altText='Research Intern at Universal Robots'
-				imageClass='h-12 w-auto md:-left-16'
-			>
+	>
 				<ul class='ml-4 list-disc text-muted-foreground'>
 					<li>
-						Deployed Universal Robots cobots across multiple manufacturing lines—designed safe workflows, trained 
-						operators, and optimized cell layouts—boosting throughput and reducing changeover time while meeting 
-						safety standards.
+						Deployed Universal Robots cobots across multiple manufacturing lines—designed safe
+						workflows, trained operators, and optimized cell layouts—boosting throughput and
+						reducing changeover time while meeting safety standards.
 					</li>
 					<li>
-						Built production-grade automation with URCaps and custom scripts (pick-and-place, machine tending, 
-						QA), creating maintainable routines that cut manual variability and unplanned downtime.
+						Built production-grade automation with URCaps and custom scripts (pick-and-place,
+						machine tending, QA), creating maintainable routines that cut manual variability and
+						unplanned downtime.
 					</li>
 				</ul>
 			</Card>
@@ -248,44 +262,75 @@ const libraries = [
 
 		<Section title='Skills'>
 			<SkillLayout title='Languages' skills={languages} />
-			<SkillLayout title='Frameworks' skills={frameworks} />
-			<SkillLayout title='Tools' skills={tools} />
-			<SkillLayout title='Libraries' skills={libraries} />
+			<SkillLayout title='AI & LLM' skills={aiLlm} />
+			<SkillLayout title='ML' skills={ml} />
+			<SkillLayout title='Cloud & Infra' skills={cloudInfra} />
+			<SkillLayout title='Systems & Tools' skills={systemsTools} />
 		</Section>
 
 		<Section title='Education'>
 			<Card
 				heading='Virginia Polytechnic Institute and State University'
 				subheading='Master of Science in Computer Engineering with Thesis; GPA: 4.00'
-				date='Aug 2024 - Present'
+				date='Aug 2024 – May 2026'
 				location='Blacksburg, VA'
-				imagePath='/src/assets/about-astro.png'
-				altText='Masters of Science at Virginia Tech'
-				imageClass='h-12 w-auto md:-left-16'
-			/>
+				/>
 			<Card
 				heading='College of Engineering Roorkee, Uttarakhand Technical University'
 				subheading='Bachelor of Engineering in Electrical and Electronics; 77% (First Division)'
 				date='Jul 2016 - Dec 2020'
 				location='Uttarakhand, IN'
-				imagePath='/src/assets/about-astro.png'
-				altText='Bachelor of Engineering at UTU'
-				imageClass='h-12 w-auto md:-left-16'
-			/>
+				/>
 		</Section>
 
 		<Section title='Projects'>
 			<div class='grid grid-cols-1 gap-3 md:grid-cols-2'>
 				<ProjectCard
-					heading='RAG Resume Assistant'
-					subheading='Built an open-source LLM resume generator with JD ingestion, followed by GPT-based keyword extraction and alignment, and LaTeX PDF rendering; reduced manual edits by 80%, achieved <30s runtime per role, and enabled tracking of 50+ applications with structured logs.'
-					altText='Example'
+					href='https://github.com/Vikhyat-Chauhan/Hydra'
+					heading='Hydra — Master&#39;s Thesis'
+					subheading='Deadline-aware autonomous UAV navigation system with TROOP — a multi-strategy selector that dynamically chooses among three parallel execution engines (8ms failsafe, 25ms balanced, 90ms high-quality) based on event urgency. Built in Python/ROS 2/Gazebo with realistic octocopter physics, procedural arena generation, and LiDAR-based navigation; validated across 1000+ simulated scenarios.'
+					altText='Hydra'
+					class='w-full'
+				/>
+				<ProjectCard
+					href='https://github.com/Vikhyat-Chauhan/ProfessionalRAG'
+					heading='ProfessionalRAG'
+					subheading='Engineered a production-ready RAG system with two-stage retrieval (BGE embeddings + cross-encoder reranking), Claude-powered grounded generation, and full observability — deployed on Google Cloud Run with per-query cost tracking, SHA-256 caching, and automated answer quality scoring via LLM-as-judge evaluation.'
+					altText='ProfessionalRAG'
 					class='w-full'
 				/>
 				<ProjectCard
 					heading='SentinelML'
 					subheading='Enabled reliable, scalable ML serving at production scale—meeting strict SLOs with p99 < 250 ms and safe, rapid releases via canary deploys with a Python auto-healer/automatic rollback. Built comprehensive observability (Prometheus/Grafana dashboards & alerts) and performance validation (k6 load tests).'
 					altText='Example'
+					class='w-full'
+				/>
+				<ProjectCard
+					href='https://github.com/Vikhyat-Chauhan/BioelectronicsAiWesad'
+					heading='BioelectronicsAiWesad'
+					subheading='ML pipeline for stress detection from wearable biosensors — Conv1D autoencoders for unsupervised feature extraction + SVM classification, achieving 83.5% accuracy on three-class emotion classification from multimodal physiological signals (WESAD dataset, 15 subjects).'
+					altText='BioelectronicsAiWesad'
+					class='w-full'
+				/>
+				<ProjectCard
+					href='https://github.com/Vikhyat-Chauhan/TNM_BACKEND_ICHI'
+					heading='TNM Backend'
+					subheading='Microservices-based IoT smart home platform (Node.js, Express, MongoDB, MQTT, RabbitMQ) with real-time bidirectional device control, scene automation, Alexa voice integration, and cascading offline detection — deployed via Docker Compose across 3 services.'
+					altText='TNM Backend'
+					class='w-full'
+				/>
+				<ProjectCard
+					href='https://github.com/Vikhyat-Chauhan/SmartHomeApplication'
+					heading='TNM Smart Home'
+					subheading='Cross-platform Flutter IoT app with sub-second MQTT real-time device control, Auth0 OAuth2 authentication, QR-based hardware onboarding, and scene automation — built with BLoC state management across 125+ Dart files with glassmorphic UI/UX.'
+					altText='TNM Smart Home'
+					class='w-full'
+				/>
+				<ProjectCard
+					href='https://github.com/Vikhyat-Chauhan/vikhyat-resume'
+					heading='vikhyat-resume'
+					subheading='This portfolio site — built with Astro, React, Tailwind CSS, and deployed on Netlify with SSR. Features a live AI chat assistant powered by ProfessionalRAG.'
+					altText='vikhyat-resume'
 					class='w-full'
 				/>
 				<ProjectCard
@@ -299,6 +344,11 @@ const libraries = [
 		</Section>
 
 		<Section title='Certifications'>
+			<Card
+				heading='Google Cloud Professional ML Engineer'
+				subheading='Upcoming'
+				location='2026'
+			/>
 			<Card
 				heading='Neural Networks and Deep Learning'
 				subheading='DeepLearning.AI'
@@ -320,19 +370,5 @@ const libraries = [
 				location='4.0 GPA'
 			/>
 		</Section>
-
 	</div>
-	<!-- <a -->
-	<!-- href='https://github.com/srleom/astro-theme-resume.git' -->
-	<!-- class='mt-16 flex flex-row items-center gap-x-3 rounded-3xl border border-input px-4 py-2 text-sm shadow-sm transition-all hover:shadow-md' -->
-	<!-- > -->
-	<!-- <span class='relative flex items-center justify-center'> -->
-	<!-- <span -->
-	<!-- class='absolute inline-flex h-2 w-2 animate-ping rounded-full border border-green-400 bg-green-400 opacity-75' -->
-	<!-- ></span> -->
-	<!-- <span class='relative inline-flex h-2 w-2 rounded-full bg-green-400'></span> -->
-	<!-- </span> -->
-
-	<!-- <p class='font-medium'>Get free template</p> -->
-	<!-- </a> -->
 </PageLayout>
