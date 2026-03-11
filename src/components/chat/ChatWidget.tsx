@@ -135,12 +135,16 @@ export default function ChatWidget() {
                 <p className="text-sm leading-relaxed whitespace-pre-wrap break-words">
                   {msg.content}
                 </p>
+              ) : msg.streaming && !msg.content ? (
+                <div className="flex items-center gap-1.5 py-1">
+                  <span className="text-xs text-muted-foreground mr-1">Thinking</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-[bounce_1.4s_ease-in-out_infinite]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-[bounce_1.4s_ease-in-out_0.2s_infinite]" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-[bounce_1.4s_ease-in-out_0.4s_infinite]" />
+                </div>
               ) : (
                 <div className="text-sm leading-relaxed break-words prose prose-sm dark:prose-invert max-w-none prose-p:my-1 prose-headings:my-2 prose-ul:my-1 prose-ol:my-1 prose-li:my-0.5">
                   <Markdown>{msg.content}</Markdown>
-                  {msg.streaming && (
-                    <span className="opacity-60 animate-pulse">|</span>
-                  )}
                 </div>
               )}
 
@@ -213,7 +217,7 @@ export default function ChatWidget() {
           </button>
         </div>
         <p className="text-[0.6rem] text-muted-foreground text-center mt-2">
-          Powered by ProfessionalRAG — Claude + Pinecone + Cross-Encoder Reranking
+          Powered by <a href="https://github.com/Vikhyat-Chauhan/ProfessionalRAG" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">ProfessionalRAG</a> — Built by me using Claude + Pinecone + Cross-Encoder Reranking
         </p>
       </form>
     </div>
