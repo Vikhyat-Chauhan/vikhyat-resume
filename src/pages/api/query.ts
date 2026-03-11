@@ -8,7 +8,7 @@ export const POST: APIRoute = async ({ request }) => {
   const res = await fetch('https://professionalrag-738260384801.us-east4.run.app/query', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${import.meta.env.CLOUD_RUN_TOKEN}`,
+      'Authorization': `Bearer ${import.meta.env.ProfessionalRAG_KEY}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
