@@ -5,6 +5,7 @@ import BaseHead from '@/components/BaseHead.astro'
 import Header from '@/components/layout/Header.astro'
 import ThemeProvider from '@/components/ThemeProvider.astro'
 
+import Analytics from '@/components/Analytics.astro'
 import { siteConfig } from '@/site-config'
 
 interface Props {
@@ -29,43 +30,6 @@ const {
 			<Header />
 			<slot />
 		</div>
-		<script>
-			;(function () {
-				const key = 'visit_tracked'
-				if (sessionStorage.getItem(key)) return
-				sessionStorage.setItem(key, '1')
-
-				const params = new URLSearchParams(window.location.search)
-				const referrer = document.referrer
-
-				const payload: Record<string, string> = {
-					page: window.location.pathname,
-					referrer: referrer || 'direct'
-				}
-
-				for (const p of ['utm_source', 'utm_medium', 'utm_campaign', 'ref']) {
-					const v = params.get(p)
-					if (v) payload[p] = v
-				}
-
-				if (!payload.utm_source && !payload.ref && referrer) {
-					try {
-						payload.source = new URL(referrer).hostname
-					} catch {
-						/* ignore malformed referrers */
-					}
-				}
-
-				if (navigator.sendBeacon) {
-					navigator.sendBeacon('/api/track', JSON.stringify(payload))
-				} else {
-					fetch('/api/track', {
-						method: 'POST',
-						body: JSON.stringify(payload),
-						keepalive: true
-					})
-				}
-			})()
-		</script>
+		<Analytics />
 	</body>
 </html>

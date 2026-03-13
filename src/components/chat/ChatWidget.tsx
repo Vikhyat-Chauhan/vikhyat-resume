@@ -45,12 +45,22 @@ export default function ChatWidget() {
 		resizeTextarea()
 	}, [input, resizeTextarea])
 
+	const trackEvent = useCallback((payload: Record<string, unknown>) => {
+		const body = JSON.stringify(payload)
+		if (navigator.sendBeacon) {
+			navigator.sendBeacon('/api/track', body)
+		} else {
+			fetch('/api/track', { method: 'POST', body, keepalive: true })
+		}
+	}, [])
+
 	const submitQuestion = useCallback(
 		async (question: string) => {
 			if (!question || loading) return
 
 			setInput('')
 			setLoading(true)
+			trackEvent({ event: 'chat_message', question: question.slice(0, 200) })
 
 			const userMsg: Message = { role: 'user', content: question }
 			const assistantMsg: Message = { role: 'assistant', content: '', streaming: true }
@@ -92,7 +102,7 @@ export default function ChatWidget() {
 				inputRef.current?.focus()
 			}
 		},
-		[loading]
+		[loading, trackEvent]
 	)
 
 	function handleSubmit(e: React.FormEvent) {
