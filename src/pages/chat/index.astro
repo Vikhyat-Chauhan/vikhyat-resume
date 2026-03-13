@@ -1,5 +1,5 @@
 ---
-import BaseLayout from '@/layouts/BaseLayout.astro'
+import ChatLayout from '@/layouts/ChatLayout.astro'
 import ChatWidget from '@/components/chat/ChatWidget'
 
 const meta = {
@@ -8,9 +8,18 @@ const meta = {
 }
 ---
 
-<BaseLayout meta={meta}>
-	<section class='flex w-full flex-1 flex-col'>
-		<div class='mb-6'>
+<ChatLayout meta={meta}>
+	<section class='flex min-h-0 flex-1 flex-col'>
+		<div class='mb-4 flex-shrink-0'>
+			<a
+				href='/'
+				class='mb-2 inline-flex items-center gap-x-1 text-sm text-muted-foreground transition-colors hover:text-foreground'
+			>
+				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-4 w-4'>
+					<path fill='currentColor' d='m6.921 12.5l5.792 5.792L12 19l-7-7l7-7l.713.708L6.921 11.5H19v1z'></path>
+				</svg>
+				Back
+			</a>
 			<h1 class='text-2xl font-semibold'>Ask me anything</h1>
 			<p class='mt-1 text-sm text-muted-foreground'>
 				RAG-powered chat over my research papers, projects, and resume
@@ -18,4 +27,4 @@ const meta = {
 		</div>
 		<ChatWidget client:load />
 	</section>
-</BaseLayout>
+</ChatLayout>

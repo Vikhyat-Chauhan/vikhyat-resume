@@ -2,7 +2,6 @@
 import type { SiteMeta } from '@/types'
 
 import BaseHead from '@/components/BaseHead.astro'
-import Footer from '@/components/layout/Footer.astro'
 import Header from '@/components/layout/Header.astro'
 import ThemeProvider from '@/components/ThemeProvider.astro'
 
@@ -13,24 +12,23 @@ interface Props {
 }
 
 const {
-	meta: { articleDate, description = siteConfig.description, ogImage, title }
+	meta: { description = siteConfig.description, ogImage, title }
 } = Astro.props
 ---
 
 <html lang={siteConfig.lang} class=''>
 	<head>
-		<BaseHead articleDate={articleDate} description={description} ogImage={ogImage} title={title} />
+		<BaseHead description={description} ogImage={ogImage} title={title} />
 	</head>
 
-	<body class='flex justify-center bg-background'>
+	<body class='flex justify-center overflow-hidden bg-background'>
 		<ThemeProvider />
-		<main
-			class='flex min-h-screen w-screen max-w-[64rem] flex-col items-center px-6 pb-12 pt-8 font-satoshi text-[0.92rem] leading-relaxed sm:px-10 lg:px-12'
+		<div
+			class='flex h-dvh w-screen max-w-[64rem] flex-col px-6 pt-8 pb-6 font-satoshi text-[0.92rem] leading-relaxed sm:px-10 lg:px-12'
 		>
 			<Header />
 			<slot />
-			<Footer />
-		</main>
+		</div>
 		<script>
 			;(function () {
 				const key = 'visit_tracked'
@@ -45,13 +43,11 @@ const {
 					referrer: referrer || 'direct'
 				}
 
-				// Capture UTM params and custom ref
 				for (const p of ['utm_source', 'utm_medium', 'utm_campaign', 'ref']) {
 					const v = params.get(p)
 					if (v) payload[p] = v
 				}
 
-				// Derive source label from referrer hostname
 				if (!payload.utm_source && !payload.ref && referrer) {
 					try {
 						payload.source = new URL(referrer).hostname
@@ -60,7 +56,6 @@ const {
 					}
 				}
 
-				// Fire-and-forget beacon
 				if (navigator.sendBeacon) {
 					navigator.sendBeacon('/api/track', JSON.stringify(payload))
 				} else {
