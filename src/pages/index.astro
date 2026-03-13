@@ -14,40 +14,40 @@ import logoTNM from '../assets/logos/tnm.svg'
 import logoMahindra from '../assets/logos/mahindra.png'
 import logoUR from '../assets/logos/universal-robots.png'
 
-const languages = ['C++', 'Java', 'Python', 'TypeScript', 'SQL']
 const aiLlm = [
 	'RAG',
 	'Agentic AI',
 	'Fine-Tuning (LoRA/QLoRA)',
-	'Prompt Engineering',
-	'Embeddings',
 	'LangChain',
-	'LangGraph'
+	'LangGraph',
+	'OpenAI/Anthropic APIs',
+	'Hybrid Search',
+	'Cross-Encoder Reranking',
+	'Embeddings',
+	'Pinecone',
+	'FAISS',
+	'LLM-as-Judge',
+	'LangSmith',
+	'Evidently',
+	'OpenTelemetry',
+	'Prompt Engineering'
 ]
-const ml = ['PyTorch', 'TensorFlow/TFX', 'TensorRT', 'scikit-learn']
-const cloudInfra = [
-	'AWS (EC2, Lambda, S3, EKS)',
-	'GCP (GKE)',
+const mlInfra = [
+	'PyTorch',
+	'TensorFlow',
+	'TensorRT',
+	'HuggingFace',
+	'Transformers',
+	'scikit-learn',
+	'FastAPI',
+	'GCP (Vertex AI, GKE, Cloud Run)',
+	'AWS (EC2, S3, EKS)',
 	'Kubernetes',
 	'Docker',
-	'Kafka',
-	'MongoDB',
-	'Microservices',
-	'REST API',
-	'OAuth 2.0'
+	'CI/CD (Jenkins)',
+	'MongoDB'
 ]
-const systemsTools = [
-	'ROS 2',
-	'Claude Code',
-	'Prometheus',
-	'Grafana',
-	'Jenkins',
-	'SonarQube',
-	'Git',
-	'Perforce Helix',
-	'SpringBoot',
-	'Linux'
-]
+const langSystems = ['Python', 'C++', 'Java', 'TypeScript', 'SQL', 'Linux', 'Git', 'CUDA']
 ---
 
 <PageLayout meta={{ title: 'Vikhyat Chauhan' }}>
@@ -377,11 +377,9 @@ const systemsTools = [
 			<!-- Skills -->
 			<div id='panel-skills' class='tab-panel hidden'>
 				<div class='flex flex-col gap-y-4'>
-					<SkillLayout title='Languages' skills={languages} />
-					<SkillLayout title='AI & LLM' skills={aiLlm} />
-					<SkillLayout title='ML' skills={ml} />
-					<SkillLayout title='Cloud & Infra' skills={cloudInfra} />
-					<SkillLayout title='Systems & Tools' skills={systemsTools} />
+					<SkillLayout title='AI & LLM Engineering' skills={aiLlm} />
+					<SkillLayout title='ML & Infra' skills={mlInfra} />
+					<SkillLayout title='Languages & Systems' skills={langSystems} />
 				</div>
 			</div>
 
