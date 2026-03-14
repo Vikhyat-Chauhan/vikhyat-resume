@@ -19,6 +19,55 @@
 			</div>
 		</div>
 
+		<!-- Thesis page nav — shown only on /ConflictArchitecture -->
+		<div id='thesis-nav' class='hidden min-w-0 flex-1'>
+			<div class='flex items-center gap-x-2 overflow-x-auto scrollbar-hide'>
+				<span class='whitespace-nowrap text-sm font-bold tracking-tight text-foreground'>Graduate Thesis</span>
+				<span class='h-4 w-px bg-border/50'></span>
+				<a
+					href='/Vikhyat-Chauhan-Thesis.pdf'
+					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-border/50 bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary sm:text-sm'
+				>
+					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+						<path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'></path>
+						<polyline points='14 2 14 8 20 8'></polyline>
+					</svg>
+					Read PDF
+				</a>
+				<a
+					href='/chat?context=Thesis&q=What+is+Vikhyat%27s+thesis+about%3F'
+					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-plum/30 bg-plum/10 px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-plum/50 hover:bg-plum/20 sm:text-sm'
+				>
+					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+						<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path>
+					</svg>
+					Ask ThesisGPT
+				</a>
+				<a
+					href='https://github.com/Vikhyat-Chauhan/Hydra'
+					target='_blank'
+					rel='noopener noreferrer'
+					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-border/50 bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary sm:text-sm'
+				>
+					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 16 16' fill='currentColor'>
+						<path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'></path>
+					</svg>
+					GitHub
+				</a>
+				<button
+					id='nav-cite-btn'
+					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-border/50 bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary sm:text-sm'
+				>
+					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+						<path d='M6 9h6V5H6zM16 9h2V5h-6v4h2'></path>
+						<path d='M6 9a6 6 0 0 1-6 6v4h6v-4a2 2 0 0 0 2-2V9'></path>
+						<path d='M18 9a6 6 0 0 1-6 6v4h6v-4a2 2 0 0 0 2-2V9'></path>
+					</svg>
+					Cite
+				</button>
+			</div>
+		</div>
+
 		<!-- Divider — desktop only -->
 		<div id='tab-divider' class='hidden h-5 w-px bg-border/50 max-sm:!hidden'></div>
 
@@ -150,9 +199,26 @@
 	// Show tab nav + divider only on the index page
 	const tabNav = document.getElementById('tab-nav')
 	const tabDivider = document.getElementById('tab-divider')
+	const thesisNav = document.getElementById('thesis-nav')
 	const hasTabPanels = document.querySelector('.tab-panel')
+
 	if (tabNav && hasTabPanels) {
 		tabNav.classList.remove('hidden')
 		tabDivider?.classList.remove('hidden')
+	}
+
+	// Show thesis CTAs on /ConflictArchitecture
+	if (thesisNav && window.location.pathname.startsWith('/ConflictArchitecture')) {
+		thesisNav.classList.remove('hidden')
+		tabDivider?.classList.remove('hidden')
+	}
+
+	// Cite button in nav — scroll to bibtex section
+	const navCiteBtn = document.getElementById('nav-cite-btn')
+	if (navCiteBtn) {
+		navCiteBtn.addEventListener('click', () => {
+			const bibtexSection = document.getElementById('copy-bibtex')
+			bibtexSection?.closest('div')?.scrollIntoView({ behavior: 'smooth' })
+		})
 	}
 </script>

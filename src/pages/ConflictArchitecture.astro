@@ -1,0 +1,312 @@
+---
+import PageLayout from '../layouts/BaseLayout.astro'
+
+// ── Swap this value to change the hero media ──────────────────────────
+// Supports .mp4 (renders <video>) or .gif/.png/.jpg/.webp (renders <img>)
+const HERO_MEDIA_SRC = '/thesis-demo.mp4'
+
+
+const isVideo = HERO_MEDIA_SRC.endsWith('.mp4') || HERO_MEDIA_SRC.endsWith('.webm')
+
+const tags = ['Autonomous Systems', 'Brain-Inspired AI', 'ROS 2 / Gazebo', 'NSF-Funded']
+
+const metrics = [
+	{ label: 'Elapsed Time', value: '↓13%', color: 'text-sage' },
+	{ label: 'Compute Energy', value: '↓13%', color: 'text-sage' },
+	{ label: 'APE2 / APE3', value: 'Infeasible', color: 'text-coral' },
+	{ label: 'Strategy Model', value: 'Parallel selection', color: 'text-foreground' }
+]
+
+const pipeline = [
+	{ label: 'Sensor Input', color: 'bg-plum/15 text-plum border-plum/30' },
+	{ label: 'Conflict Gate', color: 'bg-sage/15 text-sage border-sage/30' },
+	{ label: 'Strategy Pool', color: 'bg-plum/15 text-plum border-plum/30' },
+	{ label: 'Deadline Arbiter', color: 'bg-coral/15 text-coral border-coral/30' },
+	{ label: 'UAV Command', color: 'bg-sage/15 text-sage border-sage/30' }
+]
+
+const sampleQuestions = [
+	'How does the amygdala low-road map to the failsafe strategy?',
+	'What is Rent\'s Rule and how does it bound strategy count?',
+	'How does CA compare to APE baselines on energy?'
+]
+
+const bibtex = `@mastersthesis{chauhan2026conflict,
+  author  = {Vikhyat Chauhan},
+  title   = {Conflict Architecture: A Deadline-Aware
+             Multi-Strategy Framework for UAV Navigation},
+  school  = {Virginia Tech},
+  year    = {2026},
+  month   = {May},
+  advisor = {JoAnn Paul}
+}`
+---
+
+<PageLayout meta={{ title: 'Thesis — Vikhyat Chauhan' }}>
+	<div class='flex w-full flex-col gap-y-10'>
+
+		<!-- ════════ HERO ════════ -->
+		<section class='animate-fade-in grid grid-cols-1 items-start gap-8 py-4 lg:grid-cols-2'>
+
+			<!-- Left column -->
+			<div class='flex flex-col gap-y-5'>
+				<!-- Tag pills -->
+				<div class='flex flex-wrap gap-2'>
+					{tags.map((t) => (
+						<span class='rounded-full border border-border/50 bg-card px-3 py-1 font-mono text-xs text-muted-foreground'>
+							{t}
+						</span>
+					))}
+				</div>
+
+				<h1 class='text-3xl font-bold leading-tight tracking-tight sm:text-4xl'>
+					Conflict Architecture: A Deadline-Aware Multi-Strategy Framework for UAV Navigation
+				</h1>
+
+				<p class='text-sm leading-relaxed text-muted-foreground'>
+					Vikhyat Chauhan &middot; M.S. Computer Engineering &middot; Virginia Tech &middot; Advisor: JoAnn Paul &middot; May 2026
+				</p>
+			</div>
+
+			<!-- Right column — video / GIF panel -->
+			<div class='relative overflow-hidden rounded-xl border border-border/50 bg-card'>
+				<!-- Grid-dot background texture -->
+				<div class='pointer-events-none absolute inset-0' style='background-image: radial-gradient(circle, hsl(var(--muted-foreground) / 0.15) 1px, transparent 1px); background-size: 20px 20px;'></div>
+
+				<!-- 16:9 aspect wrapper -->
+				<div class='relative w-full' style='aspect-ratio: 16 / 9;'>
+					{isVideo ? (
+						<video
+							id='hero-video'
+							src={HERO_MEDIA_SRC}
+							class='h-full w-full object-cover'
+							muted
+							loop
+							playsinline
+							preload='metadata'
+						/>
+					) : (
+						<img
+							src={HERO_MEDIA_SRC}
+							alt='Thesis simulation demo'
+							class='h-full w-full object-cover'
+							loading='eager'
+						/>
+					)}
+
+					{/* Play button overlay (video only) */}
+					{isVideo && (
+						<button
+							id='play-btn'
+							class='absolute inset-0 flex items-center justify-center bg-background/30 transition-opacity duration-300 hover:bg-background/20'
+							aria-label='Play video'
+						>
+							<span class='flex h-16 w-16 items-center justify-center rounded-full border border-border/50 bg-card/90 shadow-lg backdrop-blur-sm'>
+								<svg xmlns='http://www.w3.org/2000/svg' class='ml-1 h-6 w-6 text-foreground' viewBox='0 0 24 24' fill='currentColor'>
+									<path d='M8 5v14l11-7z'></path>
+								</svg>
+							</span>
+						</button>
+					)}
+				</div>
+
+				<!-- Footer strip -->
+				<div class='flex items-center gap-x-2 border-t border-border/50 px-4 py-2'>
+					<span class='relative flex h-2 w-2'>
+						<span class='absolute inline-flex h-full w-full animate-ping rounded-full bg-sage opacity-75'></span>
+						<span class='relative inline-flex h-2 w-2 rounded-full bg-sage'></span>
+					</span>
+					<span class='font-mono text-xs text-muted-foreground'>Simulation &middot; Gazebo / ROS 2</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- ════════ METRICS STRIP ════════ -->
+		<section class='animate-slide-up grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border/50 bg-border/50 sm:grid-cols-4'>
+			{metrics.map((m) => (
+				<div class='flex flex-col items-center gap-y-0.5 bg-card px-3 pt-0.5 pb-1'>
+					<span class={'font-mono text-sm font-bold ' + m.color}>{m.value}</span>
+					<span class='text-[0.65rem] text-muted-foreground'>{m.label}</span>
+				</div>
+			))}
+		</section>
+
+		<!-- ════════ BODY — MAIN + SIDEBAR ════════ -->
+		<section class='animate-slide-up delay-100 grid grid-cols-1 gap-8 lg:grid-cols-3'>
+
+			<!-- Main column (2/3) -->
+			<div class='flex flex-col gap-y-8 lg:col-span-2'>
+
+				<!-- Architecture pipeline -->
+				<div class='flex flex-col gap-y-4'>
+					<h2 class='text-lg font-bold tracking-tight'>Architecture Pipeline</h2>
+
+					<div class='flex flex-wrap items-center gap-2'>
+						{pipeline.map((node, i) => (
+							<>
+								<span class={'inline-flex rounded-md border px-3 py-1.5 font-mono text-xs font-medium ' + node.color}>
+									{node.label}
+								</span>
+								{i < pipeline.length - 1 && (
+									<svg xmlns='http://www.w3.org/2000/svg' class='h-4 w-4 shrink-0 text-muted-foreground' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+										<path d='M5 12h14'></path>
+										<path d='m12 5 7 7-7 7'></path>
+									</svg>
+								)}
+							</>
+						))}
+					</div>
+
+					<p class='text-xs leading-relaxed text-muted-foreground'>
+						Rent&rsquo;s Rule bounds strategy count &middot; Wall-clock deadline enforcement &middot; Amygdala low-road / PFC deliberative dual-path
+					</p>
+				</div>
+
+				<!-- Abstract -->
+				<div class='flex flex-col gap-y-3'>
+					<h2 class='text-lg font-bold tracking-tight'>Abstract</h2>
+					<div class='space-y-3 text-sm leading-relaxed text-muted-foreground'>
+						<p>
+							The <strong class='text-foreground'>Conflict Architecture (CA)</strong> is a deadline-aware, multi-strategy
+							navigation framework for autonomous UAVs. Inspired by neuroscience&mdash;specifically the
+							amygdala&rsquo;s fast &ldquo;low-road&rdquo; threat response paired with the prefrontal cortex&rsquo;s
+							slower deliberative planning, and the basal ganglia&rsquo;s role in action selection&mdash;CA
+							dynamically arbitrates among parallel execution strategies (8&thinsp;ms failsafe,
+							25&thinsp;ms balanced, 90&thinsp;ms high-quality) based on real-time event urgency and
+							wall-clock deadlines.
+						</p>
+						<p>
+							Strategy count is bounded by <strong class='text-foreground'>Rent&rsquo;s Rule</strong>, a
+							complexity-scaling principle from VLSI design, ensuring the architecture remains tractable
+							as sensor dimensionality grows. A Conflict Gate monitors incoming sensor streams and routes
+							decisions to the appropriate strategy tier; a Deadline Arbiter enforces hard timing
+							constraints and preempts long-running planners when safety margins shrink.
+						</p>
+						<p>
+							Evaluated in <strong class='text-foreground'>Gazebo / ROS 2</strong> across 1,000+ procedurally
+							generated obstacle arenas on a simulated octocopter with LiDAR-based perception, CA reduces
+							mission elapsed time and compute energy by 13% compared to the best feasible baseline (APE1),
+							while APE2 and APE3 strategies exceed deadline constraints and are marked infeasible.
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- Sidebar (1/3) -->
+			<div class='flex flex-col gap-y-6'>
+
+				<!-- Baseline comparison chart -->
+				<div class='flex flex-col gap-y-3 rounded-xl border border-border/50 bg-card p-5'>
+					<h3 class='text-sm font-bold tracking-tight'>Baseline Comparison</h3>
+					<div class='flex flex-col gap-y-3'>
+						{/* CA bar */}
+						<div class='flex flex-col gap-y-1'>
+							<div class='flex items-center justify-between text-xs'>
+								<span class='font-mono font-medium text-sage'>CA (ours)</span>
+								<span class='text-muted-foreground'>Best</span>
+							</div>
+							<div class='h-3 w-full overflow-hidden rounded-full bg-secondary'>
+								<div class='h-full rounded-full bg-sage' style='width: 100%'></div>
+							</div>
+						</div>
+						{/* APE1 bar */}
+						<div class='flex flex-col gap-y-1'>
+							<div class='flex items-center justify-between text-xs'>
+								<span class='font-mono font-medium text-muted-foreground'>APE1</span>
+								<span class='text-muted-foreground'>Baseline</span>
+							</div>
+							<div class='h-3 w-full overflow-hidden rounded-full bg-secondary'>
+								<div class='h-full rounded-full bg-muted-foreground/40' style='width: 87%'></div>
+							</div>
+						</div>
+						{/* APE2 bar */}
+						<div class='flex flex-col gap-y-1'>
+							<div class='flex items-center justify-between text-xs'>
+								<span class='font-mono font-medium text-coral'>APE2</span>
+								<span class='font-mono text-coral'>infeasible</span>
+							</div>
+							<div class='h-3 w-full overflow-hidden rounded-full bg-secondary'>
+								<div class='h-full rounded-full bg-coral/60' style='width: 72%'></div>
+							</div>
+						</div>
+						{/* APE3 bar */}
+						<div class='flex flex-col gap-y-1'>
+							<div class='flex items-center justify-between text-xs'>
+								<span class='font-mono font-medium text-coral'>APE3</span>
+								<span class='font-mono text-coral'>infeasible</span>
+							</div>
+							<div class='h-3 w-full overflow-hidden rounded-full bg-secondary'>
+								<div class='h-full rounded-full bg-coral/40' style='width: 55%'></div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Ask This Thesis card -->
+				<div class='flex flex-col gap-y-3 rounded-xl border border-border/50 bg-card p-5'>
+					<h3 class='text-sm font-bold tracking-tight'>Ask This Thesis</h3>
+					<div class='flex flex-col gap-y-2'>
+						{sampleQuestions.map((q) => (
+							<a
+								href={'/chat?context=Thesis&q=' + encodeURIComponent(q)}
+								class='rounded-md border border-border/50 bg-secondary/50 px-3 py-2 font-mono text-xs text-muted-foreground transition-all duration-200 hover:border-border hover:bg-secondary hover:text-foreground'
+							>
+								{q}
+							</a>
+						))}
+					</div>
+				</div>
+
+				<!-- BibTeX citation -->
+				<div class='flex flex-col gap-y-2 rounded-xl border border-border/50 bg-card p-5'>
+					<div class='flex items-center justify-between'>
+						<h3 class='text-sm font-bold tracking-tight'>Cite</h3>
+						<button
+							id='copy-bibtex'
+							class='rounded-md px-2 py-1 text-xs text-muted-foreground transition-all hover:bg-secondary hover:text-foreground'
+						>
+							Copy
+						</button>
+					</div>
+					<pre class='overflow-x-auto rounded-lg border border-border/50 bg-secondary/50 p-3 font-mono text-xs leading-relaxed text-muted-foreground'>{bibtex}</pre>
+				</div>
+			</div>
+		</section>
+	</div>
+</PageLayout>
+
+<script>
+	// Play button toggle
+	const playBtn = document.getElementById('play-btn')
+	const video = document.getElementById('hero-video') as HTMLVideoElement | null
+
+	if (playBtn && video) {
+		playBtn.addEventListener('click', () => {
+			if (video.paused) {
+				video.play()
+				playBtn.style.opacity = '0'
+				playBtn.style.pointerEvents = 'none'
+			}
+		})
+		video.addEventListener('pause', () => {
+			playBtn.style.opacity = '1'
+			playBtn.style.pointerEvents = 'auto'
+		})
+		video.addEventListener('click', () => {
+			video.pause()
+		})
+	}
+
+	// Copy bibtex
+	const copyBtn = document.getElementById('copy-bibtex')
+	if (copyBtn) {
+		copyBtn.addEventListener('click', () => {
+			const pre = copyBtn.closest('div')?.querySelector('pre')
+			if (pre) {
+				navigator.clipboard.writeText(pre.textContent ?? '')
+				copyBtn.textContent = 'Copied!'
+				setTimeout(() => (copyBtn.textContent = 'Copy'), 2000)
+			}
+		})
+	}
+</script>
