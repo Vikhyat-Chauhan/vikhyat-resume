@@ -11,16 +11,22 @@ const isVideo = HERO_MEDIA_SRC.endsWith('.mp4') || HERO_MEDIA_SRC.endsWith('.web
 const tags = ['Autonomous Systems', 'Brain-Inspired AI', 'ROS 2 / Gazebo', 'NSF-Funded']
 
 const metrics = [
-	{ label: 'Elapsed Time', value: '↓13%', color: 'text-sage' },
-	{ label: 'Compute Energy', value: '↓13%', color: 'text-sage' },
-	{ label: 'APE2 / APE3', value: 'Infeasible', color: 'text-coral' },
-	{ label: 'Strategy Model', value: 'Parallel selection', color: 'text-foreground' }
+	{ label: 'Elapsed Time', value: '↓13%', sub: 'CA vs APE1 · p < 0.0001 · n=1,000', color: 'text-sage' },
+	{ label: 'Compute Energy', value: '↓13%', sub: 'CA vs APE1 · p < 0.0001', color: 'text-sage' },
+	{ label: 'APE2 Violations', value: '26.71%', sub: 'infeasible — all 1,000 runs', color: 'text-coral' },
+	{ label: 'APE3 Violations', value: '39.77%', sub: 'infeasible — all 1,000 runs', color: 'text-coral' }
 ]
 
-const pipeline = [
+const pipelineBefore = [
 	{ label: 'Sensor Input', color: 'bg-plum/15 text-plum border-plum/30' },
-	{ label: 'Conflict Gate', color: 'bg-sage/15 text-sage border-sage/30' },
-	{ label: 'Strategy Pool', color: 'bg-plum/15 text-plum border-plum/30' },
+	{ label: 'Conflict Gate', color: 'bg-sage/15 text-sage border-sage/30' }
+]
+const parallelAPEs = [
+	{ label: 'APE1 ≤8ms', color: 'bg-sage/15 text-sage border-sage/30' },
+	{ label: 'APE2 ≤25ms', color: 'bg-coral/15 text-coral border-coral/30' },
+	{ label: 'APE3 ≤90ms', color: 'bg-coral/15 text-coral border-coral/30' }
+]
+const pipelineAfter = [
 	{ label: 'Deadline Arbiter', color: 'bg-coral/15 text-coral border-coral/30' },
 	{ label: 'UAV Command', color: 'bg-sage/15 text-sage border-sage/30' }
 ]
@@ -39,6 +45,15 @@ const bibtex = `@mastersthesis{chauhan2026conflict,
   year    = {2026},
   month   = {May},
   advisor = {JoAnn Paul}
+}`
+
+const bibtexPrior = `@article{paul2025paradox,
+  author  = {Paul, JoAnn M. and Bettendorf, Isaac},
+  title   = {Paradox, Conflict, and Structural Intelligence},
+  journal = {IEEE Computer},
+  volume  = {58}, number = {2}, pages = {35--41},
+  year    = {2025},
+  doi     = {10.1109/MC.2024.3486998}
 }`
 ---
 
@@ -124,9 +139,10 @@ const bibtex = `@mastersthesis{chauhan2026conflict,
 		<!-- ════════ METRICS STRIP ════════ -->
 		<section class='animate-slide-up grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border/50 bg-border/50 sm:grid-cols-4'>
 			{metrics.map((m) => (
-				<div class='flex flex-col items-center gap-y-0.5 bg-card px-3 pt-0.5 pb-1'>
+				<div class='flex flex-col items-center gap-y-0.5 bg-card px-3 pt-1 pb-1.5'>
 					<span class={'font-mono text-sm font-bold ' + m.color}>{m.value}</span>
 					<span class='text-[0.65rem] text-muted-foreground'>{m.label}</span>
+					<span class='text-[0.6rem] text-muted-foreground/70'>{m.sub}</span>
 				</div>
 			))}
 		</section>
@@ -142,17 +158,38 @@ const bibtex = `@mastersthesis{chauhan2026conflict,
 					<h2 class='text-lg font-bold tracking-tight'>Architecture Pipeline</h2>
 
 					<div class='flex flex-wrap items-center gap-2'>
-						{pipeline.map((node, i) => (
+						{/* Pre-pool nodes */}
+						{pipelineBefore.map((node) => (
 							<>
 								<span class={'inline-flex rounded-md border px-3 py-1.5 font-mono text-xs font-medium ' + node.color}>
 									{node.label}
 								</span>
-								{i < pipeline.length - 1 && (
-									<svg xmlns='http://www.w3.org/2000/svg' class='h-4 w-4 shrink-0 text-muted-foreground' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-										<path d='M5 12h14'></path>
-										<path d='m12 5 7 7-7 7'></path>
-									</svg>
-								)}
+								<svg xmlns='http://www.w3.org/2000/svg' class='h-4 w-4 shrink-0 text-muted-foreground' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+									<path d='M5 12h14'></path>
+									<path d='m12 5 7 7-7 7'></path>
+								</svg>
+							</>
+						))}
+
+						{/* Parallel APE group */}
+						<div class='flex flex-col gap-1 rounded-lg border border-border/50 bg-secondary/50 px-3 py-2'>
+							{parallelAPEs.map((ape) => (
+								<span class={'inline-flex rounded-md border px-3 py-1 font-mono text-xs font-medium ' + ape.color}>
+									{ape.label}
+								</span>
+							))}
+						</div>
+
+						{/* Post-pool nodes */}
+						{pipelineAfter.map((node, i) => (
+							<>
+								<svg xmlns='http://www.w3.org/2000/svg' class='h-4 w-4 shrink-0 text-muted-foreground' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+									<path d='M5 12h14'></path>
+									<path d='m12 5 7 7-7 7'></path>
+								</svg>
+								<span class={'inline-flex rounded-md border px-3 py-1.5 font-mono text-xs font-medium ' + node.color}>
+									{node.label}
+								</span>
 							</>
 						))}
 					</div>
@@ -160,6 +197,31 @@ const bibtex = `@mastersthesis{chauhan2026conflict,
 					<p class='text-xs leading-relaxed text-muted-foreground'>
 						Rent&rsquo;s Rule bounds strategy count &middot; Wall-clock deadline enforcement &middot; Amygdala low-road / PFC deliberative dual-path
 					</p>
+				</div>
+
+				<!-- Origin -->
+				<div class='flex flex-col gap-y-3'>
+					<h2 class='text-lg font-bold tracking-tight'>Origin</h2>
+					<div class='space-y-3 text-sm leading-relaxed text-muted-foreground'>
+						<p>
+							This thesis extends the foundational work published as the cover feature of
+							<strong class='text-foreground'>IEEE Computer, February 2025</strong> &mdash;
+							&ldquo;Paradox, Conflict, and Structural Intelligence&rdquo; by JoAnn M. Paul and
+							Isaac Bettendorf (DOI:&nbsp;10.1109/MC.2024.3486998). That paper introduced the
+							paradox gate: a splitting function formalizing how the brain accommodates logical
+							contradiction structurally rather than resolving it. Rent&rsquo;s Rule supplies the
+							physical basis &mdash; at scale, global synchronization is impossible, so computation
+							distributes across isolated, racing modules. The CA instantiates this principle. This
+							thesis extends it from a 2D maze proof-of-concept to full 3D autonomous aerial
+							navigation under Gazebo physics and ROS&nbsp;2.
+						</p>
+					</div>
+					<div class='rounded-lg border border-border/50 bg-secondary/50 px-4 py-3'>
+						<p class='text-xs leading-relaxed text-muted-foreground'>
+							Paul &amp; Bettendorf &middot; &ldquo;Paradox, Conflict, and Structural Intelligence&rdquo; &middot; IEEE Computer &middot; Feb 2025 &middot;
+							<a href='https://doi.org/10.1109/MC.2024.3486998' target='_blank' rel='noopener noreferrer' class='text-sage transition-colors hover:text-foreground'>DOI:&nbsp;10.1109/MC.2024.3486998</a>
+						</p>
+					</div>
 				</div>
 
 				<!-- Abstract -->
@@ -187,6 +249,24 @@ const bibtex = `@mastersthesis{chauhan2026conflict,
 							generated obstacle arenas on a simulated octocopter with LiDAR-based perception, CA reduces
 							mission elapsed time and compute energy by 13% compared to the best feasible baseline (APE1),
 							while APE2 and APE3 strategies exceed deadline constraints and are marked infeasible.
+						</p>
+					</div>
+				</div>
+
+				<!-- Feasibility Finding -->
+				<div class='flex flex-col gap-y-3'>
+					<h2 class='text-lg font-bold tracking-tight'>Feasibility Finding</h2>
+					<div class='space-y-3 text-sm leading-relaxed text-muted-foreground'>
+						<p>
+							APE2 and APE3 are not algorithmically deficient &mdash; they are computationally
+							expensive in a way the environment cannot always accommodate. Under the stochastic
+							log-uniform event distribution, inter-event intervals are frequently short enough
+							that neither strategy can guarantee completing before the deadline. APE2 violated
+							deadlines in <strong class='text-coral'>26.71%</strong> of events across 1,000 runs;
+							APE3 in <strong class='text-coral'>39.77%</strong>. In physical deployment, each
+							missed deadline is a collision. This failure is structural, not algorithmic &mdash;
+							the CA prevents it by always holding APE1&rsquo;s reflex output as a committed
+							fallback. Only APE1 and CA achieved zero event violations across all 1,000 runs.
 						</p>
 					</div>
 				</div>
@@ -242,6 +322,60 @@ const bibtex = `@mastersthesis{chauhan2026conflict,
 					</div>
 				</div>
 
+				<!-- Experiment Scale card -->
+				<div class='flex flex-col gap-y-3 rounded-xl border border-border/50 bg-card p-5'>
+					<h3 class='text-sm font-bold tracking-tight'>Experiment Scale</h3>
+					<div class='flex flex-col gap-y-1.5'>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Runs per strategy</span>
+							<span class='font-mono font-medium text-foreground'>1,000</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Total simulation runs</span>
+							<span class='font-mono font-medium text-foreground'>4,000</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Simulator</span>
+							<span class='font-mono font-medium text-foreground'>Gazebo Sim + ROS 2</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Arena</span>
+							<span class='font-mono font-medium text-foreground'>200m × 100m Manhattan grid</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Event inter-arrival</span>
+							<span class='font-mono font-medium text-foreground'>[0.08s, 3.50s] log-uniform</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Deadline window</span>
+							<span class='font-mono font-medium text-foreground'>[0.12s, 1.20s]</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Brain → Architecture card -->
+				<div class='flex flex-col gap-y-3 rounded-xl border border-border/50 bg-card p-5'>
+					<h3 class='text-sm font-bold tracking-tight'>Brain → Architecture</h3>
+					<div class='flex flex-col gap-y-1.5'>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Amygdala fast-path &lt; 100ms</span>
+							<span class='font-mono font-medium text-foreground'>APE1 hard-failsafe ≤ 8ms</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Prefrontal cortex deliberation</span>
+							<span class='font-mono font-medium text-foreground'>APE3 high-fidelity ≤ 90ms</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Basal ganglia action selection</span>
+							<span class='font-mono font-medium text-foreground'>CA Selector — best at t_deadline</span>
+						</div>
+						<div class='flex items-center justify-between text-xs'>
+							<span class='text-muted-foreground'>Neural metabolic frugality</span>
+							<span class='font-mono font-medium text-foreground'>Energy ↓13.31% vs APE1</span>
+						</div>
+					</div>
+				</div>
+
 				<!-- Ask This Thesis card -->
 				<div class='flex flex-col gap-y-3 rounded-xl border border-border/50 bg-card p-5'>
 					<h3 class='text-sm font-bold tracking-tight'>Ask This Thesis</h3>
@@ -269,6 +403,8 @@ const bibtex = `@mastersthesis{chauhan2026conflict,
 						</button>
 					</div>
 					<pre class='overflow-x-auto rounded-lg border border-border/50 bg-secondary/50 p-3 font-mono text-xs leading-relaxed text-muted-foreground'>{bibtex}</pre>
+					<span class='mt-2 text-[0.65rem] text-muted-foreground'>Prior work this thesis extends:</span>
+					<pre class='overflow-x-auto rounded-lg border border-border/50 bg-secondary/50 p-3 font-mono text-xs leading-relaxed text-muted-foreground'>{bibtexPrior}</pre>
 				</div>
 			</div>
 		</section>
