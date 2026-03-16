@@ -11,15 +11,14 @@ const isVideo = HERO_MEDIA_SRC.endsWith('.mp4') || HERO_MEDIA_SRC.endsWith('.web
 const tags = ['Autonomous Systems', 'Brain-Inspired AI', 'ROS 2 / Gazebo', 'NSF-Funded']
 
 const metrics = [
-	{ label: 'Elapsed Time', value: '↓13%', sub: 'CA vs APE1 · p < 0.0001 · n=1,000', color: 'text-sage' },
-	{ label: 'Compute Energy', value: '↓13%', sub: 'CA vs APE1 · p < 0.0001', color: 'text-sage' },
+	{ label: 'Elapsed Time', value: '↓13%', sub: 'CA vs APE1', color: 'text-sage' },
+	{ label: 'Compute Energy', value: '↓13%', sub: 'CA vs APE1', color: 'text-sage' },
 	{ label: 'APE2 Violations', value: '26.71%', sub: 'infeasible — all 1,000 runs', color: 'text-coral' },
 	{ label: 'APE3 Violations', value: '39.77%', sub: 'infeasible — all 1,000 runs', color: 'text-coral' }
 ]
 
 const pipelineBefore = [
-	{ label: 'Sensor Input', color: 'bg-plum/15 text-plum border-plum/30' },
-	{ label: 'Conflict Gate', color: 'bg-sage/15 text-sage border-sage/30' }
+	{ label: 'Sensor Input', color: 'bg-plum/15 text-plum border-plum/30' }
 ]
 const parallelAPEs = [
 	{ label: 'APE1 ≤8ms', color: 'bg-sage/15 text-sage border-sage/30' },
@@ -75,11 +74,11 @@ const bibtexPrior = `@article{paul2025paradox,
 				</div>
 
 				<h1 class='text-3xl font-bold leading-tight tracking-tight sm:text-4xl'>
-					Conflict Architecture: A Deadline-Aware Multi-Strategy Framework for UAV Navigation
+					Conflict Architecture in Autonomous UAV Navigation
 				</h1>
 
 				<p class='text-sm leading-relaxed text-muted-foreground'>
-					Vikhyat Chauhan &middot; M.S. Computer Engineering &middot; Virginia Tech &middot; Advisor: JoAnn Paul &middot; May 2026
+					Vikhyat Chauhan &middot; M.S. Virginia Tech &middot; Advisor: JoAnn Paul
 				</p>
 			</div>
 
@@ -195,7 +194,7 @@ const bibtexPrior = `@article{paul2025paradox,
 					</div>
 
 					<p class='text-xs leading-relaxed text-muted-foreground'>
-						Rent&rsquo;s Rule bounds strategy count &middot; Wall-clock deadline enforcement &middot; Amygdala low-road / PFC deliberative dual-path
+						Multiple Strategies execute in parallel, but only one can control the UAV at a time. A Deadline Arbiter monitors event urgency and preempts to ensure wall-clock deadlines are met.
 					</p>
 				</div>
 
