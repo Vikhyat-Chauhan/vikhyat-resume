@@ -15,8 +15,20 @@ export const POST: APIRoute = async ({ request }) => {
 			body: JSON.stringify(body)
 		})
 
-		const data = await res.json()
-		return new Response(JSON.stringify(data), {
+		const contentType = res.headers.get('content-type') || ''
+		const raw = await res.text()
+
+		if (!contentType.includes('application/json')) {
+			const detail = res.ok
+				? `Upstream returned non-JSON response (${res.status})`
+				: `Upstream error ${res.status} ${res.statusText}`.trim()
+			return new Response(JSON.stringify({ detail }), {
+				status: res.ok ? 502 : res.status,
+				headers: { 'Content-Type': 'application/json' }
+			})
+		}
+
+		return new Response(raw, {
 			status: res.status,
 			headers: { 'Content-Type': 'application/json' }
 		})
