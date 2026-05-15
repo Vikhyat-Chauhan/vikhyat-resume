@@ -1,345 +1,374 @@
 ---
-import PageLayout from '../layouts/BaseLayout.astro'
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import Chat from '../components/Chat.astro';
 
-interface Project {
-	num: string
-	title: string
-	tagline: string
-	description: string
-	stack: string[]
-	metrics: { label: string; value: string }[]
-	links: { label: string; href: string; primary?: boolean }[]
-}
+const posts = (await getCollection('writing', (p) => !p.data.draft)).sort(
+  (a, b) => +new Date(b.data.date) - +new Date(a.data.date),
+);
+const writing = posts.map((p) => ({
+  title: p.data.title,
+  blurb: p.data.blurb,
+  href: `/writing/${p.id}`,
+  tag: p.data.tag,
+}));
 
-const projects: Project[] = [
-	{
-		num: '01',
-		title: 'Medical Imaging Pipeline',
-		tagline: 'MRI report generation, TensorRT-accelerated',
-		description:
-			'MedCLIP-based report generation system fusing MRI scan sequences with patient history, deployed on FDA-regulated hardware at GE HealthCare. Real-time Transformer segmentation accelerated via TensorRT/CUDA.',
-		stack: ['PyTorch', 'TensorRT', 'CUDA/C++', 'MedCLIP', 'Kubernetes'],
-		metrics: [
-			{ label: 'Accuracy vs. SOTA', value: '+6.5%' },
-			{ label: 'Throughput', value: '+20%' },
-			{ label: 'Runtime', value: '−80%' }
-		],
-		links: [
-			{ label: 'Case study', href: '/chat?q=Tell+me+about+the+MRI+report+generation+system', primary: true }
-		]
-	},
-	{
-		num: '02',
-		title: 'ProfessionalRAG',
-		tagline: 'Production RAG pipeline — Claude + Pinecone + reranking',
-		description:
-			'Two-stage retrieval (BGE embeddings + cross-encoder reranking), Claude-powered grounded generation, full observability. Per-query cost tracking, SHA-256 cache, LLM-as-judge eval. Powers the chat on this site.',
-		stack: ['Python', 'FastAPI', 'Pinecone', 'Claude', 'Cloud Run'],
-		metrics: [
-			{ label: 'p50 latency', value: '~1.4s' },
-			{ label: 'Eval coverage', value: '100%' },
-			{ label: 'Cost/query', value: '<$0.01' }
-		],
-		links: [
-			{ label: 'Live demo', href: '/chat', primary: true },
-			{ label: 'GitHub', href: 'https://github.com/Vikhyat-Chauhan/ProfessionalRAG' }
-		]
-	},
-	{
-		num: '03',
-		title: 'Fine-Tuned LLM + Multi-Agent RAG',
-		tagline: 'LangGraph + Llama 3 for grammar-constrained codegen',
-		description:
-			'Multi-agent system generating SDF XML simulation environments under strict grammar constraints. Automated 100+ Gazebo scenes and eliminated ~40 hours/week of manual authoring.',
-		stack: ['LangGraph', 'Llama 3', 'LoRA/QLoRA', 'HuggingFace', 'Python'],
-		metrics: [
-			{ label: 'Scenes generated', value: '100+' },
-			{ label: 'Manual hrs saved', value: '40/wk' },
-			{ label: 'Grammar valid', value: '100%' }
-		],
-		links: [
-			{ label: 'Write-up', href: '/chat?q=Tell+me+about+the+multi-agent+SDF+generation+system', primary: true }
-		]
-	},
-	{
-		num: '04',
-		title: 'Conflict Architecture — Thesis',
-		tagline: 'Deadline-aware autonomous UAV navigation',
-		description:
-			'Multi-strategy selector arbitrating among three parallel execution engines (8/25/90 ms) based on event urgency. Validated across 1000+ simulated scenarios in ROS 2 / Gazebo. NSF-funded.',
-		stack: ['Python', 'ROS 2', 'Gazebo', 'MoE', 'LangGraph'],
-		metrics: [
-			{ label: 'Mission latency', value: '−13%' },
-			{ label: 'Energy use', value: '−13%' },
-			{ label: 'Scenarios', value: '1000+' }
-		],
-		links: [
-			{ label: 'Thesis page', href: '/ConflictArchitecture', primary: true },
-			{ label: 'GitHub', href: 'https://github.com/Vikhyat-Chauhan/Hydra' }
-		]
-	}
-]
+const projects = [
+  {
+    title: 'Medical Imaging Inference Pipeline',
+    context: 'GE HealthCare · Production',
+    tagClass: 'text-sky-700',
+    blurb:
+      'TensorRT-optimized Swin Transformer UNETR for FDA-regulated MRI. ONNX export, FP16 with selective FP32, custom CUDA plugins, and TensorRT layer fusion enabling real-time intraoperative use.',
+    stack: ['PyTorch', 'TensorRT', 'CUDA/C++', 'ONNX', 'Kubernetes', 'IEC 62304'],
+    metrics: [
+      { label: 'Throughput', value: '+20%' },
+      { label: 'Deploys', value: '+80% faster' },
+      { label: 'Defects', value: '−60%' },
+    ],
+    repo: 'https://github.com/Vikhyat-Chauhan',
+    repoLabel: 'GitHub profile (source private)',
+  },
+  {
+    title: 'Professional RAG Pipeline',
+    context: 'Personal · Production',
+    tagClass: 'text-orange-700',
+    blurb:
+      'Two-stage retrieval (BGE-base → MS-MARCO cross-encoder) with SHA-256 semantic cache and per-query token tracking. Built from scratch — no LangChain — and deployed as a containerized service.',
+    stack: ['Python', 'FastAPI', 'BGE', 'Cross-Encoder', 'Cloud Run', 'Docker'],
+    metrics: [
+      { label: 'API overhead', value: '−30%' },
+      { label: 'Eval queries', value: '50+' },
+      { label: 'Faithfulness', value: 'LLM-judge ↑' },
+    ],
+    repo: 'https://github.com/Vikhyat-Chauhan/ProfessionalRAG',
+    repoLabel: 'View source',
+    deepDive: '/projects/professional-rag',
+  },
+  {
+    title: 'Multi-Agent LLM for Simulation Synthesis',
+    context: 'Virginia Tech · NSF-funded',
+    tagClass: 'text-violet-700',
+    blurb:
+      'LangGraph + Llama 3 multi-agent pipeline for grammar-constrained SDF XML generation, automating authoring of 100+ ROS 2 / Gazebo environments with stateful task graphs.',
+    stack: ['LangGraph', 'Llama 3', 'ROS 2', 'Gazebo', 'Python'],
+    metrics: [
+      { label: 'Manual work', value: '−40 hrs/wk' },
+      { label: 'Envs', value: '100+' },
+      { label: 'Inference', value: 'Local' },
+    ],
+    repo: 'https://github.com/Vikhyat-Chauhan',
+    repoLabel: 'GitHub profile (source private)',
+  },
+  {
+    title: 'Brain-Inspired UAV Navigation',
+    context: 'Virginia Tech · M.S. Thesis',
+    tagClass: 'text-violet-700',
+    blurb:
+      'Conflict-resolution framework on a MISD architecture for 3D autonomous UAV navigation. Validated across three real-world-mapped simulation environments with statistically significant gains.',
+    stack: ['Python', 'MISD', 'Control Systems', 'Simulation'],
+    metrics: [
+      { label: 'Energy', value: '−34.5%' },
+      { label: 'Time', value: '−34.6%' },
+      { label: 'Significance', value: 'p < 0.0001' },
+    ],
+    repo: 'https://github.com/Vikhyat-Chauhan',
+    repoLabel: 'View source',
+  },
+];
 
 const experience = [
-	{
-		company: 'Virginia Tech',
-		role: 'Graduate AI/ML Researcher — NSF-funded',
-		date: '2024 — 2026',
-		bullets: [
-			'Built a full UAV autonomy stack in ROS 2 / Gazebo validating the Conflict Architecture framework.',
-			'Shipped a deadline-aware MoE planner with hardware-aware arbitration; cut mission latency and energy 13%.',
-			'Architected LangGraph + Llama 3 multi-agent system for grammar-constrained SDF generation.'
-		]
-	},
-	{
-		company: 'GE HealthCare',
-		role: 'Software Engineer II',
-		date: '2022 — 2024',
-		bullets: [
-			'Led migration from C++ monolith to Java/Spring Boot on Kubernetes — runtime down 80%.',
-			'Built MedCLIP-based MRI report generation; outperformed SOTA by 6.5% on clinical datasets.',
-			'TensorRT/CUDA optimization of Transformer segmentation — throughput +20% on FDA-regulated hardware.'
-		]
-	},
-	{
-		company: 'TNM Electronics',
-		role: 'Founding Software Engineer',
-		date: '2021 — 2022',
-		bullets: [
-			'Built AWS microservice backend (EC2, Lambda, RabbitMQ, MQTT) from zero — 1000+ devices, 99.9% uptime.',
-			'Patented master-slave microcontroller comms scheme — cut BOM cost 90%.'
-		]
-	}
-]
+  {
+    company: 'Virginia Tech',
+    role: 'Graduate AI/ML Researcher',
+    period: '2024 — Present',
+    location: 'Blacksburg, VA',
+    bullets: [
+      'Validated a brain-inspired UAV navigation framework — 34.5% energy & time reductions, n=1,000, p<0.0001. NSF-funded.',
+      'Built a LangGraph + Llama 3 multi-agent pipeline generating 100+ ROS 2 / Gazebo simulation environments.',
+    ],
+  },
+  {
+    company: 'GE HealthCare',
+    role: 'Software Engineer II',
+    period: '2022 — 2024',
+    location: 'Bengaluru, IN',
+    bullets: [
+      'Migrated a C++ MR imaging monolith to Kubernetes microservices — 80% faster deployments, IEC 62304 compliant.',
+      'Optimized Swin Transformer UNETR end-to-end (ONNX → FP16 → TensorRT fusion) for +20% throughput on FDA-regulated hardware.',
+      'CI/CD quality gates cut release defects 60% across 12 quarterly releases — zero patient-safety regressions.',
+    ],
+  },
+  {
+    company: 'The Next Move Automation',
+    role: 'Software Engineer I',
+    period: '2020 — 2022',
+    location: 'Delhi NCR, IN',
+    bullets: [
+      'Architected AWS microservice backend (EC2, Lambda, RabbitMQ, MongoDB, MQTT) scaling 0 → 1000+ devices at 99.9% uptime.',
+      'Patented a master-slave microcontroller communication system — cut BOM cost 90%.',
+    ],
+  },
+  {
+    company: 'Mahindra Susten',
+    role: 'Research Intern',
+    period: '2018 — 2020',
+    location: 'Pune, IN',
+    bullets: [
+      'Linux-based autonomous quadcopter (MAVLink) for solar thermal fault detection — 35% inspection-labor reduction.',
+    ],
+  },
+];
 
-const writing = [
-	{
-		title: 'Building production RAG: cost, latency, and eval lessons',
-		href: 'https://www.linkedin.com/in/vikhyat-chauhan-183723169/',
-		date: 'Coming soon'
-	},
-	{
-		title: 'Conflict Architecture: rethinking real-time autonomy',
-		href: 'https://www.linkedin.com/in/vikhyat-chauhan-183723169/',
-		date: 'Coming soon'
-	},
-	{
-		title: 'TensorRT in clinical software — what changes',
-		href: 'https://www.linkedin.com/in/vikhyat-chauhan-183723169/',
-		date: 'Coming soon'
-	}
-]
 ---
 
-<PageLayout meta={{ title: 'Vikhyat Chauhan — AI/ML Engineer' }}>
-	<!-- ─── HERO ─────────────────────────────────────────────────────── -->
-	<section class='animate-fade-in mb-24 grid gap-8 sm:gap-12'>
-		<div class='flex items-center gap-x-3'>
-			<span class='inline-flex items-center gap-x-2 border border-border bg-card px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground'>
-				<span class='h-1.5 w-1.5 rounded-full bg-accent'></span>
-				US Work Authorized
-			</span>
-			<span class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground'>
-				Open to AI/ML roles · Spring 2026
-			</span>
-		</div>
+<Layout>
+  <!-- Nav -->
+  <header class="sticky top-0 z-50 border-b border-zinc-200/70 bg-gradient-to-r from-orange-50/80 via-sky-50/70 via-50% to-violet-50/80 backdrop-blur">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+      <a href="#top" class="text-sm font-semibold tracking-tight text-zinc-900 hover:text-black">
+        Vikhyat Chauhan
+      </a>
+      <div class="hidden gap-7 text-sm text-zinc-600 sm:flex">
+        <a href="#projects" class="transition hover:text-zinc-900">Projects</a>
+        <a href="#experience" class="transition hover:text-zinc-900">Experience</a>
+        <a href="#writing" class="transition hover:text-zinc-900">Writing</a>
+        <a href="#contact" class="transition hover:text-zinc-900">Contact</a>
+      </div>
+      <a
+        href="/Vikhyat-Chauhan-Resume.pdf"
+        download
+        class="rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900"
+      >
+        Résumé
+      </a>
+    </nav>
+  </header>
 
-		<div class='grid gap-y-6'>
-			<h1 class='text-[clamp(2.2rem,6vw,4.25rem)] font-bold leading-[1.02] tracking-tight'>
-				Vikhyat&nbsp;Chauhan
-				<span class='block font-normal text-muted-foreground'>AI/ML Engineer</span>
-			</h1>
-			<p class='max-w-2xl text-lg leading-relaxed text-foreground/85 sm:text-xl'>
-				I build production AI systems — from TensorRT inference pipelines on FDA-regulated
-				hardware to retrieval-augmented LLM apps and autonomous UAV navigation.
-			</p>
-		</div>
+  <main id="top" class="mx-auto max-w-6xl px-6">
+    <!-- HERO -->
+    <section class="pt-20 pb-20 sm:pt-28 sm:pb-24">
+      <div data-animate style="--delay: 0ms" class="mb-8 inline-flex items-center gap-2 text-xs text-zinc-600">
+        <span class="relative flex h-1.5 w-1.5">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60"></span>
+          <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+        </span>
+        <span class="tracking-wide">Open to AI/ML roles · US work authorized · No sponsorship required</span>
+      </div>
 
-		<div class='flex flex-wrap gap-3'>
-			<a
-				href='/Vikhyat-Chauhan-Resume.pdf'
-				download
-				class='inline-flex items-center gap-x-2 border border-foreground bg-foreground px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-background transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground'
-			>
-				Download Résumé ↓
-			</a>
-			<a
-				href='https://github.com/Vikhyat-Chauhan'
-				target='_blank'
-				rel='noopener noreferrer'
-				class='inline-flex items-center gap-x-2 border border-border px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground transition-colors hover:border-foreground'
-			>
-				GitHub ↗
-			</a>
-			<a
-				href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/'
-				target='_blank'
-				rel='noopener noreferrer'
-				class='inline-flex items-center gap-x-2 border border-border px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground transition-colors hover:border-foreground'
-			>
-				LinkedIn ↗
-			</a>
-			<a
-				href='/chat'
-				class='inline-flex items-center gap-x-2 border border-accent px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent transition-colors hover:bg-accent hover:text-accent-foreground'
-			>
-				Ask my RAG →
-			</a>
-		</div>
-	</section>
+      <h1 data-animate style="--delay: 80ms" class="text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">
+        Vikhyat Chauhan
+      </h1>
+      <p data-animate style="--delay: 160ms" class="mt-2 text-lg text-zinc-600 sm:text-xl">
+        LLM &amp; RAG infrastructure engineer — with FDA-regulated medical AI shipping experience from GE HealthCare.
+      </p>
 
-	<!-- ─── PROJECTS ─────────────────────────────────────────────────── -->
-	<section id='projects' class='mb-24'>
-		<div class='mb-10 flex items-baseline justify-between border-b border-border pb-3'>
-			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
-				/ Selected Work
-			</h2>
-			<span class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground'>
-				04 projects
-			</span>
-		</div>
+      <p data-animate style="--delay: 240ms" class="mt-8 max-w-2xl text-[15px] leading-relaxed text-zinc-700">
+        Previously at <span class="font-medium text-zinc-900">GE HealthCare</span>, shipping FDA-regulated medical
+        imaging ML on Kubernetes. Currently a graduate researcher at
+        <span class="font-medium text-zinc-900">Virginia Tech</span> (M.S. Computer Engineering, GPA 4.0)
+        working on brain-inspired autonomous systems.
+      </p>
 
-		<div class='grid gap-px bg-border sm:grid-cols-2'>
-			{projects.map((p) => (
-				<article class='group flex flex-col gap-y-5 bg-background p-6 transition-colors hover:bg-card sm:p-8'>
-					<div class='flex items-start justify-between gap-x-4'>
-						<span class='font-mono text-[0.7rem] tracking-[0.18em] text-accent'>{p.num}</span>
-						<div class='flex flex-wrap items-center justify-end gap-1'>
-							{p.stack.map((s) => (
-								<span class='border border-border px-1.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground'>
-									{s}
-								</span>
-							))}
-						</div>
-					</div>
+      <div data-animate style="--delay: 320ms" class="mt-8 flex flex-wrap items-center gap-3 text-sm">
+        <a
+          href="/Vikhyat-Chauhan-Resume.pdf"
+          download
+          class="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2 font-medium text-white transition hover:bg-black"
+        >
+          Download résumé
+        </a>
+        <a
+          href="https://github.com/Vikhyat-Chauhan"
+          target="_blank" rel="noopener"
+          class="rounded-md border border-zinc-300 bg-white px-4 py-2 font-medium text-zinc-800 transition hover:border-zinc-400 hover:text-zinc-900"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://www.linkedin.com/in/vikhyat-chauhan/"
+          target="_blank" rel="noopener"
+          class="rounded-md border border-zinc-300 bg-white px-4 py-2 font-medium text-zinc-800 transition hover:border-zinc-400 hover:text-zinc-900"
+        >
+          LinkedIn
+        </a>
+        <a
+          href="mailto:vikhyat.chauhan@gmail.com"
+          class="rounded-md border border-zinc-300 bg-white px-4 py-2 font-medium text-zinc-800 transition hover:border-zinc-400 hover:text-zinc-900"
+        >
+          Email
+        </a>
+      </div>
 
-					<div class='flex flex-col gap-y-2'>
-						<h3 class='text-2xl font-semibold leading-tight tracking-tight'>{p.title}</h3>
-						<p class='font-mono text-[0.75rem] uppercase tracking-wider text-muted-foreground'>
-							{p.tagline}
-						</p>
-					</div>
+    </section>
 
-					<p class='text-sm leading-relaxed text-foreground/80'>{p.description}</p>
+    <!-- PROJECTS -->
+    <section id="projects" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <SectionHeader title="Projects" subtitle="Selected production and research work." />
+        <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-orange-700 lg:block">
+          {projects.length} selected
+        </div>
+      </aside>
 
-					<dl class='mt-auto grid grid-cols-3 gap-x-3 border-t border-border pt-4'>
-						{p.metrics.map((m) => (
-							<div class='flex flex-col'>
-								<dt class='font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground'>
-									{m.label}
-								</dt>
-								<dd class='font-mono text-base font-semibold text-foreground'>{m.value}</dd>
-							</div>
-						))}
-					</dl>
+      <div class="mt-10 lg:mt-0">
+        {projects.map((p, i) => (
+          <article
+            data-animate
+            style={`--delay: ${i * 60}ms`}
+            class="project-card grid gap-6 border-b border-zinc-200 last:border-b-0 sm:grid-cols-[1fr_auto] sm:gap-12"
+          >
+            <div>
+              <div class={`text-xs uppercase tracking-[0.16em] ${p.tagClass || 'text-orange-700'}`}>{p.context}</div>
+              <h3 class="mt-2 text-xl font-semibold tracking-tight text-zinc-900 sm:text-2xl">{p.title}</h3>
+              <p class="mt-3 max-w-2xl text-[15px] leading-relaxed text-zinc-600">{p.blurb}</p>
 
-					<div class='flex flex-wrap gap-2'>
-						{p.links.map((l) => (
-							<a
-								href={l.href}
-								target={l.href.startsWith('http') ? '_blank' : undefined}
-								rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-								class:list={[
-									'inline-flex items-center gap-x-1.5 px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.15em] transition-colors',
-									l.primary
-										? 'border border-foreground bg-foreground text-background hover:border-accent hover:bg-accent hover:text-accent-foreground'
-										: 'border border-border text-foreground hover:border-foreground'
-								]}
-							>
-								{l.label}
-								<span>{l.href.startsWith('http') ? '↗' : '→'}</span>
-							</a>
-						))}
-					</div>
-				</article>
-			))}
-		</div>
-	</section>
+              <div class="mt-4 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[11px] text-zinc-500">
+                {p.stack.map((t, i) => (
+                  <span>{t}{i < p.stack.length - 1 ? ' ·' : ''}</span>
+                ))}
+              </div>
 
-	<!-- ─── EXPERIENCE ───────────────────────────────────────────────── -->
-	<section id='experience' class='mb-24'>
-		<div class='mb-10 flex items-baseline justify-between border-b border-border pb-3'>
-			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
-				/ Experience
-			</h2>
-			<a href='/Vikhyat-Chauhan-Resume.pdf' download class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent'>
-				Full résumé ↓
-			</a>
-		</div>
+              <div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+                {p.deepDive && (
+                  <a
+                    href={p.deepDive}
+                    class="font-medium text-orange-700 underline-offset-4 transition hover:text-orange-900 hover:underline"
+                  >
+                    Read the deep-dive →
+                  </a>
+                )}
+                {p.repo && (
+                  <a
+                    href={p.repo} target="_blank" rel="noopener"
+                    class="font-medium text-zinc-700 underline-offset-4 transition hover:text-zinc-900 hover:underline"
+                  >
+                    {p.repoLabel || 'View source'} →
+                  </a>
+                )}
+              </div>
+            </div>
 
-		<ol class='flex flex-col'>
-			{experience.map((e, i) => (
-				<li class:list={['grid gap-y-3 py-6 sm:grid-cols-[10rem_1fr] sm:gap-x-8 sm:py-8', i !== 0 && 'border-t border-border']}>
-					<div class='flex flex-col'>
-						<span class='font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground'>
-							{e.date}
-						</span>
-					</div>
-					<div class='flex flex-col gap-y-3'>
-						<div class='flex flex-col gap-y-0.5'>
-							<h3 class='text-xl font-semibold tracking-tight'>{e.company}</h3>
-							<p class='text-sm text-muted-foreground'>{e.role}</p>
-						</div>
-						<ul class='flex flex-col gap-y-1.5 text-sm leading-relaxed text-foreground/80'>
-							{e.bullets.map((b) => (
-								<li class='flex gap-x-3'>
-									<span class='mt-2 h-px w-3 flex-shrink-0 bg-accent'></span>
-									<span>{b}</span>
-								</li>
-							))}
-						</ul>
-					</div>
-				</li>
-			))}
-		</ol>
-	</section>
+            <div class="flex flex-row gap-6 sm:flex-col sm:gap-4 sm:text-right">
+              {p.metrics.map((m) => (
+                <div>
+                  <div class="font-mono text-base font-semibold text-zinc-900 sm:text-lg">{m.value}</div>
+                  <div class="text-[11px] uppercase tracking-wider text-zinc-500">{m.label}</div>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
 
-	<!-- ─── WRITING ──────────────────────────────────────────────────── -->
-	<section id='writing' class='mb-24'>
-		<div class='mb-10 flex items-baseline justify-between border-b border-border pb-3'>
-			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
-				/ Writing
-			</h2>
-			<a href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/' target='_blank' rel='noopener noreferrer' class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent'>
-				All on LinkedIn ↗
-			</a>
-		</div>
+    <!-- EXPERIENCE -->
+    <section id="experience" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <SectionHeader title="Experience" subtitle="Full details in résumé." />
+        <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-sky-700 lg:block">
+          {experience.length} roles · 2018 — present
+        </div>
+      </aside>
 
-		<ul class='flex flex-col'>
-			{writing.map((w, i) => (
-				<li class:list={[i !== 0 && 'border-t border-border']}>
-					<a
-						href={w.href}
-						target='_blank'
-						rel='noopener noreferrer'
-						class='group flex flex-col gap-y-1 py-5 transition-colors hover:text-accent sm:flex-row sm:items-center sm:justify-between sm:gap-x-8'
-					>
-						<span class='text-base font-medium tracking-tight sm:text-lg'>{w.title}</span>
-						<span class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground group-hover:text-accent'>
-							{w.date} ↗
-						</span>
-					</a>
-				</li>
-			))}
-		</ul>
-	</section>
+      <div class="mt-10 space-y-10 lg:mt-0">
+        {experience.map((e, i) => (
+          <div data-animate style={`--delay: ${i * 60}ms`} class="grid gap-3 sm:grid-cols-[140px_1fr] sm:gap-8">
+            <div class="font-mono text-xs text-zinc-500 sm:pt-1">{e.period}</div>
+            <div>
+              <div class="flex flex-wrap items-baseline gap-x-2">
+                <h3 class="text-base font-semibold text-zinc-900">{e.role}</h3>
+                <span class="text-zinc-400">·</span>
+                <span class="text-base text-zinc-700">{e.company}</span>
+                <span class="text-xs text-zinc-500">— {e.location}</span>
+              </div>
+              <ul class="mt-3 space-y-1.5 text-[15px] leading-relaxed text-zinc-600">
+                {e.bullets.map((b) => (
+                  <li class="flex gap-2.5">
+                    <span class="mt-2.5 inline-block h-px w-3 flex-shrink-0 bg-zinc-300"></span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
 
-	<!-- ─── CONTACT ──────────────────────────────────────────────────── -->
-	<section id='contact'>
-		<div class='mb-10 border-b border-border pb-3'>
-			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
-				/ Contact
-			</h2>
-		</div>
-		<div class='grid gap-y-2 sm:grid-cols-2 sm:gap-y-0'>
-			<a href='mailto:vikhyatchauhan@vt.edu' class='group flex items-baseline gap-x-3 py-2'>
-				<span class='font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground'>Email</span>
-				<span class='text-base tracking-tight transition-colors group-hover:text-accent'>vikhyatchauhan@vt.edu</span>
-			</a>
-			<a href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/' target='_blank' rel='noopener noreferrer' class='group flex items-baseline gap-x-3 py-2'>
-				<span class='font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground'>LinkedIn</span>
-				<span class='text-base tracking-tight transition-colors group-hover:text-accent'>vikhyat-chauhan ↗</span>
-			</a>
-		</div>
-	</section>
-</PageLayout>
+    <!-- WRITING -->
+    <section id="writing" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <SectionHeader title="Writing" subtitle="Engineering posts and notes." />
+        <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-violet-700 lg:block">
+          {writing.length} {writing.length === 1 ? 'post' : 'posts'}
+        </div>
+      </aside>
+
+      <div class="mt-10 divide-y divide-zinc-200 lg:mt-0">
+        {writing.map((w, i) => (
+          <a
+            href={w.href} target="_blank" rel="noopener"
+            data-animate
+            style={`--delay: ${i * 60}ms`}
+            class="group grid items-baseline gap-2 py-5 first:pt-0 transition-colors hover:bg-white/40 sm:grid-cols-[120px_1fr_auto] sm:gap-8"
+          >
+            <div class="font-mono text-xs uppercase tracking-wider text-zinc-500">{w.tag}</div>
+            <div>
+              <h4 class="font-medium text-zinc-900">{w.title}</h4>
+              <p class="mt-1 text-sm text-zinc-600">{w.blurb}</p>
+            </div>
+            <span class="text-sm text-zinc-500 transition group-hover:text-zinc-900">Read →</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <SectionHeader title="Contact" subtitle="Best way to reach me." />
+        <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-emerald-700 lg:block">
+          ↳ Email preferred
+        </div>
+      </aside>
+
+      <div data-animate class="mt-8 grid gap-8 sm:grid-cols-2 lg:mt-0">
+        <p class="max-w-md text-[15px] leading-relaxed text-zinc-700">
+          I'm focused on <span class="font-medium text-zinc-900">LLM &amp; RAG infrastructure</span> roles —
+          production retrieval systems, eval pipelines, and inference cost / latency optimization.
+          Background in FDA-regulated medical AI is a bonus for clinical-grade deploys.
+          US-authorized, no sponsorship needed, open to relocation.
+        </p>
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between gap-4 border-b border-zinc-200 pb-2">
+            <span class="text-zinc-500">Email</span>
+            <a href="mailto:vikhyat.chauhan@gmail.com" class="text-zinc-900 hover:underline underline-offset-4">vikhyat.chauhan@gmail.com</a>
+          </div>
+          <div class="flex justify-between gap-4 border-b border-zinc-200 pb-2">
+            <span class="text-zinc-500">LinkedIn</span>
+            <a href="https://www.linkedin.com/in/vikhyat-chauhan/" target="_blank" rel="noopener" class="text-zinc-900 hover:underline underline-offset-4">vikhyat-chauhan</a>
+          </div>
+          <div class="flex justify-between gap-4 border-b border-zinc-200 pb-2">
+            <span class="text-zinc-500">GitHub</span>
+            <a href="https://github.com/Vikhyat-Chauhan" target="_blank" rel="noopener" class="text-zinc-900 hover:underline underline-offset-4">Vikhyat-Chauhan</a>
+          </div>
+          <div class="flex justify-between gap-4 pb-2">
+            <span class="text-zinc-500">Location</span>
+            <span class="text-zinc-900">Blacksburg, VA · Open to relocation</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Chat />
+
+    <footer class="mt-4 border-t border-zinc-200 py-8 text-xs text-zinc-500">
+      <div class="flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
+        <div>© {new Date().getFullYear()} Vikhyat Chauhan</div>
+        <div class="font-mono">Astro · Tailwind · Netlify · RAG: FastAPI + Cloud Run</div>
+      </div>
+    </footer>
+  </main>
+</Layout>

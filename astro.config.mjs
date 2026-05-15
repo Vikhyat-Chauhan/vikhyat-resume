@@ -1,23 +1,11 @@
-import netlify from '@astrojs/netlify'
-import react from '@astrojs/react'
-import sitemap from '@astrojs/sitemap'
-import tailwind from '@astrojs/tailwind'
-import icon from 'astro-icon'
-import { defineConfig } from 'astro/config'
+import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
+import netlify from '@astrojs/netlify';
+import mdx from '@astrojs/mdx';
 
-
-// https://astro.build/config
 export default defineConfig({
-	site: 'https://vikhyatchauhan.com',
-	integrations: [
-		tailwind({
-			applyBaseStyles: false
-		}),
-		sitemap(),
-		icon(),
-		react()
-	],
-	prefetch: true,
-	output: 'hybrid',
-	adapter: netlify()
-})
+  site: 'https://vikhyat-chauhan.netlify.app',
+  adapter: netlify(),
+  integrations: [mdx()],
+  vite: { plugins: [tailwindcss()] },
+});

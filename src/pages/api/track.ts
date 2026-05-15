@@ -1,22 +1,33 @@
-export const prerender = false
+import type { APIRoute } from 'astro';
 
-import type { APIRoute } from 'astro'
+export const prerender = false;
 
 export const POST: APIRoute = async ({ request }) => {
-	try {
-		const body = await request.json()
+  const apiBase = import.meta.env.API_URL;
+  const apiKey = import.meta.env.ProfessionalRAG_KEY;
 
-		const res = await fetch(`${import.meta.env.PUBLIC_API_URL}/track`, {
-			method: 'POST',
-			headers: {
-				Authorization: `Bearer ${import.meta.env.ProfessionalRAG_KEY}`,
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(body)
-		})
+  if (!apiBase || !apiKey) {
+    return new Response(null, { status: 204 });
+  }
 
-		return new Response(null, { status: res.ok ? 204 : res.status })
-	} catch {
-		return new Response(null, { status: 500 })
-	}
-}
+  const body = await request.text();
+
+  try {
+    await fetch(apiBase.replace(/\/$/, '') + '/track', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${apiKey}`,
+        'X-Forwarded-For':
+          request.headers.get('x-forwarded-for') ||
+          request.headers.get('x-nf-client-connection-ip') ||
+          '',
+      },
+      body,
+    });
+  } catch {
+    // Silent — analytics must never block UX.
+  }
+
+  return new Response(null, { status: 204 });
+};
