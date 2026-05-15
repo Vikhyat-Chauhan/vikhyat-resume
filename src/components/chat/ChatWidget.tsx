@@ -126,26 +126,26 @@ export default function ChatWidget() {
 				className='min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain pb-4'
 			>
 				{messages.length === 0 && (
-					<div className='flex h-full flex-col items-center justify-center gap-4 px-4 text-center'>
-						<div className='flex flex-col gap-1'>
-							<p className='text-lg font-semibold text-foreground'>
+					<div className='flex h-full flex-col items-center justify-center gap-6 px-4 text-center'>
+						<div className='flex flex-col gap-1.5'>
+							<p className='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
+								Try a prompt
+							</p>
+							<p className='text-lg font-semibold tracking-tight text-foreground sm:text-xl'>
 								What would you like to know?
 							</p>
-							<p className='text-sm text-muted-foreground'>
-								Ask about my research, projects, experience, or resume
-							</p>
 						</div>
-						<div className='mt-2 flex flex-wrap justify-center gap-2'>
+						<div className='flex flex-wrap justify-center gap-2'>
 							{[
 								"What is Vikhyat's research about?",
 								'Tell me about the Hydra project',
-								'What skills does Vikhyat have?'
+								'What did he build at GE HealthCare?'
 							].map((q) => (
 								<button
 									key={q}
 									onClick={() => submitQuestion(q)}
 									disabled={loading}
-									className='rounded-full border border-border/50 bg-card px-4 py-2 text-xs text-muted-foreground transition-all duration-200 hover:border-border hover:bg-secondary hover:text-foreground disabled:opacity-50'
+									className='border border-border px-3 py-2 font-mono text-[0.7rem] uppercase tracking-wider text-muted-foreground transition-colors hover:border-foreground hover:text-foreground disabled:opacity-50'
 								>
 									{q}
 								</button>
@@ -160,10 +160,10 @@ export default function ChatWidget() {
 						className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
 					>
 						<div
-							className={`max-w-[85%] px-4 py-3 sm:max-w-[75%] ${
+							className={`max-w-[88%] px-4 py-3 sm:max-w-[75%] ${
 								msg.role === 'user'
-									? 'rounded-[20px_20px_4px_20px] border border-sage/30 bg-sage/15 text-foreground'
-									: 'rounded-[20px_20px_20px_4px] border border-border/50 bg-card text-card-foreground'
+									? 'border border-accent/40 bg-accent/[0.08] text-foreground'
+									: 'border border-border bg-card text-card-foreground'
 							}`}
 						>
 							{msg.role === 'user' ? (
@@ -173,9 +173,9 @@ export default function ChatWidget() {
 							) : msg.streaming && !msg.content ? (
 								<div className='flex items-center gap-1.5 py-1'>
 									<span className='mr-1 text-xs text-muted-foreground'>Thinking</span>
-									<span className='h-1.5 w-1.5 animate-[bounce_1.4s_ease-in-out_infinite] rounded-full bg-plum' />
-									<span className='h-1.5 w-1.5 animate-[bounce_1.4s_ease-in-out_0.2s_infinite] rounded-full bg-plum' />
-									<span className='h-1.5 w-1.5 animate-[bounce_1.4s_ease-in-out_0.4s_infinite] rounded-full bg-plum' />
+									<span className='h-1.5 w-1.5 animate-[bounce_1.4s_ease-in-out_infinite] rounded-full bg-accent' />
+									<span className='h-1.5 w-1.5 animate-[bounce_1.4s_ease-in-out_0.2s_infinite] rounded-full bg-accent' />
+									<span className='h-1.5 w-1.5 animate-[bounce_1.4s_ease-in-out_0.4s_infinite] rounded-full bg-accent' />
 								</div>
 							) : (
 								<div className='prose prose-sm prose-invert max-w-none break-words text-sm leading-relaxed prose-headings:my-2 prose-p:my-1 prose-ol:my-1 prose-ul:my-1 prose-li:my-0.5'>
@@ -184,8 +184,8 @@ export default function ChatWidget() {
 							)}
 
 							{msg.sources && msg.sources.length > 0 && (
-								<div className='mt-3 border-t border-border/50 pt-2.5'>
-									<p className='mb-1.5 text-[0.65rem] font-semibold uppercase tracking-wider text-muted-foreground'>
+								<div className='mt-3 border-t border-border pt-2.5'>
+									<p className='mb-1.5 font-mono text-[0.6rem] font-semibold uppercase tracking-[0.18em] text-muted-foreground'>
 										Sources
 									</p>
 									{msg.sources.map((src, j) => (
@@ -193,12 +193,12 @@ export default function ChatWidget() {
 											key={j}
 											className='flex items-center justify-between py-0.5 text-xs'
 										>
-											<span className='font-mono text-sage'>
+											<span className='font-mono text-accent'>
 												{typeof src.page === 'string' && src.page.includes('/')
 													? src.page
 													: `Page ${src.page}`}
 											</span>
-											<span className='text-muted-foreground'>
+											<span className='font-mono text-[0.65rem] text-muted-foreground'>
 												{(src.score * 100).toFixed(0)}% match
 											</span>
 										</div>
@@ -221,19 +221,19 @@ export default function ChatWidget() {
 			</div>
 
 			{/* Input — pinned to bottom via flex-shrink-0 */}
-			<div className='flex-shrink-0 border-t border-border/50 bg-background pt-4'>
+			<div className='flex-shrink-0 border-t border-border bg-background pt-4'>
 				{messages.length > 0 && (
 					<div className='mb-3 flex justify-center'>
 						<button
 							onClick={() => setMessages([])}
-							className='text-xs text-muted-foreground transition-colors hover:text-foreground'
+							className='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent'
 						>
 							Clear chat
 						</button>
 					</div>
 				)}
 				<form onSubmit={handleSubmit}>
-					<div className='flex items-end gap-2 rounded-2xl border border-border/50 bg-card px-3 py-2'>
+					<div className='flex items-end gap-2 border border-border bg-card px-3 py-2 focus-within:border-foreground'>
 						<textarea
 							ref={inputRef}
 							value={input}
@@ -249,7 +249,7 @@ export default function ChatWidget() {
 							type='submit'
 							disabled={loading || !input.trim()}
 							aria-label='Send message'
-							className='flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-xl bg-sage text-background transition-opacity hover:bg-sage/85 disabled:opacity-30'
+							className='flex h-9 w-9 flex-shrink-0 items-center justify-center bg-foreground text-background transition-colors hover:bg-accent disabled:opacity-30'
 						>
 							<svg width='18' height='18' viewBox='0 0 24 24' fill='none'>
 								<path
@@ -269,17 +269,17 @@ export default function ChatWidget() {
 							</svg>
 						</button>
 					</div>
-					<p className='mt-2 text-center text-[0.6rem] text-muted-foreground'>
+					<p className='mt-2 text-center font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground'>
 						Powered by{' '}
 						<a
 							href='https://github.com/Vikhyat-Chauhan/ProfessionalRAG'
 							target='_blank'
 							rel='noopener noreferrer'
-							className='text-sage/80 underline transition-colors hover:text-sage'
+							className='underline decoration-1 underline-offset-4 transition-colors hover:text-accent'
 						>
 							ProfessionalRAG
 						</a>{' '}
-						— Claude + Pinecone + Cross-Encoder Reranking
+						— Claude · Pinecone · Cross-Encoder Reranking
 					</p>
 				</form>
 			</div>

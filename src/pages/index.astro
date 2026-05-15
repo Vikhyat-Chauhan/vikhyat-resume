@@ -1,523 +1,345 @@
 ---
-import Card from '../components/Card.astro'
-import Label from '../components/Label.astro'
-import ProjectCard from '../components/ProjectCard.astro'
-import SkillLayout from '../components/SkillLayout.astro'
 import PageLayout from '../layouts/BaseLayout.astro'
 
-import { Image } from 'astro:assets'
-import astro from '../assets/Vikhyat-Image.png'
+interface Project {
+	num: string
+	title: string
+	tagline: string
+	description: string
+	stack: string[]
+	metrics: { label: string; value: string }[]
+	links: { label: string; href: string; primary?: boolean }[]
+}
 
-import logoVT from '../assets/logos/vt.png'
-import logoGE from '../assets/logos/ge.png'
-import logoTNM from '../assets/logos/tnm.svg'
-import logoMahindra from '../assets/logos/mahindra.png'
-import logoUR from '../assets/logos/universal-robots.png'
+const projects: Project[] = [
+	{
+		num: '01',
+		title: 'Medical Imaging Pipeline',
+		tagline: 'MRI report generation, TensorRT-accelerated',
+		description:
+			'MedCLIP-based report generation system fusing MRI scan sequences with patient history, deployed on FDA-regulated hardware at GE HealthCare. Real-time Transformer segmentation accelerated via TensorRT/CUDA.',
+		stack: ['PyTorch', 'TensorRT', 'CUDA/C++', 'MedCLIP', 'Kubernetes'],
+		metrics: [
+			{ label: 'Accuracy vs. SOTA', value: '+6.5%' },
+			{ label: 'Throughput', value: '+20%' },
+			{ label: 'Runtime', value: '−80%' }
+		],
+		links: [
+			{ label: 'Case study', href: '/chat?q=Tell+me+about+the+MRI+report+generation+system', primary: true }
+		]
+	},
+	{
+		num: '02',
+		title: 'ProfessionalRAG',
+		tagline: 'Production RAG pipeline — Claude + Pinecone + reranking',
+		description:
+			'Two-stage retrieval (BGE embeddings + cross-encoder reranking), Claude-powered grounded generation, full observability. Per-query cost tracking, SHA-256 cache, LLM-as-judge eval. Powers the chat on this site.',
+		stack: ['Python', 'FastAPI', 'Pinecone', 'Claude', 'Cloud Run'],
+		metrics: [
+			{ label: 'p50 latency', value: '~1.4s' },
+			{ label: 'Eval coverage', value: '100%' },
+			{ label: 'Cost/query', value: '<$0.01' }
+		],
+		links: [
+			{ label: 'Live demo', href: '/chat', primary: true },
+			{ label: 'GitHub', href: 'https://github.com/Vikhyat-Chauhan/ProfessionalRAG' }
+		]
+	},
+	{
+		num: '03',
+		title: 'Fine-Tuned LLM + Multi-Agent RAG',
+		tagline: 'LangGraph + Llama 3 for grammar-constrained codegen',
+		description:
+			'Multi-agent system generating SDF XML simulation environments under strict grammar constraints. Automated 100+ Gazebo scenes and eliminated ~40 hours/week of manual authoring.',
+		stack: ['LangGraph', 'Llama 3', 'LoRA/QLoRA', 'HuggingFace', 'Python'],
+		metrics: [
+			{ label: 'Scenes generated', value: '100+' },
+			{ label: 'Manual hrs saved', value: '40/wk' },
+			{ label: 'Grammar valid', value: '100%' }
+		],
+		links: [
+			{ label: 'Write-up', href: '/chat?q=Tell+me+about+the+multi-agent+SDF+generation+system', primary: true }
+		]
+	},
+	{
+		num: '04',
+		title: 'Conflict Architecture — Thesis',
+		tagline: 'Deadline-aware autonomous UAV navigation',
+		description:
+			'Multi-strategy selector arbitrating among three parallel execution engines (8/25/90 ms) based on event urgency. Validated across 1000+ simulated scenarios in ROS 2 / Gazebo. NSF-funded.',
+		stack: ['Python', 'ROS 2', 'Gazebo', 'MoE', 'LangGraph'],
+		metrics: [
+			{ label: 'Mission latency', value: '−13%' },
+			{ label: 'Energy use', value: '−13%' },
+			{ label: 'Scenarios', value: '1000+' }
+		],
+		links: [
+			{ label: 'Thesis page', href: '/ConflictArchitecture', primary: true },
+			{ label: 'GitHub', href: 'https://github.com/Vikhyat-Chauhan/Hydra' }
+		]
+	}
+]
 
-const aiLlm = [
-	'RAG',
-	'Agentic AI',
-	'Fine-Tuning (LoRA/QLoRA)',
-	'LangChain',
-	'LangGraph',
-	'OpenAI/Anthropic APIs',
-	'Hybrid Search',
-	'Cross-Encoder Reranking',
-	'Embeddings',
-	'Pinecone',
-	'FAISS',
-	'LLM-as-Judge',
-	'LangSmith',
-	'Evidently',
-	'OpenTelemetry',
-	'Prompt Engineering'
+const experience = [
+	{
+		company: 'Virginia Tech',
+		role: 'Graduate AI/ML Researcher — NSF-funded',
+		date: '2024 — 2026',
+		bullets: [
+			'Built a full UAV autonomy stack in ROS 2 / Gazebo validating the Conflict Architecture framework.',
+			'Shipped a deadline-aware MoE planner with hardware-aware arbitration; cut mission latency and energy 13%.',
+			'Architected LangGraph + Llama 3 multi-agent system for grammar-constrained SDF generation.'
+		]
+	},
+	{
+		company: 'GE HealthCare',
+		role: 'Software Engineer II',
+		date: '2022 — 2024',
+		bullets: [
+			'Led migration from C++ monolith to Java/Spring Boot on Kubernetes — runtime down 80%.',
+			'Built MedCLIP-based MRI report generation; outperformed SOTA by 6.5% on clinical datasets.',
+			'TensorRT/CUDA optimization of Transformer segmentation — throughput +20% on FDA-regulated hardware.'
+		]
+	},
+	{
+		company: 'TNM Electronics',
+		role: 'Founding Software Engineer',
+		date: '2021 — 2022',
+		bullets: [
+			'Built AWS microservice backend (EC2, Lambda, RabbitMQ, MQTT) from zero — 1000+ devices, 99.9% uptime.',
+			'Patented master-slave microcontroller comms scheme — cut BOM cost 90%.'
+		]
+	}
 ]
-const mlInfra = [
-	'PyTorch',
-	'TensorFlow',
-	'TensorRT',
-	'HuggingFace',
-	'Transformers',
-	'scikit-learn',
-	'FastAPI',
-	'GCP (Vertex AI, GKE, Cloud Run)',
-	'AWS (EC2, S3, EKS)',
-	'Kubernetes',
-	'Docker',
-	'CI/CD (Jenkins)',
-	'MongoDB'
+
+const writing = [
+	{
+		title: 'Building production RAG: cost, latency, and eval lessons',
+		href: 'https://www.linkedin.com/in/vikhyat-chauhan-183723169/',
+		date: 'Coming soon'
+	},
+	{
+		title: 'Conflict Architecture: rethinking real-time autonomy',
+		href: 'https://www.linkedin.com/in/vikhyat-chauhan-183723169/',
+		date: 'Coming soon'
+	},
+	{
+		title: 'TensorRT in clinical software — what changes',
+		href: 'https://www.linkedin.com/in/vikhyat-chauhan-183723169/',
+		date: 'Coming soon'
+	}
 ]
-const langSystems = ['Python', 'C++', 'Java', 'TypeScript', 'SQL', 'Linux', 'Git', 'CUDA']
 ---
 
-<PageLayout meta={{ title: 'Vikhyat Chauhan' }}>
-	<div class='flex w-full flex-col gap-y-8'>
-		<!-- Hero -->
-		<section id='hero' class='relative flex flex-col items-center gap-y-6 overflow-hidden py-4' style='transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);'>
-			<!-- Decorative blurs -->
-			<div class='pointer-events-none absolute -top-20 left-1/4 h-64 w-64 rounded-full bg-sage/10 blur-3xl'></div>
-			<div class='pointer-events-none absolute -top-10 right-1/4 h-48 w-48 rounded-full bg-plum/10 blur-3xl'></div>
-			<div class='pointer-events-none absolute top-20 left-1/2 h-40 w-40 -translate-x-1/2 rounded-full bg-coral/8 blur-3xl'></div>
+<PageLayout meta={{ title: 'Vikhyat Chauhan — AI/ML Engineer' }}>
+	<!-- ─── HERO ─────────────────────────────────────────────────────── -->
+	<section class='animate-fade-in mb-24 grid gap-8 sm:gap-12'>
+		<div class='flex items-center gap-x-3'>
+			<span class='inline-flex items-center gap-x-2 border border-border bg-card px-2.5 py-1 font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground'>
+				<span class='h-1.5 w-1.5 rounded-full bg-accent'></span>
+				US Work Authorized
+			</span>
+			<span class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground'>
+				Open to AI/ML roles · Spring 2026
+			</span>
+		</div>
 
-			<div class='animate-fade-in relative'>
-				<Image
-					src={astro}
-					alt='Vikhyat Chauhan'
-					class='h-32 w-auto rounded-full border-2 border-border/50 bg-[#FFBE98] p-2 shadow-xl shadow-white/[0.03]'
-					loading='eager'
-				/>
-			</div>
+		<div class='grid gap-y-6'>
+			<h1 class='text-[clamp(2.2rem,6vw,4.25rem)] font-bold leading-[1.02] tracking-tight'>
+				Vikhyat&nbsp;Chauhan
+				<span class='block font-normal text-muted-foreground'>AI/ML Engineer</span>
+			</h1>
+			<p class='max-w-2xl text-lg leading-relaxed text-foreground/85 sm:text-xl'>
+				I build production AI systems — from TensorRT inference pipelines on FDA-regulated
+				hardware to retrieval-augmented LLM apps and autonomous UAV navigation.
+			</p>
+		</div>
 
-			<div class='animate-slide-up flex flex-col items-center gap-y-5'>
-				<div class='flex flex-col items-center gap-y-2'>
-					<h1 class='text-4xl font-bold tracking-tight sm:text-5xl'>Vikhyat Chauhan</h1>
-					<p class='max-w-lg text-center text-lg text-muted-foreground'>
-						Looking for AI/ML Opportunities | Graduating in Spring 2026 | Defending Thesis (M.S) on Brain Inspired Computing in Drones | Former Software Engineer at GE HealthCare | 
-					</p>
-				</div>
+		<div class='flex flex-wrap gap-3'>
+			<a
+				href='/Vikhyat-Chauhan-Resume.pdf'
+				download
+				class='inline-flex items-center gap-x-2 border border-foreground bg-foreground px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-background transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground'
+			>
+				Download Résumé ↓
+			</a>
+			<a
+				href='https://github.com/Vikhyat-Chauhan'
+				target='_blank'
+				rel='noopener noreferrer'
+				class='inline-flex items-center gap-x-2 border border-border px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground transition-colors hover:border-foreground'
+			>
+				GitHub ↗
+			</a>
+			<a
+				href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/'
+				target='_blank'
+				rel='noopener noreferrer'
+				class='inline-flex items-center gap-x-2 border border-border px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-foreground transition-colors hover:border-foreground'
+			>
+				LinkedIn ↗
+			</a>
+			<a
+				href='/chat'
+				class='inline-flex items-center gap-x-2 border border-accent px-5 py-2.5 font-mono text-[0.7rem] uppercase tracking-[0.18em] text-accent transition-colors hover:bg-accent hover:text-accent-foreground'
+			>
+				Ask my RAG →
+			</a>
+		</div>
+	</section>
 
-				<a
-					href='mailto:vikhyatchauhan@vt.edu'
-					class='text-sm text-muted-foreground transition-colors hover:text-sage'
-				>
-					vikhyatchauhan@vt.edu
-				</a>
+	<!-- ─── PROJECTS ─────────────────────────────────────────────────── -->
+	<section id='projects' class='mb-24'>
+		<div class='mb-10 flex items-baseline justify-between border-b border-border pb-3'>
+			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
+				/ Selected Work
+			</h2>
+			<span class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground'>
+				04 projects
+			</span>
+		</div>
 
-				<div class='animate-slide-up delay-100 flex flex-row flex-wrap justify-center gap-3'>
+		<div class='grid gap-px bg-border sm:grid-cols-2'>
+			{projects.map((p) => (
+				<article class='group flex flex-col gap-y-5 bg-background p-6 transition-colors hover:bg-card sm:p-8'>
+					<div class='flex items-start justify-between gap-x-4'>
+						<span class='font-mono text-[0.7rem] tracking-[0.18em] text-accent'>{p.num}</span>
+						<div class='flex flex-wrap items-center justify-end gap-1'>
+							{p.stack.map((s) => (
+								<span class='border border-border px-1.5 py-0.5 font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground'>
+									{s}
+								</span>
+							))}
+						</div>
+					</div>
+
+					<div class='flex flex-col gap-y-2'>
+						<h3 class='text-2xl font-semibold leading-tight tracking-tight'>{p.title}</h3>
+						<p class='font-mono text-[0.75rem] uppercase tracking-wider text-muted-foreground'>
+							{p.tagline}
+						</p>
+					</div>
+
+					<p class='text-sm leading-relaxed text-foreground/80'>{p.description}</p>
+
+					<dl class='mt-auto grid grid-cols-3 gap-x-3 border-t border-border pt-4'>
+						{p.metrics.map((m) => (
+							<div class='flex flex-col'>
+								<dt class='font-mono text-[0.6rem] uppercase tracking-wider text-muted-foreground'>
+									{m.label}
+								</dt>
+								<dd class='font-mono text-base font-semibold text-foreground'>{m.value}</dd>
+							</div>
+						))}
+					</dl>
+
+					<div class='flex flex-wrap gap-2'>
+						{p.links.map((l) => (
+							<a
+								href={l.href}
+								target={l.href.startsWith('http') ? '_blank' : undefined}
+								rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+								class:list={[
+									'inline-flex items-center gap-x-1.5 px-3 py-1.5 font-mono text-[0.65rem] uppercase tracking-[0.15em] transition-colors',
+									l.primary
+										? 'border border-foreground bg-foreground text-background hover:border-accent hover:bg-accent hover:text-accent-foreground'
+										: 'border border-border text-foreground hover:border-foreground'
+								]}
+							>
+								{l.label}
+								<span>{l.href.startsWith('http') ? '↗' : '→'}</span>
+							</a>
+						))}
+					</div>
+				</article>
+			))}
+		</div>
+	</section>
+
+	<!-- ─── EXPERIENCE ───────────────────────────────────────────────── -->
+	<section id='experience' class='mb-24'>
+		<div class='mb-10 flex items-baseline justify-between border-b border-border pb-3'>
+			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
+				/ Experience
+			</h2>
+			<a href='/Vikhyat-Chauhan-Resume.pdf' download class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent'>
+				Full résumé ↓
+			</a>
+		</div>
+
+		<ol class='flex flex-col'>
+			{experience.map((e, i) => (
+				<li class:list={['grid gap-y-3 py-6 sm:grid-cols-[10rem_1fr] sm:gap-x-8 sm:py-8', i !== 0 && 'border-t border-border']}>
+					<div class='flex flex-col'>
+						<span class='font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground'>
+							{e.date}
+						</span>
+					</div>
+					<div class='flex flex-col gap-y-3'>
+						<div class='flex flex-col gap-y-0.5'>
+							<h3 class='text-xl font-semibold tracking-tight'>{e.company}</h3>
+							<p class='text-sm text-muted-foreground'>{e.role}</p>
+						</div>
+						<ul class='flex flex-col gap-y-1.5 text-sm leading-relaxed text-foreground/80'>
+							{e.bullets.map((b) => (
+								<li class='flex gap-x-3'>
+									<span class='mt-2 h-px w-3 flex-shrink-0 bg-accent'></span>
+									<span>{b}</span>
+								</li>
+							))}
+						</ul>
+					</div>
+				</li>
+			))}
+		</ol>
+	</section>
+
+	<!-- ─── WRITING ──────────────────────────────────────────────────── -->
+	<section id='writing' class='mb-24'>
+		<div class='mb-10 flex items-baseline justify-between border-b border-border pb-3'>
+			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
+				/ Writing
+			</h2>
+			<a href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/' target='_blank' rel='noopener noreferrer' class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:text-accent'>
+				All on LinkedIn ↗
+			</a>
+		</div>
+
+		<ul class='flex flex-col'>
+			{writing.map((w, i) => (
+				<li class:list={[i !== 0 && 'border-t border-border']}>
 					<a
-						href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/'
+						href={w.href}
 						target='_blank'
 						rel='noopener noreferrer'
-						class='group flex flex-row items-center gap-x-3 rounded-full border border-border/50 bg-card px-5 py-2.5 text-sm transition-all duration-300 hover:border-sage/30 hover:shadow-lg hover:shadow-sage/5'
+						class='group flex flex-col gap-y-1 py-5 transition-colors hover:text-accent sm:flex-row sm:items-center sm:justify-between sm:gap-x-8'
 					>
-						<span class='relative flex items-center justify-center'>
-							<span
-								class='absolute inline-flex h-2 w-2 animate-ping rounded-full bg-sage opacity-75'
-							></span>
-							<span class='relative inline-flex h-2 w-2 rounded-full bg-sage'></span>
+						<span class='text-base font-medium tracking-tight sm:text-lg'>{w.title}</span>
+						<span class='font-mono text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground group-hover:text-accent'>
+							{w.date} ↗
 						</span>
-						<p class='font-medium'>Open to Work</p>
 					</a>
-					<a
-						href='/chat'
-						class='group flex flex-row items-center gap-x-3 rounded-full border border-border/50 bg-card px-5 py-2.5 text-sm transition-all duration-300 hover:border-plum/30 hover:shadow-lg hover:shadow-plum/5'
-					>
-						<span class='relative flex items-center justify-center'>
-							<span
-								class='absolute inline-flex h-2 w-2 animate-ping rounded-full bg-plum opacity-75'
-							></span>
-							<span class='relative inline-flex h-2 w-2 rounded-full bg-plum'></span>
-						</span>
-						<p class='font-medium'>Recruiter? Chat with my AI Assistant</p>
-					</a>
-				</div>
+				</li>
+			))}
+		</ul>
+	</section>
 
-				<div class='animate-slide-up delay-200 flex flex-wrap justify-center gap-x-7 gap-y-3'>
-					<Label title='Graduate Research Assistant'>
-						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
-							><path
-								fill='currentColor'
-								d='M4.615 20q-.69 0-1.152-.462Q3 19.075 3 18.385v-9.77q0-.69.463-1.152Q3.925 7 4.615 7H9V5.615q0-.69.463-1.152Q9.925 4 10.615 4h2.77q.69 0 1.153.463q.462.462.462 1.152V7h4.385q.69 0 1.152.463q.463.462.463 1.152v9.77q0 .69-.462 1.152q-.463.463-1.153.463zm0-1h14.77q.23 0 .423-.192q.192-.193.192-.423v-9.77q0-.23-.192-.423Q19.615 8 19.385 8H4.615q-.23 0-.423.192Q4 8.385 4 8.615v9.77q0 .23.192.423q.193.192.423.192M10 7h4V5.615q0-.23-.192-.423Q13.615 5 13.385 5h-2.77q-.23 0-.423.192q-.192.193-.192.423zM4 19V8z'
-							></path></svg
-						>
-					</Label>
-					<Label title='Blacksburg, VA'>
-						<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-5 w-5' slot='icon'
-							><path
-								fill='currentColor'
-								d='M12.003 11.73q.668 0 1.14-.475q.472-.475.472-1.143t-.475-1.14q-.476-.472-1.143-.472t-1.14.476q-.472.475-.472 1.143t.475 1.14q.476.472 1.143.472M12 19.677q2.82-2.454 4.458-4.991q1.638-2.538 1.638-4.39q0-2.744-1.737-4.53T12 3.981q-2.621 0-4.359 1.785t-1.737 4.53q0 1.852 1.638 4.39q1.639 2.537 4.458 4.99m0 1.343q-3.525-3.117-5.31-5.814q-1.786-2.697-1.786-4.909q0-3.173 2.066-5.234Q9.037 3 12 3t5.03 2.062q2.066 2.061 2.066 5.234q0 2.212-1.785 4.909q-1.786 2.697-5.311 5.814m0-10.904'
-							></path></svg
-						>
-					</Label>
-					<Label
-						title='Connect on Linkedin'
-						as='a'
-						href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/'
-						target='_blank'
-					>
-						<svg
-							xmlns='http://www.w3.org/2000/svg'
-							viewBox='0 0 16 16'
-							slot='icon'
-							class='h-5 w-5 text-foreground/75'
-							><path
-								fill='currentColor'
-								d='M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248c-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586c.173-.431.568-.878 1.232-.878c.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252c-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z'
-							></path></svg
-						>
-					</Label>
-				</div>
-			</div>
-		</section>
-
-		<!-- Tab Panels -->
-		<div class='w-full'>
-			<!-- About -->
-			<div id='panel-about' class='tab-panel animate-fade-in'>
-				<div class='space-y-4 text-lg leading-relaxed text-muted-foreground'>
-					<p>
-						I'm Vikhyat — I build things that actually work in production.
-					</p>
-					<p>
-						Currently wrapping up an NSF-funded thesis at Virginia Tech on the <strong class='text-foreground'>Conflict Architecture (CA)</strong>: a novel framework that cut mission latency and energy consumption for autonomous UAVs. Thesis is public, code is open-sourced — go poke around.
-					</p>
-					<p>
-						Before that, two years at <strong class='text-foreground'>GE HealthCare</strong> shipping real-time MRI software on FDA-regulated hardware. The kind of place where "it works on my machine" isn't a punchline — it's a liability.
-					</p>
-					<p>
-						I've also been building RAG systems and models from scratch on the side. Best way to actually understand the principles. There's even a RAG pipeline on this site that knows all my work — give it a shot.
-					</p>
-					<p>
-						Patent holder. 4.0 GPA. Interests span the full stack: circuit design and robotics up through Software Engineer Principles, cloud infra, AI/ML, and LLMs.
-					</p>
-					<p>
-						When I'm not in a model or a system design, I'm testing a vegan recipe or sketching the next idea. If you're building at the intersection of autonomy and AI — reach out.
-					</p>
-					<div class='flex flex-wrap gap-3 pt-2'>
-						<a
-							href='/chat'
-							class='inline-flex items-center gap-x-2 rounded-lg border border-border/50 bg-card px-4 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary'
-						>
-							<svg xmlns='http://www.w3.org/2000/svg' class='h-4 w-4' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-								<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path>
-							</svg>
-							Test the RAG pipeline
-						</a>
-						<a
-							href='https://github.com/Vikhyat-Chauhan/Hydra'
-							target='_blank'
-							rel='noopener noreferrer'
-							class='inline-flex items-center gap-x-2 rounded-lg border border-border/50 bg-card px-4 py-2 text-sm font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary'
-						>
-							<svg xmlns='http://www.w3.org/2000/svg' class='h-4 w-4' viewBox='0 0 16 16' fill='currentColor'>
-								<path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'></path>
-							</svg>
-							View Thesis on GitHub
-						</a>
-					</div>
-				</div>
-			</div>
-
-			<!-- Experience -->
-			<div id='panel-experience' class='tab-panel hidden'>
-				<div class='flex flex-col gap-y-3'>
-					<Card
-						heading='Virginia Polytechnic Institute and State University'
-						subheading='Graduate AI/ML Researcher — NSF-Funded'
-						date='2024 - Present'
-						location='Blacksburg, VA'
-						logo={logoVT}
-					>
-						<ul class='ml-4 list-disc text-muted-foreground'>
-							<li>
-								Designed and deployed a full UAV autonomy stack in ROS 2/Gazebo — including physics simulation, sensor modeling, and real-time 
-								control — and validated a novel Conflict Architecture (CA) system for biologically-inspired autonomous navigation under NSF-funded research.
-							</li>
-							<li>
-								Implemented a deadline-aware Mixture of Experts (MoE) planner in Python for UAVs with hardware-aware arbitration across heterogeneous exectuion units,
-								reducing mission latency and energy consumption by 13%.
-							</li>
-							<li>
-								Architected a LangGraph + Llama 3 multi-agent system for grammar-constrained SDF XML generation, automating 100+ simulation
-								environments and eliminating 40 hours/week of manual authoring.
-							</li>
-						</ul>
-					</Card>
-					<Card
-						heading='GE HealthCare'
-						subheading='Software Engineer II'
-						date='2022 - 2024'
-						location='Milwaukee, WI'
-						logo={logoGE}
-					>
-						<ul class='ml-4 list-disc text-muted-foreground'>
-							<li>
-								Led the technical architecture shift from a legacy C++ monolith to Kubernetes-based Java/Spring Boot services, reducing MRI
-								application runtime by 80%.
-							</li>
-							<li>
-								Developed an MRI report generation system (MedCLIP, PyTorch, TensorRT) fusing scan sequences with patient history,
-								outperforming SOTA accuracy by 6.5% across clinical datasets.
-							</li>
-							<li>
-								Spearheaded TensorRT optimization of Transformer models (CUDA/C++), increasing real-time segmentation throughput by 20%
-								on FDA-regulated hardware.
-							</li>
-							<li>
-								Introduced automated quality gates and CI/CD pipelines (Jenkins, SonarQube) that reduced release defects by 60% while maintaining
-								zero critical patient-safety incidents.
-							</li>
-							<li>
-								Sustained zero critical patient-safety incidents across all releases by leading
-								cross-functional root-cause analysis.
-							</li>
-						</ul>
-					</Card>
-					<Card
-						heading='TNM Electronics'
-						subheading='Founding Software Engineer'
-						date='2021 - 2022'
-						location='Delhi, India'
-						logo={logoTNM}
-					>
-						<ul class='ml-4 list-disc text-muted-foreground'>
-							<li>
-								Owned the full platform from day one — architected an AWS-backed microservice backend
-								(EC2, Lambda, RabbitMQ, MongoDB, MQTT broker), scaling from 0 to 1000+ devices —
-								sustaining 99.9% uptime.
-							</li>
-							<li>
-								Reduced field bug reports 72% vs. prior manual integration method by designing a
-								structured hardware-software validation workflow as the company's sole engineer.
-							</li>
-							<li>
-								Conceived and patented a master-slave microcontroller communication system for home
-								automation — cutting final product BOM cost 90%.
-							</li>
-						</ul>
-					</Card>
-					<Card
-						heading='Mahindra Susten'
-						subheading='Research Intern'
-						date='Jun 2018 - Mar 2020'
-						location='Maharashtra, IN'
-						logo={logoMahindra}
-					>
-						<ul class='ml-4 list-disc text-muted-foreground'>
-							<li>
-								Built a Linux-based autonomous quadcopter controller (MAVLink + advanced control) and
-								integrated it into Mahindra Susten's solar ops — automating routine inspection flights and
-								cutting manual intervention across sites.
-							</li>
-							<li>
-								Shipped an ML-driven thermal fault monitoring + end-to-end drone inspection pipeline
-								that automated detection and reporting, delivering a 35% reduction in labor costs and
-								faster issue triage.
-							</li>
-						</ul>
-					</Card>
-					<Card
-						heading='Universal Robots'
-						subheading='Research Intern'
-						date='Jun 2018 - Mar 2020'
-						location='Maharashtra, IN'
-						logo={logoUR}
-					>
-						<ul class='ml-4 list-disc text-muted-foreground'>
-							<li>
-								Deployed Universal Robots cobots across multiple manufacturing lines — designed safe
-								workflows, trained operators, and optimized cell layouts — boosting throughput and
-								reducing changeover time while meeting safety standards.
-							</li>
-							<li>
-								Built production-grade automation with URCaps and custom scripts (pick-and-place,
-								machine tending, QA), creating maintainable routines that cut manual variability and
-								unplanned downtime.
-							</li>
-						</ul>
-					</Card>
-				</div>
-			</div>
-
-			<!-- Projects -->
-			<div id='panel-projects' class='tab-panel hidden'>
-				<div class='grid grid-cols-1 gap-3 md:grid-cols-2'>
-					<ProjectCard
-						href='https://github.com/Vikhyat-Chauhan/Hydra'
-						heading='Conflict Architecture (CA) — Master&#39;s Thesis'
-						subheading='Deadline-aware autonomous UAV navigation system based on Conflict Architecture(CA) — a multi-strategy selector that dynamically chooses among three parallel execution engines (8ms failsafe, 25ms balanced, 90ms high-quality) based on event urgency. Built in Python/ROS 2/Gazebo with realistic octocopter physics, procedural arena generation, and LiDAR-based navigation; validated across 1000+ simulated scenarios.'
-						altText='Hydra'
-						class='w-full'
-					/>
-					<ProjectCard
-						href='https://github.com/Vikhyat-Chauhan/ProfessionalRAG'
-						heading='Professional RAG Pipeline'
-						subheading='Engineered a production-ready RAG system with two-stage retrieval (BGE embeddings + cross-encoder reranking), Claude-powered grounded generation, and full observability — deployed on Google Cloud Run with per-query cost tracking, SHA-256 caching, and automated answer quality scoring via LLM-as-judge evaluation.'
-						altText='Professional RAG Pipeline'
-						class='w-full'
-					/>
-					<ProjectCard
-						href='https://github.com/Vikhyat-Chauhan/BioelectronicsAiWesad'
-						heading='Physiological Stress Classifier'
-						subheading='ML pipeline for stress detection from wearable biosensors — Conv1D autoencoders for unsupervised feature extraction + SVM classification, achieving 83.5% accuracy on three-class emotion classification from multimodal physiological signals (WESAD dataset, 15 subjects).'
-						altText='Physiological Stress Classifier'
-						class='w-full'
-					/>
-					<ProjectCard
-						href='https://github.com/Vikhyat-Chauhan/TNM_BACKEND_ICHI'
-						heading='TNM Microservice Backend'
-						subheading='Microservices-based IoT smart home platform (Node.js, Express, MongoDB, MQTT, RabbitMQ) with real-time bidirectional device control, scene automation, Alexa voice integration, and cascading offline detection — deployed via Docker Compose across 3 services.'
-						altText='TNM Microservice Backend'
-						class='w-full'
-					/>
-					<ProjectCard
-						href='https://github.com/Vikhyat-Chauhan/SmartHomeApplication'
-						heading='TNM Smart Home Application'
-						subheading='Cross-platform Flutter IoT app with sub-second MQTT real-time device control, Auth0 OAuth2 authentication, QR-based hardware onboarding, and scene automation — built with BLoC state management across 125+ Dart files with glassmorphic UI/UX.'
-						altText='TNM Smart Home Application'
-						class='w-full'
-					/>
-					<ProjectCard
-						href='https://github.com/Vikhyat-Chauhan/vikhyat-resume'
-						heading='Vikhyat Resume Website'
-						subheading='This portfolio site — built with Astro, React, Tailwind CSS, and deployed on Netlify with SSR. Features a live AI chat assistant powered by ProfessionalRAG.'
-						altText='Vikhyat Resume Website'
-						class='w-full'
-					/>
-					<ProjectCard
-						href='https://iprsearch.ipindia.gov.in/PublicSearch/PublicationSearch/ApplicationStatus'
-						heading='Patent: 202111060973'
-						subheading='System and method for facilitating communication between slave and master microcontroller for home automation. Granted by Intellectual Property India.'
-						altText='Patent'
-						class='w-full'
-					/>
-				</div>
-			</div>
-
-			<!-- Skills -->
-			<div id='panel-skills' class='tab-panel hidden'>
-				<div class='flex flex-col gap-y-4'>
-					<SkillLayout title='AI & LLM Engineering' skills={aiLlm} />
-					<SkillLayout title='ML & Infra' skills={mlInfra} />
-					<SkillLayout title='Languages & Systems' skills={langSystems} />
-				</div>
-			</div>
-
-			<!-- Education -->
-			<div id='panel-education' class='tab-panel hidden'>
-				<div class='flex flex-col gap-y-3'>
-					<Card
-						heading='Virginia Polytechnic Institute and State University'
-						subheading='Master of Science in Computer Engineering with Thesis; GPA: 4.00'
-						date='Aug 2024 – May 2026'
-						location='Blacksburg, VA'
-					/>
-					<Card
-						heading='College of Engineering Roorkee, Uttarakhand Technical University'
-						subheading='Bachelor of Engineering in Electrical and Electronics; 77% (First Division)'
-						date='Jul 2016 - Dec 2020'
-						location='Uttarakhand, IN'
-					/>
-				</div>
-			</div>
-
-			<!-- Certifications -->
-			<div id='panel-certifications' class='tab-panel hidden'>
-				<div class='flex flex-col gap-y-3'>
-					<Card
-						heading='Google Cloud Professional ML Engineer'
-						subheading='Upcoming'
-						location='2026'
-					/>
-					<Card
-						heading='Neural Networks and Deep Learning'
-						subheading='DeepLearning.AI'
-						location='98.46%'
-					/>
-					<Card
-						heading='Advanced Machine Learning'
-						subheading='Graduate Course, Virginia Tech'
-						location='4.0 GPA'
-					/>
-					<Card
-						heading='Brain Inspired Computer Architecture'
-						subheading='Graduate Course, Virginia Tech'
-						location='4.0 GPA'
-					/>
-					<Card
-						heading='Advanced Natural Language Processing (CS685 S24)'
-						subheading='UMass Amherst'
-						location='4.0 GPA'
-					/>
-				</div>
-			</div>
+	<!-- ─── CONTACT ──────────────────────────────────────────────────── -->
+	<section id='contact'>
+		<div class='mb-10 border-b border-border pb-3'>
+			<h2 class='font-mono text-[0.7rem] uppercase tracking-[0.22em] text-muted-foreground'>
+				/ Contact
+			</h2>
 		</div>
-	</div>
+		<div class='grid gap-y-2 sm:grid-cols-2 sm:gap-y-0'>
+			<a href='mailto:vikhyatchauhan@vt.edu' class='group flex items-baseline gap-x-3 py-2'>
+				<span class='font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground'>Email</span>
+				<span class='text-base tracking-tight transition-colors group-hover:text-accent'>vikhyatchauhan@vt.edu</span>
+			</a>
+			<a href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/' target='_blank' rel='noopener noreferrer' class='group flex items-baseline gap-x-3 py-2'>
+				<span class='font-mono text-[0.7rem] uppercase tracking-[0.18em] text-muted-foreground'>LinkedIn</span>
+				<span class='text-base tracking-tight transition-colors group-hover:text-accent'>vikhyat-chauhan ↗</span>
+			</a>
+		</div>
+	</section>
 </PageLayout>
-
-<script>
-	const buttons = document.querySelectorAll('.tab-btn')
-	const panels = document.querySelectorAll('.tab-panel')
-	const hero = document.getElementById('hero') as HTMLElement
-
-	let isCollapsed = false
-	let naturalHeight = hero.scrollHeight
-
-	function collapseHero() {
-		if (isCollapsed) return
-		naturalHeight = hero.scrollHeight
-		hero.style.height = naturalHeight + 'px'
-		void hero.offsetHeight
-		hero.style.height = '0'
-		isCollapsed = true
-	}
-
-	function expandHero() {
-		if (!isCollapsed) return
-		hero.style.height = naturalHeight + 'px'
-		isCollapsed = false
-		const onEnd = (e: TransitionEvent) => {
-			if (e.propertyName !== 'height') return
-			if (!isCollapsed) hero.style.height = ''
-			hero.removeEventListener('transitionend', onEnd)
-		}
-		hero.addEventListener('transitionend', onEnd)
-	}
-
-	// Tab switching
-	buttons.forEach((btn) => {
-		btn.addEventListener('click', () => {
-			const tab = btn.getAttribute('data-tab')
-
-			// Update active button
-			buttons.forEach((b) => {
-				b.classList.remove('bg-foreground', 'text-background')
-				b.classList.add('text-muted-foreground', 'hover:bg-muted', 'hover:text-foreground')
-			})
-			btn.classList.add('bg-foreground', 'text-background')
-			btn.classList.remove('text-muted-foreground', 'hover:bg-muted', 'hover:text-foreground')
-
-			// Swap panel
-			panels.forEach((p) => {
-				p.classList.add('hidden')
-				p.classList.remove('animate-fade-in')
-			})
-			const target = document.getElementById(`panel-${tab}`)
-			if (target) {
-				target.classList.remove('hidden')
-				void target.offsetWidth
-				target.classList.add('animate-fade-in')
-			}
-
-			// Collapse hero for large sections, expand for small ones
-			const collapseTabs = ['experience', 'projects']
-			if (collapseTabs.includes(tab!)) {
-				collapseHero()
-				// Scroll to top after collapse so content starts right below sticky header
-				hero.addEventListener(
-					'transitionend',
-					(e) => {
-						if (e.propertyName === 'height') {
-							window.scrollTo({ top: 0, behavior: 'smooth' })
-						}
-					},
-					{ once: true }
-				)
-			} else {
-				expandHero()
-				window.scrollTo({ top: 0, behavior: 'smooth' })
-			}
-		})
-	})
-
-	// Reveal hero when user scrolls back to the very top
-	window.addEventListener(
-		'scroll',
-		() => {
-			if (window.scrollY === 0 && isCollapsed) {
-				expandHero()
-			}
-		},
-		{ passive: true }
-	)
-</script>

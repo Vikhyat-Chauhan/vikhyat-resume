@@ -1,224 +1,41 @@
 ---
-
 ---
 
-<header id='site-header' class='sticky top-0 z-20 mb-6 w-full pb-2'>
-	<nav
-		class='glass relative mx-auto flex w-full flex-col gap-y-2 rounded-2xl border border-border/50 px-4 py-2.5 sm:flex-row sm:items-center sm:gap-x-3 sm:gap-y-0'
-		aria-label='global'
-	>
-		<!-- Section tabs — full width on mobile, flex on desktop -->
-		<div id='tab-nav' class='hidden min-w-0 flex-1'>
-			<div class='flex items-center gap-x-1 overflow-x-auto scrollbar-hide'>
-				<button data-tab='about' class='tab-btn whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200 bg-foreground text-background sm:text-sm'>About</button>
-				<button data-tab='experience' class='tab-btn whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200 text-muted-foreground hover:bg-muted hover:text-foreground sm:text-sm'>Experience</button>
-				<button data-tab='projects' class='tab-btn whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200 text-muted-foreground hover:bg-muted hover:text-foreground sm:text-sm'>Projects</button>
-				<button data-tab='skills' class='tab-btn whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200 text-muted-foreground hover:bg-muted hover:text-foreground sm:text-sm'>Skills</button>
-				<button data-tab='education' class='tab-btn whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200 text-muted-foreground hover:bg-muted hover:text-foreground sm:text-sm'>Education</button>
-				<button data-tab='certifications' class='tab-btn whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-medium transition-all duration-200 text-muted-foreground hover:bg-muted hover:text-foreground sm:text-sm'>Certifications</button>
-			</div>
-		</div>
+<header class='sticky top-0 z-20 -mx-6 mb-12 border-b border-border bg-background/85 px-6 backdrop-blur-md sm:-mx-10 sm:px-10 lg:-mx-14 lg:px-14'>
+	<nav class='flex h-14 items-center justify-between gap-x-6'>
+		<a href='/' class='font-mono text-xs uppercase tracking-[0.18em] text-foreground transition-colors hover:text-accent'>
+			Vikhyat&nbsp;Chauhan
+		</a>
 
-		<!-- Thesis page nav — shown only on /ConflictArchitecture -->
-		<div id='thesis-nav' class='hidden min-w-0 flex-1'>
-			<div class='flex items-center gap-x-2 overflow-x-auto scrollbar-hide'>
-				<span class='whitespace-nowrap text-sm font-bold tracking-tight text-foreground'>Graduate Thesis</span>
-				<span class='h-4 w-px bg-border/50'></span>
-				<a
-					href='/Vikhyat-Chauhan-Thesis.pdf'
-					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-border/50 bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary sm:text-sm'
-				>
-					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-						<path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'></path>
-						<polyline points='14 2 14 8 20 8'></polyline>
-					</svg>
-					Read PDF
-				</a>
-				<a
-					href='/chat?context=Thesis&q=What+is+Vikhyat%27s+thesis+about%3F'
-					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-plum/30 bg-plum/10 px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-plum/50 hover:bg-plum/20 sm:text-sm'
-				>
-					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-						<path d='M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z'></path>
-					</svg>
-					Ask ThesisGPT
-				</a>
-				<a
-					href='https://github.com/Vikhyat-Chauhan/Hydra'
-					target='_blank'
-					rel='noopener noreferrer'
-					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-border/50 bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary sm:text-sm'
-				>
-					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 16 16' fill='currentColor'>
-						<path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'></path>
-					</svg>
-					GitHub
-				</a>
-				<button
-					id='nav-cite-btn'
-					class='inline-flex items-center gap-x-1.5 whitespace-nowrap rounded-md border border-border/50 bg-card px-3 py-1.5 text-xs font-medium text-foreground transition-all duration-200 hover:border-border hover:bg-secondary sm:text-sm'
-				>
-					<svg xmlns='http://www.w3.org/2000/svg' class='h-3.5 w-3.5' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
-						<path d='M6 9h6V5H6zM16 9h2V5h-6v4h2'></path>
-						<path d='M6 9a6 6 0 0 1-6 6v4h6v-4a2 2 0 0 0 2-2V9'></path>
-						<path d='M18 9a6 6 0 0 1-6 6v4h6v-4a2 2 0 0 0 2-2V9'></path>
-					</svg>
-					Cite
-				</button>
-			</div>
-		</div>
-
-		<!-- Divider — desktop only -->
-		<div id='tab-divider' class='hidden h-5 w-px bg-border/50 max-sm:!hidden'></div>
-
-		<!-- Action buttons -->
-		<div class='flex flex-none items-center justify-center gap-x-1 sm:ml-auto'>
-			<a
-				href='https://github.com/Vikhyat-Chauhan'
-				target='_blank'
-				rel='noopener noreferrer'
-				class='rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground'
-				aria-label='GitHub'
-			>
-				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' class='h-4 w-4'>
-					<path
-						fill='currentColor'
-						d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z'
-					></path>
-				</svg>
-			</a>
-
-			<a
-				href='https://www.linkedin.com/in/vikhyat-chauhan-183723169/'
-				target='_blank'
-				rel='noopener noreferrer'
-				class='rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground'
-				aria-label='LinkedIn'
-			>
-				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' class='h-4 w-4'>
-					<path
-						fill='currentColor'
-						d='M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248c-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586c.173-.431.568-.878 1.232-.878c.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252c-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z'
-					></path>
-				</svg>
-			</a>
-
-			<a
-				href='mailto:vikhyatchauhan@vt.edu'
-				class='rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground'
-				aria-label='Email'
-			>
-				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-4 w-4'>
-					<path
-						fill='currentColor'
-						d='M4 20q-.825 0-1.412-.587T2 18V6q0-.825.588-1.412T4 4h16q.825 0 1.413.588T22 6v12q0 .825-.587 1.413T20 20zm8-7l8-5V6l-8 5l-8-5v2z'
-					></path>
-				</svg>
-			</a>
-
-			<!-- AI Chat — robot icon -->
-			<a
-				href='/chat'
-				class='rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground'
-				aria-label='AI Chat'
-			>
-				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-4 w-4'>
-					<path
-						fill='currentColor'
-						d='M17.753 14a2.25 2.25 0 0 1 2.25 2.25v.904A3.75 3.75 0 0 1 18.696 20c-1.565 1.344-3.806 2-6.696 2s-5.128-.656-6.69-2a3.75 3.75 0 0 1-1.307-2.846v-.904A2.25 2.25 0 0 1 6.253 14zM12 2a4 4 0 1 1 0 8a4 4 0 0 1 0-8'
-					></path>
-					<circle cx='9' cy='6' r='0.75' fill='currentColor'></circle>
-					<circle cx='15' cy='6' r='0.75' fill='currentColor'></circle>
-				</svg>
-			</a>
-
+		<div class='flex items-center gap-x-1 sm:gap-x-4'>
+			<a href='/#projects' class='hidden font-mono text-[0.7rem] uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground sm:inline'>Work</a>
+			<a href='/#experience' class='hidden font-mono text-[0.7rem] uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground sm:inline'>Experience</a>
+			<a href='/#writing' class='hidden font-mono text-[0.7rem] uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground sm:inline'>Writing</a>
+			<a href='/chat' class='hidden font-mono text-[0.7rem] uppercase tracking-[0.15em] text-muted-foreground transition-colors hover:text-foreground sm:inline'>Chat</a>
 			<a
 				href='/Vikhyat-Chauhan-Resume.pdf'
 				download
-				class='rounded-lg bg-foreground px-3 py-1.5 text-xs font-medium text-background transition-all hover:bg-foreground/85 sm:text-[0.82rem]'
-				aria-label='Download Resume'
+				class='ml-1 inline-flex items-center gap-x-1.5 border border-foreground bg-foreground px-3 py-1.5 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-background transition-colors hover:border-accent hover:bg-accent hover:text-accent-foreground sm:ml-3'
 			>
-				Resume
+				Résumé&nbsp;↓
 			</a>
-
 			<button
 				id='toggleDarkMode'
-				class='rounded-lg p-2 text-muted-foreground transition-all hover:bg-muted hover:text-foreground'
+				class='ml-1 inline-flex h-8 w-8 items-center justify-center border border-border text-muted-foreground transition-colors hover:text-foreground'
+				aria-label='Toggle theme'
 			>
-				<span class='sr-only'>Dark Theme</span>
-				<svg
-					xmlns='http://www.w3.org/2000/svg'
-					width='32'
-					height='32'
-					viewBox='0 0 24 24'
-					class='h-4 w-4 rotate-0 scale-100 transition-all dark:hidden dark:-rotate-90 dark:scale-0'
-					><path
-						fill='currentColor'
-						d='M12 15q1.25 0 2.125-.875T15 12q0-1.25-.875-2.125T12 9q-1.25 0-2.125.875T9 12q0 1.25.875 2.125T12 15m0 1q-1.671 0-2.836-1.164T8 12q0-1.671 1.164-2.836T12 8q1.671 0 2.836 1.164T16 12q0 1.671-1.164 2.836T12 16m-7-3.5H1.5v-1H5zm17.5 0H19v-1h3.5zM11.5 5V1.5h1V5zm0 17.5V19h1v3.5zM6.746 7.404l-2.16-2.098l.695-.744l2.111 2.134zM18.72 19.438l-2.117-2.14l.652-.702l2.16 2.098zM16.596 6.746l2.098-2.16l.744.695l-2.134 2.111zM4.562 18.72l2.14-2.117l.663.652l-2.078 2.179zM12 12'
-					></path></svg
-				>
-				<svg
-					xmlns='http://www.w3.org/2000/svg'
-					width='32'
-					height='32'
-					viewBox='0 0 24 24'
-					class='hidden h-4 w-4 rotate-90 scale-0 transition-all dark:block dark:rotate-0 dark:scale-100'
-					><path
-						fill='currentColor'
-						d='M12.058 20q-3.334 0-5.667-2.333Q4.058 15.333 4.058 12q0-3.038 1.98-5.27Q8.02 4.5 10.942 4.097q.081 0 .159.006t.153.017q-.506.706-.801 1.57q-.295.865-.295 1.811q0 2.667 1.866 4.533q1.867 1.867 4.534 1.867q.952 0 1.813-.295q.862-.295 1.548-.801q.012.075.018.153q.005.078.005.158q-.384 2.923-2.615 4.904T12.057 20'
-					></path></svg
-				>
+				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='h-3.5 w-3.5 dark:hidden' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round'><circle cx='12' cy='12' r='4'/><path d='M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41'/></svg>
+				<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' class='hidden h-3.5 w-3.5 dark:block' fill='currentColor'><path d='M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z'/></svg>
 			</button>
 		</div>
 	</nav>
 </header>
 
-<style>
-	.scrollbar-hide {
-		-ms-overflow-style: none;
-		scrollbar-width: none;
-	}
-	.scrollbar-hide::-webkit-scrollbar {
-		display: none;
-	}
-</style>
-
 <script>
-	function getCurrentTheme() {
-		return localStorage.getItem('theme')
-	}
-	const toggleDarkModeButton = document.getElementById('toggleDarkMode')
-
-	toggleDarkModeButton?.addEventListener('click', () => {
-		const toggleDarkModeEvent = new CustomEvent('theme-change', {
-			detail: { theme: getCurrentTheme() === 'light' ? 'dark' : 'light' }
-		})
-		document.dispatchEvent(toggleDarkModeEvent)
+	const btn = document.getElementById('toggleDarkMode')
+	btn?.addEventListener('click', () => {
+		const current = localStorage.getItem('theme')
+		const next = current === 'light' ? 'dark' : 'light'
+		document.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: next } }))
 	})
-
-	// Show tab nav + divider only on the index page
-	const tabNav = document.getElementById('tab-nav')
-	const tabDivider = document.getElementById('tab-divider')
-	const thesisNav = document.getElementById('thesis-nav')
-	const hasTabPanels = document.querySelector('.tab-panel')
-
-	if (tabNav && hasTabPanels) {
-		tabNav.classList.remove('hidden')
-		tabDivider?.classList.remove('hidden')
-	}
-
-	// Show thesis CTAs on /ConflictArchitecture
-	if (thesisNav && window.location.pathname.toLowerCase().startsWith('/conflictarchitecture')) {
-		thesisNav.classList.remove('hidden')
-		tabDivider?.classList.remove('hidden')
-	}
-
-	// Cite button in nav — scroll to bibtex section
-	const navCiteBtn = document.getElementById('nav-cite-btn')
-	if (navCiteBtn) {
-		navCiteBtn.addEventListener('click', () => {
-			const bibtexSection = document.getElementById('copy-bibtex')
-			bibtexSection?.closest('div')?.scrollIntoView({ behavior: 'smooth' })
-		})
-	}
 </script>

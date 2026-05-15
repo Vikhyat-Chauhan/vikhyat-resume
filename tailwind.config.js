@@ -52,9 +52,9 @@ const config = {
 					DEFAULT: 'hsl(var(--card) / <alpha-value>)',
 					foreground: 'hsl(var(--card-foreground) / <alpha-value>)'
 				},
-				sage: '#a2b79f',
-				coral: '#e0835c',
-				plum: '#6c588d'
+				sage: 'hsl(var(--accent) / <alpha-value>)',
+				coral: 'hsl(var(--accent) / <alpha-value>)',
+				plum: 'hsl(var(--accent) / <alpha-value>)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
