@@ -117,7 +117,6 @@ const {
         trackTimeOnSite,
       } from '../lib/track';
 
-      const RESUME_PATH = '/Vikhyat-Chauhan-Resume.pdf';
       const TAB_LABELS: Record<string, string> = {
         projects: 'Projects',
         experience: 'Experience',
@@ -217,8 +216,7 @@ const {
         const href = a.getAttribute('href');
         if (!href) return;
 
-        // Resume download (PDF link with download attribute or matching path)
-        if (a.hasAttribute('download') || href.endsWith(RESUME_PATH)) {
+        if (a.hasAttribute('download')) {
           trackResumeDownload();
           return;
         }

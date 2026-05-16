@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import SectionHeader from '../components/SectionHeader.astro';
 import Chat from '../components/Chat.astro';
+import resumePdf from '../content/resume/Vikhyat-Chauhan-Resume.pdf?url';
 
 const posts = (await getCollection('writing', (p) => !p.data.draft)).sort(
   (a, b) => +new Date(b.data.date) - +new Date(a.data.date),
@@ -18,21 +19,6 @@ const writing = posts
   }));
 
 const projects = [
-  {
-    title: 'Medical Imaging Inference Pipeline',
-    context: 'GE HealthCare · Production',
-    tagClass: 'text-sky-700',
-    blurb:
-      'TensorRT-optimized Swin Transformer UNETR for FDA-regulated MRI. ONNX export, FP16 with selective FP32, custom CUDA plugins, and TensorRT layer fusion enabling real-time intraoperative use.',
-    stack: ['PyTorch', 'TensorRT', 'CUDA/C++', 'ONNX', 'Kubernetes', 'IEC 62304'],
-    metrics: [
-      { label: 'Throughput', value: '+20%' },
-      { label: 'Deploys', value: '+80% faster' },
-      { label: 'Defects', value: '−60%' },
-    ],
-    repo: 'https://github.com/Vikhyat-Chauhan',
-    repoLabel: 'GitHub profile (source private)',
-  },
   {
     title: 'Professional RAG Pipeline',
     context: 'Personal · Production',
@@ -65,7 +51,37 @@ const projects = [
     repoLabel: 'GitHub profile (source private)',
   },
   {
-    title: 'Brain-Inspired UAV Navigation',
+    title: 'Physiological Stress Classifier',
+    context: 'Virginia Tech · Personal',
+    tagClass: 'text-violet-700',
+    blurb:
+      'Developed a Conv1D Autoencoder-based multimodal pipeline on the WESAD dataset for unsupervised compression and three-class emotion classification of physiological signals (BVP, EDA, EMG, TEMP), achieving 83.5% accuracy across 15 subjects.',
+    stack: ['Python', 'PyTorch', 'scikit-learn', 'NumPy', 'Pandas'],
+    metrics: [
+      { label: 'Accuracy', value: '83.5%' },
+      { label: 'Subjects', value: '15' },
+      { label: 'Signals', value: '4-modal' },
+    ],
+    repo: 'https://github.com/Vikhyat-Chauhan/BioelectronicsAiWesad.git',
+    repoLabel: 'GitHub profile',
+  },
+  {
+    title: 'Medical Imaging Inference Pipeline',
+    context: 'GE HealthCare · Production',
+    tagClass: 'text-sky-700',
+    blurb:
+      'TensorRT-optimized Swin Transformer UNETR for FDA-regulated MRI. ONNX export, FP16 with selective FP32, custom CUDA plugins, and TensorRT layer fusion enabling real-time intraoperative use.',
+    stack: ['PyTorch', 'TensorRT', 'CUDA/C++', 'ONNX', 'Kubernetes', 'IEC 62304'],
+    metrics: [
+      { label: 'Throughput', value: '+20%' },
+      { label: 'Deploys', value: '+80% faster' },
+      { label: 'Defects', value: '−60%' },
+    ],
+    repo: 'https://github.com/Vikhyat-Chauhan',
+    repoLabel: 'GitHub profile (source private)',
+  },
+  {
+    title: 'CANavigator — Brain-Inspired Drone Navigation Framework',
     context: 'Virginia Tech · M.S. Thesis',
     tagClass: 'text-violet-700',
     blurb:
@@ -76,7 +92,7 @@ const projects = [
       { label: 'Time', value: '−34.6%' },
       { label: 'Significance', value: 'p < 0.0001' },
     ],
-    repo: 'https://github.com/Vikhyat-Chauhan',
+    repo: 'https://github.com/Vikhyat-Chauhan/CANavigator',
     repoLabel: 'View source',
   },
 ];
@@ -88,8 +104,8 @@ const experience = [
     period: '2024 — Present',
     location: 'Blacksburg, VA',
     bullets: [
-      'Validated a brain-inspired UAV navigation framework — 34.5% energy & time reductions, n=1,000, p<0.0001. NSF-funded.',
-      'Built a LangGraph + Llama 3 multi-agent pipeline generating 100+ ROS 2 / Gazebo simulation environments.',
+      'Designed and experimentally validated a brain-inspired UAV navigation system achieving 34.6% reduction in compute energy and elapsed time over baseline (p < 0.0001, n=1,000 runs, 3 real-world-mapped environments) - NSF-funded.',
+      'Architected a LangGraph + Llama 3 multi-agent system for grammar-constrained SDF XML generation, automating 100+ simulation environments and eliminating 40 hours/week of manual authoring.',
     ],
   },
   {
@@ -98,19 +114,22 @@ const experience = [
     period: '2022 — 2024',
     location: 'Bengaluru, IN',
     bullets: [
-      'Migrated a C++ MR imaging monolith to Kubernetes microservices — 80% faster deployments, IEC 62304 compliant.',
-      'Optimized Swin Transformer UNETR end-to-end (ONNX → FP16 → TensorRT fusion) for +20% throughput on FDA-regulated hardware.',
-      'CI/CD quality gates cut release defects 60% across 12 quarterly releases — zero patient-safety regressions.',
+      'Led the technical architecture migration from a legacy C++ monolith to Kubernetes-based Java/Spring Boot services, reducing MRI application runtime by 80%, by designing and implementing image normalization and segmentation algorithms in C++.',
+      'Profiled and optimized a Swin Transformer segmentation model end-to-end - ONNX export, FP16 precision tuning, custom CUDA/C++ plugin authoring for unsupported ops, and layer fusion via TensorRT builder API - achieving 20% throughput uplift on FDA-regulated hardware enabling real-time intraoperative use.',
+      'Developed a multimodal MRI report generation system (MedCLIP, PyTorch, TensorRT) fusing scan sequences with patient history, achieving quantifiable impact with a 6.5% improvement in diagnostic classification F1 over baselines.',
+      'Introduced automated quality gates and CI/CD pipelines (Jenkins, SonarQube) for production deployment and optimization, reducing release defects by 60% while maintaining 0 patient-safety regressions across 12 quarterly releases.',
+      'Recognized with the GE Impact Award for independently modernizing a critical legacy MR imaging application to production microservices, directly improving clinical software delivery at scale.'
     ],
   },
   {
-    company: 'The Next Move Automation',
+    company: 'TNM Electronics',
     role: 'Software Engineer I',
     period: '2020 — 2022',
     location: 'Delhi NCR, IN',
     bullets: [
-      'Architected AWS microservice backend (EC2, Lambda, RabbitMQ, MongoDB, MQTT) scaling 0 → 1000+ devices at 99.9% uptime.',
-      'Patented a master-slave microcontroller communication system — cut BOM cost 90%.',
+      'Owned the full platform from day one; architected an AWS-backed microservice backend (EC2, Lambda, RabbitMQ, MongoDB, MQTT broker), scaling from 0 to 1000+ devices while sustaining 99.9% uptime.',
+      'Co-invented and patented a master-slave microcontroller communication system for home automation, cutting final product BOM cost 80% and directly enabling first design-win customers.',
+      'Reduced field bug reports 98% vs. prior manual integration method by designing a structured hardware-software validation workflow as the company’s sole engineer.'
     ],
   },
   {
@@ -119,7 +138,30 @@ const experience = [
     period: '2018 — 2020',
     location: 'Pune, IN',
     bullets: [
-      'Linux-based autonomous quadcopter (MAVLink) for solar thermal fault detection — 35% inspection-labor reduction.',
+      'Built a Linux-based autonomous quadcopter controller (MAVLink + advanced control) and integrated it into Mahindra Susten’s solar ops—automating thermal fault detection and reporting, delivering a 35% reduction in labor costs and faster issue triage.',
+    ],
+  },
+];
+
+const education = [
+  {
+    school: 'Virginia Polytechnic Institute and State University',
+    degree: 'M.S., Computer Engineering (Thesis Track)',
+    period: 'Aug 2024 — May 2026',
+    location: 'Blacksburg, VA',
+    bullets: [
+      'Defended M.S. Thesis on Brain-Inspired Drone Navigation System using Conflict Architecture — 4.0 GPA.',
+      'Coursework: CS5424 Advanced Machine Learning, CS5465 Applications of Machine Learning, ECE5504 Computer Architecture.',
+      'Honors: Phi Kappa Phi (top 10% of Master’s graduates) and Omicron Delta Kappa National Leadership Honor Society, Virginia Tech, 2026.',
+    ],
+  },
+  {
+    school: 'Uttarakhand Technical University',
+    degree: 'B.E., Electronics and Communication Engineering',
+    period: 'Jul 2016 — Dec 2020',
+    location: 'Uttarakhand, IN',
+    bullets: [
+      'Graduated with First Division.',
     ],
   },
 ];
@@ -138,11 +180,12 @@ const experience = [
         <a href="#projects" class="transition hover:text-zinc-900">Projects</a>
         <a href="/blog" class="transition hover:text-zinc-900">Blog</a>
         <a href="/personal" class="transition hover:text-zinc-900">Personal</a>
+        <a href="#education" class="transition hover:text-zinc-900">Education</a>
         <a href="#contact" class="transition hover:text-zinc-900">Contact</a>
       </div>
       <div class="flex items-center gap-2">
         <a
-          href="/Vikhyat-Chauhan-Resume.pdf"
+          href={resumePdf}
           download
           class="rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900"
         >
@@ -170,6 +213,7 @@ const experience = [
         <a href="#projects" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Projects</a>
         <a href="/blog" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Blog</a>
         <a href="/personal" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Personal</a>
+        <a href="#education" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Education</a>
         <a href="#contact" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Contact</a>
       </div>
     </div>
@@ -232,7 +276,7 @@ const experience = [
 
       <div data-animate style="--delay: 320ms" class="mt-8 flex flex-wrap items-center gap-3 text-sm">
         <a
-          href="/Vikhyat-Chauhan-Resume.pdf"
+          href={resumePdf}
           download
           class="inline-flex items-center gap-2 rounded-md bg-zinc-900 px-4 py-2 font-medium text-white transition hover:bg-black"
         >
@@ -310,7 +354,7 @@ const experience = [
       <aside class="lg:sticky lg:top-24 lg:self-start">
         <SectionHeader title="Projects" subtitle="Selected production and research work." />
         <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-orange-700 lg:block">
-          {projects.length} selected
+          {projects.length} MOST RECENT 
         </div>
       </aside>
 
@@ -395,6 +439,40 @@ const experience = [
             No pinned posts. <a href="/blog" class="text-orange-700 underline-offset-4 hover:underline">Browse the archive →</a>
           </p>
         )}
+      </div>
+    </section>
+
+    <!-- EDUCATION -->
+    <section id="education" class="scroll-mt-20 border-t border-zinc-200 py-14 sm:py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <SectionHeader title="Education" subtitle="Degrees and honors." />
+        <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-violet-700 lg:block">
+          {education.length} degrees · 2016 — 2026
+        </div>
+      </aside>
+
+      <div class="mt-10 space-y-10 lg:mt-0">
+        {education.map((ed, i) => (
+          <div data-animate style={`--delay: ${i * 60}ms`} class="grid gap-3 sm:grid-cols-[140px_1fr] sm:gap-8">
+            <div class="font-mono text-xs text-zinc-500 sm:pt-1">{ed.period}</div>
+            <div>
+              <div class="flex flex-wrap items-baseline gap-x-2">
+                <h3 class="text-base font-semibold text-zinc-900">{ed.degree}</h3>
+                <span class="text-zinc-400">·</span>
+                <span class="text-base text-zinc-700">{ed.school}</span>
+                <span class="text-xs text-zinc-500">— {ed.location}</span>
+              </div>
+              <ul class="mt-3 space-y-1.5 text-[15px] leading-relaxed text-zinc-600">
+                {ed.bullets.map((b) => (
+                  <li class="flex gap-2.5">
+                    <span class="mt-2.5 inline-block h-px w-3 flex-shrink-0 bg-zinc-300"></span>
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
 
