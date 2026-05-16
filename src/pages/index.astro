@@ -129,7 +129,7 @@ const experience = [
 <Layout>
   <!-- Nav -->
   <header class="sticky top-0 z-50 border-b border-zinc-200/70 bg-gradient-to-r from-orange-50/80 via-sky-50/70 via-50% to-violet-50/80 backdrop-blur">
-    <nav class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+    <nav class="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-4 sm:px-6">
       <a href="#top" class="text-sm font-semibold tracking-tight text-zinc-900 hover:text-black">
         Vikhyat Chauhan
       </a>
@@ -140,26 +140,77 @@ const experience = [
         <a href="/personal" class="transition hover:text-zinc-900">Personal</a>
         <a href="#contact" class="transition hover:text-zinc-900">Contact</a>
       </div>
-      <a
-        href="/Vikhyat-Chauhan-Resume.pdf"
-        download
-        class="rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900"
-      >
-        Résumé
-      </a>
+      <div class="flex items-center gap-2">
+        <a
+          href="/Vikhyat-Chauhan-Resume.pdf"
+          download
+          class="rounded-md border border-zinc-300 bg-white px-3 py-1.5 text-xs font-medium text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900"
+        >
+          Résumé
+        </a>
+        <button
+          id="mobile-nav-toggle"
+          type="button"
+          aria-label="Open menu"
+          aria-controls="mobile-nav"
+          aria-expanded="false"
+          class="inline-flex h-8 w-8 items-center justify-center rounded-md border border-zinc-300 bg-white text-zinc-700 transition hover:border-zinc-400 hover:text-zinc-900 sm:hidden"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="6" x2="21" y2="6" />
+            <line x1="3" y1="12" x2="21" y2="12" />
+            <line x1="3" y1="18" x2="21" y2="18" />
+          </svg>
+        </button>
+      </div>
     </nav>
+    <div id="mobile-nav" class="hidden border-t border-zinc-200/70 sm:hidden">
+      <div class="mx-auto grid max-w-6xl gap-1 px-4 py-3 text-sm text-zinc-700">
+        <a href="#experience" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Experience</a>
+        <a href="#projects" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Projects</a>
+        <a href="/blog" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Blog</a>
+        <a href="/personal" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Personal</a>
+        <a href="#contact" class="rounded px-2 py-2 transition hover:bg-white/60 hover:text-zinc-900">Contact</a>
+      </div>
+    </div>
   </header>
 
-  <main id="top" class="mx-auto max-w-6xl px-6">
+  <script>
+    (() => {
+      const btn = document.getElementById('mobile-nav-toggle');
+      const menu = document.getElementById('mobile-nav');
+      if (!btn || !menu) return;
+      const close = () => {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+      };
+      btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(!open));
+      });
+      menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', close));
+    })();
+  </script>
+
+  <main id="top" class="mx-auto max-w-6xl px-4 sm:px-6">
     <!-- HERO -->
-    <section class="pt-20 pb-20 sm:pt-28 sm:pb-24 lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-12">
+    <section class="pt-10 pb-14 sm:pt-28 sm:pb-24 lg:grid lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center lg:gap-12">
      <div>
-      <div data-animate style="--delay: 0ms" class="mb-8 inline-flex items-center gap-2 text-xs text-zinc-600">
-        <span class="relative flex h-1.5 w-1.5">
+      <div data-animate style="--delay: 0ms" class="mb-6 flex items-start gap-2 text-xs text-zinc-600 sm:mb-8 sm:items-center">
+        <span class="relative mt-[5px] flex h-1.5 w-1.5 flex-shrink-0 sm:mt-0">
           <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-60"></span>
           <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
         </span>
-        <span class="tracking-wide">Open to AI/ML roles · US work authorized · No sponsorship required</span>
+        <span class="min-w-0 tracking-wide">Open to AI/ML roles · US work authorized · No sponsorship required</span>
+      </div>
+
+      <div data-animate style="--delay: 60ms" class="mb-8 flex justify-center lg:hidden">
+        <img
+          src="/vikhyatchauhanimage.jpg"
+          alt="Vikhyat Chauhan"
+          class="h-44 w-44 rounded-full object-cover ring-1 ring-zinc-200 shadow-md sm:h-56 sm:w-56"
+          style="object-position: center 25%;"
+        />
       </div>
 
       <h1 data-animate style="--delay: 80ms" class="text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">
@@ -210,18 +261,18 @@ const experience = [
       </div>
      </div>
 
-      <div data-animate style="--delay: 120ms" class="mt-12 flex justify-center lg:mt-0 lg:justify-end">
+      <div data-animate style="--delay: 120ms" class="hidden lg:mt-0 lg:flex lg:justify-end">
         <img
           src="/vikhyatchauhanimage.jpg"
           alt="Vikhyat Chauhan"
-          class="h-64 w-64 rounded-full object-cover ring-1 ring-zinc-200 shadow-md sm:h-72 sm:w-72 lg:h-96 lg:w-96"
+          class="rounded-full object-cover ring-1 ring-zinc-200 shadow-md lg:h-96 lg:w-96"
           style="object-position: center 25%;"
         />
       </div>
     </section>
 
     <!-- EXPERIENCE -->
-    <section id="experience" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+    <section id="experience" class="scroll-mt-20 border-t border-zinc-200 py-14 sm:py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
       <aside class="lg:sticky lg:top-24 lg:self-start">
         <SectionHeader title="Experience" subtitle="Full details in résumé." />
         <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-sky-700 lg:block">
@@ -255,7 +306,7 @@ const experience = [
     </section>
 
     <!-- PROJECTS -->
-    <section id="projects" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+    <section id="projects" class="scroll-mt-20 border-t border-zinc-200 py-14 sm:py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
       <aside class="lg:sticky lg:top-24 lg:self-start">
         <SectionHeader title="Projects" subtitle="Selected production and research work." />
         <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-orange-700 lg:block">
@@ -301,7 +352,7 @@ const experience = [
               </div>
             </div>
 
-            <div class="flex flex-row gap-6 sm:flex-col sm:gap-4 sm:text-right">
+            <div class="flex flex-row flex-wrap gap-x-6 gap-y-3 sm:flex-col sm:gap-4 sm:text-right">
               {p.metrics.map((m) => (
                 <div>
                   <div class="font-mono text-base font-semibold text-zinc-900 sm:text-lg">{m.value}</div>
@@ -315,11 +366,11 @@ const experience = [
     </section>
 
     <!-- BLOG -->
-    <section id="blog" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+    <section id="blog" class="scroll-mt-20 border-t border-zinc-200 py-14 sm:py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
       <aside class="lg:sticky lg:top-24 lg:self-start">
-        <SectionHeader title="Blog" subtitle="Pinned posts. Full archive →" />
-        <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-violet-700 lg:block">
-          <a href="/blog" class="hover:text-violet-900 hover:underline underline-offset-4">View all →</a>
+        <SectionHeader title="Blog" subtitle="Pinned posts." />
+        <div class="mt-3 font-mono text-[11px] uppercase tracking-wider text-violet-700">
+          <a href="/blog" class="hover:text-violet-900 hover:underline underline-offset-4">Full archive →</a>
         </div>
       </aside>
 
@@ -348,7 +399,7 @@ const experience = [
     </section>
 
     <!-- CONTACT -->
-    <section id="contact" class="scroll-mt-20 border-t border-zinc-200 py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+    <section id="contact" class="scroll-mt-20 border-t border-zinc-200 py-14 sm:py-20 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
       <aside class="lg:sticky lg:top-24 lg:self-start">
         <SectionHeader title="Contact" subtitle="Best way to reach me." />
         <div class="mt-3 hidden font-mono text-[11px] uppercase tracking-wider text-emerald-700 lg:block">
@@ -364,21 +415,21 @@ const experience = [
           US-authorized, no sponsorship needed, open to relocation.
         </p>
         <div class="space-y-2 text-sm">
-          <div class="flex justify-between gap-4 border-b border-zinc-200 pb-2">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-zinc-200 pb-2">
             <span class="text-zinc-500">Email</span>
-            <a href="mailto:vikhyat.chauhan@gmail.com" class="text-zinc-900 hover:underline underline-offset-4">vikhyat.chauhan@gmail.com</a>
+            <a href="mailto:vikhyat.chauhan@gmail.com" class="break-all text-right text-zinc-900 hover:underline underline-offset-4">vikhyat.chauhan@gmail.com</a>
           </div>
-          <div class="flex justify-between gap-4 border-b border-zinc-200 pb-2">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-zinc-200 pb-2">
             <span class="text-zinc-500">LinkedIn</span>
-            <a href="https://www.linkedin.com/in/vikhyat-chauhan/" target="_blank" rel="noopener" class="text-zinc-900 hover:underline underline-offset-4">vikhyat-chauhan</a>
+            <a href="https://www.linkedin.com/in/vikhyat-chauhan/" target="_blank" rel="noopener" class="break-all text-right text-zinc-900 hover:underline underline-offset-4">vikhyat-chauhan</a>
           </div>
-          <div class="flex justify-between gap-4 border-b border-zinc-200 pb-2">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 border-b border-zinc-200 pb-2">
             <span class="text-zinc-500">GitHub</span>
-            <a href="https://github.com/Vikhyat-Chauhan" target="_blank" rel="noopener" class="text-zinc-900 hover:underline underline-offset-4">Vikhyat-Chauhan</a>
+            <a href="https://github.com/Vikhyat-Chauhan" target="_blank" rel="noopener" class="break-all text-right text-zinc-900 hover:underline underline-offset-4">Vikhyat-Chauhan</a>
           </div>
-          <div class="flex justify-between gap-4 pb-2">
+          <div class="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 pb-2">
             <span class="text-zinc-500">Location</span>
-            <span class="text-zinc-900">Blacksburg, VA · Open to relocation</span>
+            <span class="text-right text-zinc-900">Blacksburg, VA · Open to relocation</span>
           </div>
         </div>
       </div>

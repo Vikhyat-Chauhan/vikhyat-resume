@@ -52,8 +52,14 @@ const {
           transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
           background-color 0.3s ease;
         border-radius: 12px;
-        padding: 2rem 0.75rem;
-        margin: 0 -0.75rem;
+        padding: 1.5rem 0.5rem;
+        margin: 0 -0.5rem;
+      }
+      @media (min-width: 640px) {
+        .project-card {
+          padding: 2rem 0.75rem;
+          margin: 0 -0.75rem;
+        }
       }
       .project-card:hover {
         transform: translateY(-3px);
