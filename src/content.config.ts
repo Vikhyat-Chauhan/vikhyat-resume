@@ -11,9 +11,21 @@ const writing = defineCollection({
     tag: z.string().default('Engineering'),
     readingTime: z.string().optional(),
     draft: z.boolean().default(false),
+    pinned: z.boolean().default(false),
     // If set, also expose this post at /projects/<projectSlug>
     projectSlug: z.string().optional(),
   }),
 });
 
-export const collections = { writing };
+const personal = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/personal' }),
+  schema: z.object({
+    title: z.string(),
+    blurb: z.string().optional(),
+    date: z.coerce.date(),
+    tags: z.array(z.string()).default([]),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { writing, personal };
